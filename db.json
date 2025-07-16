@@ -1,0 +1,40 @@
+{
+  "users": [
+    {
+      "id": "6645",
+      "name": "aflah",
+      "email": "aflahkm007@gmail.com",
+      "password": "aflah@1234",
+      "role": "user",
+      "isBlock": false,
+      "cart": [],
+      "orders": [],
+      "wishlist": [],
+      "created_at": "2025-07-16T12:21:04.545Z"
+    },
+    {
+      "id": "72f4",
+      "name": "fasil",
+      "email": "fasil@gmail.com",
+      "password": "fasil@1234",
+      "role": "user",
+      "isBlock": false,
+      "cart": [],
+      "orders": [],
+      "wishlist": [],
+      "created_at": "2025-07-16T12:22:26.207Z"
+    },
+    {
+      "id": "5393",
+      "name": "ansif",
+      "email": "ansif@gmail.com",
+      "password": "ansif@1234",
+      "role": "user",
+      "isBlock": false,
+      "cart": [],
+      "orders": [],
+      "wishlist": [],
+      "created_at": "2025-07-16T12:25:21.099Z"
+    }
+  ]
+}
