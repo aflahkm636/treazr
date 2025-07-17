@@ -1,9 +1,10 @@
 import React from 'react'
 import { Route, Router, Routes, useLocation } from 'react-router-dom'
-import Home from './pages/Home'
-import Register from './components/Auth/Register';
-import { Navbar } from 'react-bootstrap';
-import Login from './components/Auth/Login';
+import Home from './components/landing/Landing'
+import Register from './components/Register';
+import Login from './components/Login';
+import NavBar from './components/Navbar';
+import ErrorResponse from './components/Errorresponse';
 
 function App() {
   const location = useLocation();
@@ -11,13 +12,13 @@ function App() {
 
   return (
     <>
-      {!hideNavbar && <Navbar />}
+      {!hideNavbar && <NavBar />}
       <main>
         <Routes>
          <Route path='/' element={<Home/>}/>
          <Route path='/register' element={<Register/>}/>
          <Route path='/login' element={<Login/>}/>
-         
+         <Route path='/*' element={<ErrorResponse/>} />
         </Routes>
       </main>
     </>
