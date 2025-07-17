@@ -35,84 +35,198 @@
       "orders": [],
       "wishlist": [],
       "created_at": "2025-07-16T12:25:21.099Z"
+    },
+    {
+      "id": "e770",
+      "name": "rashid",
+      "email": "rashid@gmail.com",
+      "password": "rashid@1234",
+      "role": "user",
+      "isBlock": false,
+      "cart": [],
+      "orders": [],
+      "wishlist": [],
+      "created_at": "2025-07-17T10:46:54.187Z"
     }
   ],
-  "products":[
+  "products": [
     {
-  "id": "1",
-  "name": "Mini GT Liberty Walk RX-7",
-  "category": "Diecast Cars",
-  "description": "A detailed 1:64 scale diecast model of the Mazda RX-7 with Liberty Walk wide-body kit. Manufactured by Mini GT, perfect for collectors and car enthusiasts.",
-  "price": 12.99,
-  "stock": 15,
-  "brand": "Mini GT",
-  "images": [
-    "https://i.pinimg.com/736x/1c/47/33/1c4733a320b6797408c0491aa8b8dabc.jpg"
-  ],
-  "tags": ["diecast", "Mini GT", "RX-7", "Liberty Walk", "1:64", "car model"],
-  "rating": 4.9,
-  "createdAt": "2025-07-17T09:00:00.000Z"
-},
+      "id": "1",
+      "name": "Mini GT Liberty Walk RX-7",
+      "category": "Diecast Cars",
+      "description": "A detailed 1:64 scale diecast model of the Mazda RX-7 with Liberty Walk wide-body kit. Manufactured by Mini GT, perfect for collectors and car enthusiasts.",
+      "price": 12.99,
+      "stock": 15,
+      "brand": "Mini GT",
+      "images": [
+        "https://i.pinimg.com/736x/1c/47/33/1c4733a320b6797408c0491aa8b8dabc.jpg"
+      ],
+      "tags": [
+        "diecast",
+        "Mini GT",
+        "RX-7",
+        "Liberty Walk",
+        "1:64",
+        "car model"
+      ],
+      "rating": 4.9,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
     {
-  "id": "1",
-  "name": "Mini GT Liberty Walk RX-7",
-  "category": "Diecast Cars",
-  "description": "A detailed 1:64 scale diecast model of the Mazda RX-7 with Liberty Walk wide-body kit. Manufactured by Mini GT, perfect for collectors and car enthusiasts.",
-  "price": 12.99,
-  "stock": 15,
-  "brand": "Mini GT",
-  "images": [
-    "https://i.pinimg.com/736x/1c/47/33/1c4733a320b6797408c0491aa8b8dabc.jpg"
-  ],
-  "tags": ["diecast", "Mini GT", "RX-7", "Liberty Walk", "1:64", "car model"],
-  "rating": 4.9,
-  "createdAt": "2025-07-17T09:00:00.000Z"
-},
+      "id": "1",
+      "name": "Mini GT Liberty Walk RX-7",
+      "category": "Diecast Cars",
+      "description": "A detailed 1:64 scale diecast model of the Mazda RX-7 with Liberty Walk wide-body kit. Manufactured by Mini GT, perfect for collectors and car enthusiasts.",
+      "price": 12.99,
+      "stock": 15,
+      "brand": "Mini GT",
+      "images": [
+        "https://i.pinimg.com/736x/1c/47/33/1c4733a320b6797408c0491aa8b8dabc.jpg"
+      ],
+      "tags": [
+        "diecast",
+        "Mini GT",
+        "RX-7",
+        "Liberty Walk",
+        "1:64",
+        "car model"
+      ],
+      "rating": 4.9,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
     {
-  "id": "1",
-  "name": "Mini GT Liberty Walk RX-7",
-  "category": "Diecast Cars",
-  "description": "A detailed 1:64 scale diecast model of the Mazda RX-7 with Liberty Walk wide-body kit. Manufactured by Mini GT, perfect for collectors and car enthusiasts.",
-  "price": 12.99,
-  "stock": 15,
-  "brand": "Mini GT",
-  "images": [
-    "https://i.pinimg.com/736x/1c/47/33/1c4733a320b6797408c0491aa8b8dabc.jpg"
-  ],
-  "tags": ["diecast", "Mini GT", "RX-7", "Liberty Walk", "1:64", "car model"],
-  "rating": 4.9,
-  "createdAt": "2025-07-17T09:00:00.000Z"
-},
+      "id": "1",
+      "name": "Mini GT Liberty Walk RX-7",
+      "category": "Diecast Cars",
+      "description": "A detailed 1:64 scale diecast model of the Mazda RX-7 with Liberty Walk wide-body kit. Manufactured by Mini GT, perfect for collectors and car enthusiasts.",
+      "price": 12.99,
+      "stock": 15,
+      "brand": "Mini GT",
+      "images": [
+        "https://i.pinimg.com/736x/1c/47/33/1c4733a320b6797408c0491aa8b8dabc.jpg"
+      ],
+      "tags": [
+        "diecast",
+        "Mini GT",
+        "RX-7",
+        "Liberty Walk",
+        "1:64",
+        "car model"
+      ],
+      "rating": 4.9,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
     {
-  "id": "1",
-  "name": "Mini GT Liberty Walk RX-7",
-  "category": "Diecast Cars",
-  "description": "A detailed 1:64 scale diecast model of the Mazda RX-7 with Liberty Walk wide-body kit. Manufactured by Mini GT, perfect for collectors and car enthusiasts.",
-  "price": 12.99,
-  "stock": 15,
-  "brand": "Mini GT",
-  "images": [
-    "https://i.pinimg.com/736x/1c/47/33/1c4733a320b6797408c0491aa8b8dabc.jpg"
-  ],
-  "tags": ["diecast", "Mini GT", "RX-7", "Liberty Walk", "1:64", "car model"],
-  "rating": 4.9,
-  "createdAt": "2025-07-17T09:00:00.000Z"
-},
+      "id": "1",
+      "name": "Mini GT Liberty Walk RX-7",
+      "category": "Diecast Cars",
+      "description": "A detailed 1:64 scale diecast model of the Mazda RX-7 with Liberty Walk wide-body kit. Manufactured by Mini GT, perfect for collectors and car enthusiasts.",
+      "price": 12.99,
+      "stock": 15,
+      "brand": "Mini GT",
+      "images": [
+        "https://i.pinimg.com/736x/1c/47/33/1c4733a320b6797408c0491aa8b8dabc.jpg"
+      ],
+      "tags": [
+        "diecast",
+        "Mini GT",
+        "RX-7",
+        "Liberty Walk",
+        "1:64",
+        "car model"
+      ],
+      "rating": 4.9,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
     {
-  "id": "1",
-  "name": "Mini GT Liberty Walk RX-7",
-  "category": "Diecast Cars",
-  "description": "A detailed 1:64 scale diecast model of the Mazda RX-7 with Liberty Walk wide-body kit. Manufactured by Mini GT, perfect for collectors and car enthusiasts.",
-  "price": 12.99,
-  "stock": 15,
-  "brand": "Mini GT",
-  "images": [
-    "https://i.pinimg.com/736x/1c/47/33/1c4733a320b6797408c0491aa8b8dabc.jpg"
-  ],
-  "tags": ["diecast", "Mini GT", "RX-7", "Liberty Walk", "1:64", "car model"],
-  "rating": 4.9,
-  "createdAt": "2025-07-17T09:00:00.000Z"
-}
-
-  ]
+      "id": "1",
+      "name": "Mini GT Liberty Walk RX-7",
+      "category": "Diecast Cars",
+      "description": "A detailed 1:64 scale diecast model of the Mazda RX-7 with Liberty Walk wide-body kit. Manufactured by Mini GT, perfect for collectors and car enthusiasts.",
+      "price": 12.99,
+      "stock": 15,
+      "brand": "Mini GT",
+      "images": [
+        "https://i.pinimg.com/736x/1c/47/33/1c4733a320b6797408c0491aa8b8dabc.jpg"
+      ],
+      "tags": [
+        "diecast",
+        "Mini GT",
+        "RX-7",
+        "Liberty Walk",
+        "1:64",
+        "car model"
+      ],
+      "rating": 4.9,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+  {
+    "id": "2",
+    "name": "INIGT 1:64 Weiß 911 (992) GT3 RS Weissach Package",
+    "category": "Diecast Cars",
+    "description": "A premium 1:64 scale diecast model of the Porsche 911 (992) GT3 RS with Weissach Package in white. Detailed and perfect for collectors.",
+    "price": 14.99,
+    "stock": 10,
+    "brand": "INIGT",
+    "images": [
+      "https://i.pinimg.com/1200x/0d/46/61/0d46615f14419a3223b56a5d5beb7638.jpg"
+    ],
+    "tags": [
+      "diecast",
+      "Porsche",
+      "911",
+      "GT3 RS",
+      "Weissach",
+      "1:64",
+      "INIGT"
+    ],
+    "rating": 4.8,
+    "createdAt": "2025-07-17T09:00:00.000Z"
+  },
+  {
+    "id": "3",
+    "name": "Mini GT Lamborghini Huracán",
+    "category": "Diecast Cars",
+    "description": "A sleek and detailed 1:64 scale diecast model of the Lamborghini Huracán by Mini GT. A must-have for supercar fans and diecast collectors.",
+    "price": 13.99,
+    "stock": 12,
+    "brand": "Mini GT",
+    "images": [
+      "https://i.pinimg.com/1200x/6c/c3/01/6cc3018d17ef456be7da7aa6dcdaf618.jpg"
+    ],
+    "tags": [
+      "diecast",
+      "Mini GT",
+      "Lamborghini",
+      "Huracán",
+      "1:64",
+      "supercar"
+    ],
+    "rating": 4.7,
+    "createdAt": "2025-07-17T09:00:00.000Z"
+  },
+  {
+    "id": "4",
+    "name": "Mini GT Ford Mustang Shelby GT500",
+    "category": "Diecast Cars",
+    "description": "A muscular 1:64 scale diecast model of the Ford Mustang Shelby GT500 by Mini GT. Captures the iconic design and power of the original.",
+    "price": 12.49,
+    "stock": 18,
+    "brand": "Mini GT",
+    "images": [
+      "https://i.pinimg.com/1200x/68/a5/40/68a540ceecdad2a010dabfdf5b305aaa.jpg"
+    ],
+    "tags": [
+      "diecast",
+      "Mini GT",
+      "Mustang",
+      "Shelby GT500",
+      "Ford",
+      "1:64",
+      "muscle car"
+    ],
+    "rating": 4.6,
+    "createdAt": "2025-07-17T09:00:00.000Z"
+  }
+]
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ImageBanner from './Imagebanner';
-import ProductList from '../../components/ProductList';
+import ProductList from '../ProductList';
 
 function Landing() {
   return (

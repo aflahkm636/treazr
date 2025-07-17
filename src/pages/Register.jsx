@@ -1,74 +1,44 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import axios from "axios";
+// components/Register.js
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useAuth } from '../common/context/AuthProvider';
 
 export default function Register() {
-    // Navigation hook for redirecting after registration
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const { register } = useAuth();
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+  });
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-    // State for form data with initial empty values
-    const [formData, setFormData] = useState({
-        name: "", // User's full name
-        email: "", // Unique email (will be validated)
-        password: "", // Password (should be hashed in production)
-    });
-    const [showPassword, setShowPassword] = useState(false);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
-    // State for error messages and loading status
-    const [error, setError] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError('');
 
-    // Handle input changes and update form state
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value, // Dynamically update field based on input name
-        }));
-    };
+    const result = await register(formData);
+    if (result.success) {
+      navigate('/login', { state: { registrationSuccess: true } });
+    } else {
+      setError(result.error);
+    }
+    
+    setIsLoading(false);
+  };
 
-    // Form submission handler
-    const handleSubmit = async (e) => {
-        e.preventDefault(); // Prevent default form behavior
-        setIsLoading(true); // Show loading state
-        setError(""); // Clear previous errors
-
-        try {
-            // 1. EMAIL VALIDATION: Check if email exists in database
-            const emailCheck = await axios.get(`http://localhost:3000/users?email=${formData.email}`);
-
-            // If email exists, throw error
-            if (emailCheck.data.length > 0) {
-                throw new Error("Email already registered");
-            }
-
-            // 2. USER CREATION: Prepare new user object with default values
-            const newUser = {
-                ...formData, // Spread existing form data
-                role: "user", // Default role
-                isBlock: false, // Account active by default
-                cart: [], // Empty shopping cart
-                orders: [], // No orders yet
-                wishlist: [], // Empty wishlist
-                created_at: new Date().toISOString(), // Current timestamp
-            };
-
-            // 3. API REQUEST: Submit to JSON Server
-            await axios.post("http://localhost:3000/users", newUser);
-
-            // 4. SUCCESS: Redirect to login with success state
-            console.log("Navigating to login...");
-            navigate("/login", {
-                state: { registrationSuccess: true },
-                replace: true,
-            });
-        } catch (err) {
-            // ERROR HANDLING: Show appropriate error message
-            setError(err.response?.data?.message || err.message || "Registration failed");
-        } finally {
-            setIsLoading(false); // Reset loading state
-        }
-    };
+ 
 
     return (
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
