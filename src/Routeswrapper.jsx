@@ -9,6 +9,9 @@ import Products from './pages/Products';
 import ErrorResponse from './pages/Errorresponse';
 import NavBar2 from './common/layout/Navbar2';
 import { useAuth } from './common/context/AuthProvider';
+import TopRated from './pages/landing/Toprated';
+import Newest from './pages/landing/Newest';
+import ProductDetails from './common/components/ProductDetails';
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
@@ -26,10 +29,15 @@ const RoutesWrapper = () => {
       {!hideNavbar && <NavBar2 />}
       <main>
         <Routes>
-          <Route path='/' element={<Landing />} />
+          <Route path='/' element={<Landing />} >
+          <Route index element={<TopRated/>}/>
+          <Route path='/top-rated' element={<TopRated/>}/>
+          <Route path='/newest' element={<Newest/>}/>
+          </Route>
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
           <Route path='/products' element={<Products />} />
+          <Route path='/productdetails:id' element={<ProductDetails/>}/>
           <Route
             path='/wishlist'
             element={
