@@ -20,7 +20,7 @@ export default function NavBar2() {
   ].filter(Boolean);
 
   return (
-   <Disclosure as="nav" className="bg-gray-800">
+   <Disclosure as="nav" className="fixed top-0 w-full z-50 bg-gray-800">
   {({ open }) => (
     <>
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">

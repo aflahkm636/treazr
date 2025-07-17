@@ -1,4 +1,3 @@
-// components/ProductDetails.jsx
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { URL } from "../../services/Api";
@@ -8,33 +7,59 @@ const ProductDetails = () => {
     const [product, setProduct] = useState(null);
 
     useEffect(() => {
-        // Replace with your real API call
         fetch(`${URL}/products/${id}`)
             .then((res) => res.json())
             .then((data) => setProduct(data));
     }, [id]);
 
-    if (!product) return <div>Loading...</div>;
+    if (!product) return <div className="p-6">Loading...</div>;
 
     return (
-        <div className="max-w-3xl mx-auto p-6">
-            <img
-                src={product.images?.[0] || "/default-product.jpg"}
-                alt={product.name}
-                className="w-full h-96 object-cover rounded mb-6"
-            />
-            <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
-            <p className="text-gray-500 mb-4">{product.category} - {product.brand}</p>
-            <p className="text-lg mb-4">{product.description}</p>
-            <p className="text-xl font-semibold text-blue-600 mb-4">${product.price}</p>
-            <p className="text-gray-700 mb-2">Rating: ⭐ {product.rating}</p>
-            <p className="text-gray-700 mb-2">Stock: {product.stock}</p>
-            <div className="flex flex-wrap gap-2 mt-4">
-                {product.tags?.map((tag, i) => (
-                    <span key={i} className="bg-gray-200 text-sm px-3 py-1 rounded-full">
-                        #{tag}
-                    </span>
-                ))}
+        <div className="max-w-6xl mx-auto p-6">
+<div className="flex flex-col lg:flex-row lg:items-center gap-10 min-h-[calc(100vh-80px)]">
+                {/* Image Section */}
+                <div className="lg:w-1/2 w-full">
+                    <img
+                        src={product.images?.[0] || "/default-product.jpg"}
+                        alt={product.name}
+                        className="w-full h-[400px] object-cover rounded"
+                    />
+                </div>
+
+                {/* Details Section */}
+                <div className="lg:w-1/2 w-full space-y-4">
+                    <h1 className="text-3xl font-bold">{product.name}</h1>
+                    <p className="text-gray-500">{product.category} - {product.brand}</p>
+                    <p className="text-lg">{product.description}</p>
+                    <p className="text-xl font-semibold text-blue-600">${product.price}</p>
+                    <p className="text-gray-700">Rating: ⭐ {product.rating}</p>
+                    <p className="text-gray-700">Stock: {product.stock}</p>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-2">
+                        {product.tags?.map((tag, i) => (
+                            <span key={i} className="bg-gray-200 text-sm px-3 py-1 rounded-full">
+                                #{tag}
+                            </span>
+                        ))}
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex flex-col sm:flex-row gap-4 pt-6">
+                        <button
+                            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded transition"
+                            onClick={() => alert("Added to cart!")}
+                        >
+                            Add to Cart
+                        </button>
+                        <button
+                            className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded transition"
+                            onClick={() => alert("Proceed to Buy")}
+                        >
+                            Buy Now
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     );
