@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ProductCard = ({ product }) => {
     const navigate = useNavigate();
@@ -35,7 +36,8 @@ const ProductCard = ({ product }) => {
                     onClick={(e) => {
                         e.stopPropagation(); // prevent card click from firing
                         // Add to cart logic here
-                        alert("Added to cart!");
+                        toast.success("Added to cart!")
+                        // alert("Added to cart!");
                     }}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded transition-colors"
                 >
