@@ -7,75 +7,10 @@
       "password": "aflah@1234",
       "role": "user",
       "isBlock": false,
-      "cart": [
-        {
-          "productId": "1",
-          "quantity": 3,
-          "price": 12.99,
-          "name": "Mini GT Liberty Walk RX-7",
-          "image": "https://i.pinimg.com/736x/1c/47/33/1c4733a320b6797408c0491aa8b8dabc.jpg"
-        },
-        {
-          "productId": "3",
-          "quantity": 5,
-          "price": 13.99,
-          "name": "Mini GT Lamborghini Huracán",
-          "image": "https://i.pinimg.com/1200x/6c/c3/01/6cc3018d17ef456be7da7aa6dcdaf618.jpg"
-        },
-        {
-          "productId": "16",
-          "quantity": 1,
-          "price": 19.99,
-          "name": "Moon-knight",
-          "image": "https://i.pinimg.com/736x/17/f5/56/17f5569c9e00cc32d6e89fd999264606.jpg"
-        },
-        {
-          "productId": "22",
-          "quantity": 1,
-          "price": 12.99,
-          "name": "zoro action figure",
-          "image": "https://i.pinimg.com/1200x/2c/75/ac/2c75ac387d9466c51f595e452708bea7.jpg"
-        },
-        {
-          "productId": "25",
-          "quantity": 1,
-          "price": 13.5,
-          "name": "luffy gear5",
-          "image": "https://i.pinimg.com/1200x/d6/ae/93/d6ae9327c89b54a469eb58c67884bad4.jpg"
-        },
-        {
-          "productId": "11",
-          "quantity": 1,
-          "price": 14.25,
-          "name": "Porsche 911 GT3",
-          "image": "https://i.pinimg.com/1200x/32/da/a7/32daa77e2ef7dd8f3446ed8ef79442fe.jpg"
-        },
-        {
-          "productId": "18",
-          "quantity": 1,
-          "price": 18.25,
-          "name": "venom",
-          "image": "https://i.pinimg.com/736x/7e/7d/97/7e7d971eeeb3e7737517867be22657f1.jpg"
-        },
-        {
-          "productId": "2",
-          "quantity": 1,
-          "price": 14.99,
-          "name": "INIGT 1:64 Weiß 911 (992) GT3 RS Weissach Package",
-          "image": "https://i.pinimg.com/1200x/0d/46/61/0d46615f14419a3223b56a5d5beb7638.jpg"
-        },
-        {
-          "productId": "15",
-          "quantity": 1,
-          "price": 13.75,
-          "name": "Red Bull RB9",
-          "image": "https://i.pinimg.com/736x/5f/a4/09/5fa40951b8a80cbd464f7cfc4001b51d.jpg"
-        }
-      ],
+      "cart": [],
       "orders": [],
       "wishlist": [
-        "3",
-        "25"
+        "10"
       ],
       "created_at": "2025-07-16T12:22:26.207Z"
     },

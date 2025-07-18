@@ -55,7 +55,6 @@ function Footer() {
                     </div>
                 </div>
             </div>
-
             {/* Bottom Note */}
             <div className="text-center mt-8 text-xs sm:text-sm text-gray-500 border-t border-gray-700 pt-4">
                 © {new Date().getFullYear()} Treazr. All rights reserved.
