@@ -7,9 +7,31 @@
       "password": "aflah@1234",
       "role": "user",
       "isBlock": false,
-      "cart": [],
+      "cart": [
+        {
+          "productId": "2",
+          "name": "INIGT 1:64 Weiß 911 (992) GT3 RS Weissach Package",
+          "price": 14.99,
+          "image": "https://i.pinimg.com/1200x/0d/46/61/0d46615f14419a3223b56a5d5beb7638.jpg",
+          "quantity": 1
+        },
+        {
+          "id": "2",
+          "name": "INIGT 1:64 Weiß 911 (992) GT3 RS Weissach Package",
+          "price": 14.99,
+          "image": "https://i.pinimg.com/1200x/0d/46/61/0d46615f14419a3223b56a5d5beb7638.jpg",
+          "quantity": 2
+        }
+      ],
       "orders": [],
-      "wishlist": [],
+      "wishlist": [
+        {
+          "id": "29",
+          "name": "chopper action figure",
+          "price": 11.49,
+          "image": "https://i.pinimg.com/736x/16/6b/40/166b405511738d5f6d706138431e2725.jpg"
+        }
+      ],
       "created_at": "2025-07-16T12:21:04.545Z"
     },
     {
@@ -18,7 +40,7 @@
       "email": "fasil@gmail.com",
       "password": "fasil@1234",
       "role": "user",
-      "isBlock": false,
+      "isBlock": true,
       "cart": [],
       "orders": [],
       "wishlist": [],
@@ -50,7 +72,6 @@
     }
   ],
   "products": [
-
     {
       "id": "1",
       "name": "Mini GT Liberty Walk RX-7",
@@ -73,587 +94,727 @@
       "rating": 4.9,
       "createdAt": "2025-07-17T09:00:00.000Z"
     },
-  
-  {
-    "id": "2",
-    "name": "INIGT 1:64 Weiß 911 (992) GT3 RS Weissach Package",
-    "category": "Diecast Cars",
-    "description": "A premium 1:64 scale diecast model of the Porsche 911 (992) GT3 RS with Weissach Package in white. Detailed and perfect for collectors.",
-    "price": 14.99,
-    "stock": 10,
-    "brand": "INIGT",
-    "images": [
-      "https://i.pinimg.com/1200x/0d/46/61/0d46615f14419a3223b56a5d5beb7638.jpg"
-    ],
-    "tags": [
-      "diecast",
-      "Porsche",
-      "911",
-      "GT3 RS",
-      "Weissach",
-      "1:64",
-      "INIGT"
-    ],
-    "rating": 4.8,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "3",
-    "name": "Mini GT Lamborghini Huracán",
-    "category": "Diecast Cars",
-    "description": "A sleek and detailed 1:64 scale diecast model of the Lamborghini Huracán by Mini GT. A must-have for supercar fans and diecast collectors.",
-    "price": 13.99,
-    "stock": 12,
-    "brand": "Mini GT",
-    "images": [
-      "https://i.pinimg.com/1200x/6c/c3/01/6cc3018d17ef456be7da7aa6dcdaf618.jpg"
-    ],
-    "tags": [
-      "diecast",
-      "Mini GT",
-      "Lamborghini",
-      "Huracán",
-      "1:64",
-      "supercar"
-    ],
-    "rating": 4.7,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "4",
-    "name": "Mini GT Ford Mustang Shelby GT500",
-    "category": "Diecast Cars",
-    "description": "A muscular 1:64 scale diecast model of the Ford Mustang Shelby GT500 by Mini GT. Captures the iconic design and power of the original.",
-    "price": 12.49,
-    "stock": 18,
-    "brand": "Mini GT",
-    "images": [
-      "https://i.pinimg.com/1200x/68/a5/40/68a540ceecdad2a010dabfdf5b305aaa.jpg"
-    ],
-    "tags": [
-      "diecast",
-      "Mini GT",
-      "Mustang",
-      "Shelby GT500",
-      "Ford",
-      "1:64",
-      "muscle car"
-    ],
-    "rating": 4.6,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "5",
-    "name": "Hot Wheels Nissan Skyline",
-    "category": "Diecast Cars",
-    "description": "A sleek and collectible 1:64 scale Nissan Skyline diecast model by Hot Wheels. Known for its racing legacy and JDM appeal.",
-    "price": 9.99,
-    "stock": 20,
-    "brand": "Hot Wheels",
-    "images": [
-      "https://i.pinimg.com/736x/4d/d1/e4/4dd1e46245e6fc7082ac84d21c7135f4.jpg"
-    ],
-    "tags": [
-      "diecast",
-      "Hot Wheels",
-      "Nissan",
-      "Skyline",
-      "JDM",
-      "1:64",
-      "car model"
-    ],
-    "rating": 4.8,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "6",
-    "name": "Hot Wheels Toyota Supra",
-    "category": "Diecast Cars",
-    "description": "A legendary 1:64 scale Toyota Supra diecast model from Hot Wheels. A favorite among JDM collectors and enthusiasts.",
-    "price": 9.49,
-    "stock": 22,
-    "brand": "Hot Wheels",
-    "images": [
-      "https://i.pinimg.com/736x/96/61/58/966158f41b0bcd06fa427972539fd5d9.jpg"
-    ],
-    "tags": [
-      "diecast",
-      "Hot Wheels",
-      "Toyota",
-      "Supra",
-      "JDM",
-      "1:64",
-      "collector"
-    ],
-    "rating": 4.7,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "7",
-    "name": "LEGO Dodge SRT",
-    "category": "Building Toys",
-    "description": "A buildable LEGO set of the powerful Dodge SRT. Great for fans of muscle cars and hands-on creativity.",
-    "price": 19.99,
-    "stock": 10,
-    "brand": "LEGO",
-    "images": [
-      "https://i.pinimg.com/1200x/d7/54/16/d754163e2991758da3467e934cc55457.jpg"
-    ],
-    "tags": [
-      "LEGO",
-      "Dodge",
-      "SRT",
-      "muscle car",
-      "building set",
-      "collectible"
-    ],
-    "rating": 4.9,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "8",
-    "name": "LEGO Lamborghini Aventador",
-    "category": "Building Toys",
-    "description": "An intricate LEGO model of the Lamborghini Aventador. Offers a realistic and fun building experience for supercar fans.",
-    "price": 24.99,
-    "stock": 8,
-    "brand": "LEGO",
-    "images": [
-      "https://i.pinimg.com/1200x/27/ab/68/27ab68fdc57406ab0cf9ea0dc8db57e9.jpg"
-    ],
-    "tags": [
-      "LEGO",
-      "Lamborghini",
-      "Aventador",
-      "supercar",
-      "building toy",
-      "collector"
-    ],
-    "rating": 4.8,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "9",
-    "name": "LEGO Porsche 911 GT3 RS",
-    "category": "Building Toys",
-    "description": "A premium LEGO set of the Porsche 911 GT3 RS. Perfect for car lovers and experienced builders.",
-    "price": 29.99,
-    "stock": 6,
-    "brand": "LEGO",
-    "images": [
-      "https://i.pinimg.com/736x/1b/c9/bb/1bc9bb6da34f418e28e45bf552d3695b.jpg"
-    ],
-    "tags": [
-      "LEGO",
-      "Porsche",
-      "911 GT3 RS",
-      "supercar",
-      "1:64",
-      "building kit"
-    ],
-    "rating": 4.9,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  }, {
-    "id": "10",
-    "name": "Mazda RX7 LB Super Silhouette #41",
-    "category": "Diecast Cars",
-    "description": "A 1:64 scale diecast model of the Mazda RX7 LB Super Silhouette #41 by Mini GT, featuring race livery and detailed craftsmanship.",
-    "price": 13.49,
-    "stock": 14,
-    "brand": "Mini GT",
-    "images": [
-      "https://i.pinimg.com/1200x/d0/1a/a2/d01aa27b17be5722f5e919ff456a89cf.jpg"
-    ],
-    "tags": [
-      "diecast", "Mini GT", "Mazda", "RX7", "1:64", "Super Silhouette"
-    ],
-    "rating": 4.8,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "11",
-    "name": "Porsche 911 GT3",
-    "category": "Diecast Cars",
-    "description": "A precision 1:64 scale model of the Porsche 911 GT3 by Mini GT. A collector’s favorite with track-ready detailing.",
-    "price": 14.25,
-    "stock": 16,
-    "brand": "Mini GT",
-    "images": [
-      "https://i.pinimg.com/1200x/32/da/a7/32daa77e2ef7dd8f3446ed8ef79442fe.jpg"
-    ],
-    "tags": [
-      "diecast", "Mini GT", "Porsche", "911", "GT3", "1:64"
-    ],
-    "rating": 4.7,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "12",
-    "name": "McLaren P1",
-    "category": "Diecast Cars",
-    "description": "Hot Wheels 1:64 scale McLaren P1 model, designed to capture the essence of a hybrid hypercar with stunning details.",
-    "price": 11.99,
-    "stock": 20,
-    "brand": "Hot Wheels",
-    "images": [
-      "https://i.pinimg.com/736x/83/41/38/8341386159979d6a4354b12b69532f70.jpg"
-    ],
-    "tags": [
-      "diecast", "Hot Wheels", "McLaren", "P1", "1:64", "hypercar"
-    ],
-    "rating": 4.5,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "13",
-    "name": "BMW E21",
-    "category": "Diecast Cars",
-    "description": "Hot Wheels presents the BMW E21 in 1:64 scale, a nostalgic and collectible diecast model for classic car fans.",
-    "price": 10.99,
-    "stock": 12,
-    "brand": "Hot Wheels",
-    "images": [
-      "https://i.pinimg.com/736x/00/ac/e8/00ace8c3ca90eeb77788105ae04a3901.jpg"
-    ],
-    "tags": [
-      "diecast", "Hot Wheels", "BMW", "E21", "1:64", "classic"
-    ],
-    "rating": 4.4,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "14",
-    "name": "BMW M3 '92",
-    "category": "Diecast Cars",
-    "description": "Hot Wheels' 1:64 scale BMW M3 '92 diecast model combines iconic styling with great attention to detail.",
-    "price": 12.25,
-    "stock": 10,
-    "brand": "Hot Wheels",
-    "images": [
-      "https://i.pinimg.com/736x/f4/f4/9f/f4f49f45fecc47163f26a26524ec79cd.jpg"
-    ],
-    "tags": [
-      "diecast", "Hot Wheels", "BMW", "M3", "1992", "1:64"
-    ],
-    "rating": 4.6,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "15",
-    "name": "Red Bull RB9",
-    "category": "Diecast Cars",
-    "description": "Hot Wheels' 1:64 scale Red Bull RB9 F1 car model featuring authentic race design and sponsor detailing.",
-    "price": 13.75,
-    "stock": 9,
-    "brand": "Hot Wheels",
-    "images": [
-      "https://i.pinimg.com/736x/5f/a4/09/5fa40951b8a80cbd464f7cfc4001b51d.jpg"
-    ],
-    "tags": [
-      "diecast", "Hot Wheels", "Red Bull", "F1", "RB9", "1:64"
-    ],
-    "rating": 4.7,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },{
-    "id": "16",
-    "name": "Moon-knight",
-    "category": "action-figure",
-    "description": "Highly detailed Moon Knight figure for Marvel fans, with articulated joints and a dynamic cape.",
-    "price": 19.99,
-    "stock": 10,
-    "brand": "Marvel Legends",
-    "images": [
-      "https://i.pinimg.com/736x/17/f5/56/17f5569c9e00cc32d6e89fd999264606.jpg"
-    ],
-    "tags": ["moon knight", "marvel", "action figure", "collectible"],
-    "rating": 4.8,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "17",
-    "name": "luffy gear5",
-    "category": "action-figure",
-    "description": "Luffy Gear 5 action figure with iconic detailing and expressive styling from One Piece.",
-    "price": 17.49,
-    "stock": 12,
-    "brand": "Bandai",
-    "images": [
-      "https://i.pinimg.com/1200x/d6/ae/93/d6ae9327c89b54a469eb58c67884bad4.jpg"
-    ],
-    "tags": ["luffy", "gear5", "one piece", "anime", "action figure"],
-    "rating": 4.9,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "18",
-    "name": "venom",
-    "category": "action-figure",
-    "description": "Venom collectible action figure with oversized sculpt and fearsome detail.",
-    "price": 18.25,
-    "stock": 7,
-    "brand": "Marvel Select",
-    "images": [
-      "https://i.pinimg.com/736x/7e/7d/97/7e7d971eeeb3e7737517867be22657f1.jpg"
-    ],
-    "tags": ["venom", "marvel", "action figure", "anti-hero"],
-    "rating": 4.6,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "19",
-    "name": "iron man",
-    "category": "action-figure",
-    "description": "Iron Man figure in red and gold armor, articulated and perfect for dynamic poses.",
-    "price": 20.00,
-    "stock": 8,
-    "brand": "Marvel Legends",
-    "images": [
-      "https://i.pinimg.com/1200x/c1/20/8c/c1208cbd3c0125cd31a9f507cdadf4be.jpg"
-    ],
-    "tags": ["iron man", "marvel", "avengers", "action figure"],
-    "rating": 4.7,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "20",
-    "name": "chopper action figure",
-    "category": "action-figure",
-    "description": "Adorable Chopper figure from One Piece, perfect for collectors and fans alike.",
-    "price": 14.00,
-    "stock": 11,
-    "brand": "Banpresto",
-    "images": [
-      "https://i.pinimg.com/736x/16/6b/40/166b405511738d5f6d706138431e2725.jpg"
-    ],
-    "tags": ["chopper", "one piece", "anime", "action figure"],
-    "rating": 4.8,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "21",
-    "name": "Dr.strange",
-    "category": "action-figure",
-    "description": "High-quality Dr. Strange action figure with detailed sculpting and dynamic poseability.",
-    "price": 14.99,
-    "stock": 10,
-    "brand": "Marvel Legends",
-    "images": [
-      "https://i.pinimg.com/736x/2f/18/d6/2f18d6334833e35742ae7a298cd63ccc.jpg"
-    ],
-    "tags": ["action figure", "Dr. Strange", "Marvel", "collectible"],
-    "rating": 4.6,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "22",
-    "name": "zoro action figure",
-    "category": "action-figure",
-    "description": "Detailed Roronoa Zoro figure from One Piece, perfect for anime collectors.",
-    "price": 12.99,
-    "stock": 8,
-    "brand": "Banpresto",
-    "images": [
-      "https://i.pinimg.com/1200x/2c/75/ac/2c75ac387d9466c51f595e452708bea7.jpg"
-    ],
-    "tags": ["anime", "One Piece", "Zoro", "figure", "collectible"],
-    "rating": 4.8,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "23",
-    "name": "iron man",
-    "category": "action-figure",
-    "description": "Iconic Iron Man figure with premium paintwork and articulations.",
-    "price": 16.99,
-    "stock": 7,
-    "brand": "Hasbro",
-    "images": [
-      "https://i.pinimg.com/1200x/c1/20/8c/c1208cbd3c0125cd31a9f507cdadf4be.jpg"
-    ],
-    "tags": ["Iron Man", "Avengers", "Marvel", "collectible", "figure"],
-    "rating": 4.9,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "24",
-    "name": "deadpool vs volwerine",
-    "category": "action-figure",
-    "description": "Epic Deadpool vs Wolverine dual figure set with battle poses.",
-    "price": 18.5,
-    "stock": 5,
-    "brand": "Hasbro",
-    "images": [
-      "https://i.pinimg.com/1200x/e0/b0/71/e0b071efbe9d4f7a5828b4471d817d0a.jpg"
-    ],
-    "tags": ["Deadpool", "Wolverine", "Marvel", "action figure", "battle"],
-    "rating": 4.7,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "25",
-    "name": "luffy gear5",
-    "category": "action-figure",
-    "description": "Gear 5 Monkey D. Luffy figure in dynamic battle stance with intricate detail.",
-    "price": 13.5,
-    "stock": 12,
-    "brand": "Banpresto",
-    "images": [
-      "https://i.pinimg.com/1200x/d6/ae/93/d6ae9327c89b54a469eb58c67884bad4.jpg"
-    ],
-    "tags": ["Luffy", "Gear 5", "One Piece", "anime", "figure"],
-    "rating": 4.9,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "26",
-    "name": "Black leg sanji",
-    "category": "action-figure",
-    "description": "Sanji figure with trademark Black Leg pose from One Piece anime.",
-    "price": 12.25,
-    "stock": 6,
-    "brand": "Bandai",
-    "images": [
-      "https://i.pinimg.com/1200x/a7/bf/4d/a7bf4d599df5319d55b6ff2cd5d1fa64.jpg"
-    ],
-    "tags": ["Sanji", "One Piece", "anime", "collectible", "figure"],
-    "rating": 4.5,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "27",
-    "name": "Moon-knight",
-    "category": "action-figure",
-    "description": "Highly detailed Moon Knight figure from the Marvel series.",
-    "price": 15.0,
-    "stock": 9,
-    "brand": "Marvel Select",
-    "images": [
-      "https://i.pinimg.com/736x/17/f5/56/17f5569c9e00cc32d6e89fd999264606.jpg"
-    ],
-    "tags": ["Moon Knight", "Marvel", "figure", "collectible", "hero"],
-    "rating": 4.6,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "28",
-    "name": "thousand sunny(pirate-ship)",
-    "category": "action-figure",
-    "description": "Model of the Thousand Sunny ship from One Piece with intricate parts.",
-    "price": 19.99,
-    "stock": 4,
-    "brand": "Bandai",
-    "images": [
-      "https://i.pinimg.com/1200x/e7/66/8a/e7668a97e0fa177e16e5cfbeb16bb9de.jpg"
-    ],
-    "tags": ["One Piece", "Thousand Sunny", "ship", "model", "anime"],
-    "rating": 4.8,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "29",
-    "name": "chopper action figure",
-    "category": "action-figure",
-    "description": "Cute and collectible Chopper action figure from One Piece.",
-    "price": 11.49,
-    "stock": 11,
-    "brand": "Banpresto",
-    "images": [
-      "https://i.pinimg.com/736x/16/6b/40/166b405511738d5f6d706138431e2725.jpg"
-    ],
-    "tags": ["Chopper", "anime", "One Piece", "figure", "cute"],
-    "rating": 4.7,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "30",
-    "name": "venom",
-    "category": "action-figure",
-    "description": "Detailed and menacing Venom figure with sharp detailing and base.",
-    "price": 14.25,
-    "stock": 6,
-    "brand": "Marvel Select",
-    "images": [
-      "https://i.pinimg.com/736x/7e/7d/97/7e7d971eeeb3e7737517867be22657f1.jpg"
-    ],
-    "tags": ["Venom", "Marvel", "Spider-Man", "figure", "villain"],
-    "rating": 4.8,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  }, {
-    "id": "31",
-    "name": "Black Panther",
-    "category": "action-figure",
-    "description": "Black Panther action figure showcasing Wakandan detail and high articulation for dynamic poses.",
-    "price": 16.99,
-    "stock": 8,
-    "brand": "Marvel Legends",
-    "images": [
-      "https://i.pinimg.com/736x/4d/b4/73/4db4735a8f71245d17564f0a89c7d01b.jpg"
-    ],
-    "tags": ["Black Panther", "Marvel", "Wakanda", "action-figure"],
-    "rating": 4.5,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "32",
-    "name": "Moon Knight",
-    "category": "action-figure",
-    "description": "Highly detailed Moon Knight action figure featuring his iconic white suit and weapons.",
-    "price": 18.25,
-    "stock": 7,
-    "brand": "Hasbro",
-    "images": [
-      "https://i.pinimg.com/736x/17/f5/56/17f5569c9e00cc32d6e89fd999264606.jpg"
-    ],
-    "tags": ["Moon Knight", "Marvel", "action-figure"],
-    "rating": 4.6,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "33",
-    "name": "Loki",
-    "category": "action-figure",
-    "description": "Loki action figure with his classic horned helmet and green cape, based on the Marvel Universe.",
-    "price": 15.75,
-    "stock": 6,
-    "brand": "Marvel Select",
-    "images": [
-      "https://i.pinimg.com/736x/ab/d4/bc/abd4bc4df8171b0299f93a7c7935d330.jpg"
-    ],
-    "tags": ["Loki", "Marvel", "action-figure", "Villain"],
-    "rating": 4.3,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "34",
-    "name": "Iron Man",
-    "category": "action-figure",
-    "description": "Iron Man collectible figure in red and gold armor, perfect for any Marvel fan's collection.",
-    "price": 19.99,
-    "stock": 5,
-    "brand": "Hot Toys",
-    "images": [
-      "https://i.pinimg.com/1200x/c1/20/8c/c1208cbd3c0125cd31a9f507cdadf4be.jpg"
-    ],
-    "tags": ["Iron Man", "Avengers", "action-figure", "Marvel"],
-    "rating": 4.9,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  },
-  {
-    "id": "35",
-    "name": "Thor",
-    "category": "action-figure",
-    "description": "Thor action figure wielding Mjölnir, showcasing Norse armor details and Marvel authenticity.",
-    "price": 17.5,
-    "stock": 10,
-    "brand": "Marvel Legends",
-    "images": [
-      "https://i.pinimg.com/1200x/f9/56/6c/f9566ca45656190fe3bc4b69e4580de4.jpg"
-    ],
-    "tags": ["Thor", "Avengers", "Marvel", "action-figure", "Mjolnir"],
-    "rating": 4.8,
-    "createdAt": "2025-07-17T09:00:00.000Z"
-  }
-]
-
-
+    {
+      "id": "2",
+      "name": "INIGT 1:64 Weiß 911 (992) GT3 RS Weissach Package",
+      "category": "Diecast Cars",
+      "description": "A premium 1:64 scale diecast model of the Porsche 911 (992) GT3 RS with Weissach Package in white. Detailed and perfect for collectors.",
+      "price": 14.99,
+      "stock": 10,
+      "brand": "INIGT",
+      "images": [
+        "https://i.pinimg.com/1200x/0d/46/61/0d46615f14419a3223b56a5d5beb7638.jpg"
+      ],
+      "tags": [
+        "diecast",
+        "Porsche",
+        "911",
+        "GT3 RS",
+        "Weissach",
+        "1:64",
+        "INIGT"
+      ],
+      "rating": 4.8,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "3",
+      "name": "Mini GT Lamborghini Huracán",
+      "category": "Diecast Cars",
+      "description": "A sleek and detailed 1:64 scale diecast model of the Lamborghini Huracán by Mini GT. A must-have for supercar fans and diecast collectors.",
+      "price": 13.99,
+      "stock": 12,
+      "brand": "Mini GT",
+      "images": [
+        "https://i.pinimg.com/1200x/6c/c3/01/6cc3018d17ef456be7da7aa6dcdaf618.jpg"
+      ],
+      "tags": [
+        "diecast",
+        "Mini GT",
+        "Lamborghini",
+        "Huracán",
+        "1:64",
+        "supercar"
+      ],
+      "rating": 4.7,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "4",
+      "name": "Mini GT Ford Mustang Shelby GT500",
+      "category": "Diecast Cars",
+      "description": "A muscular 1:64 scale diecast model of the Ford Mustang Shelby GT500 by Mini GT. Captures the iconic design and power of the original.",
+      "price": 12.49,
+      "stock": 18,
+      "brand": "Mini GT",
+      "images": [
+        "https://i.pinimg.com/1200x/68/a5/40/68a540ceecdad2a010dabfdf5b305aaa.jpg"
+      ],
+      "tags": [
+        "diecast",
+        "Mini GT",
+        "Mustang",
+        "Shelby GT500",
+        "Ford",
+        "1:64",
+        "muscle car"
+      ],
+      "rating": 4.6,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "5",
+      "name": "Hot Wheels Nissan Skyline",
+      "category": "Diecast Cars",
+      "description": "A sleek and collectible 1:64 scale Nissan Skyline diecast model by Hot Wheels. Known for its racing legacy and JDM appeal.",
+      "price": 9.99,
+      "stock": 20,
+      "brand": "Hot Wheels",
+      "images": [
+        "https://i.pinimg.com/736x/4d/d1/e4/4dd1e46245e6fc7082ac84d21c7135f4.jpg"
+      ],
+      "tags": [
+        "diecast",
+        "Hot Wheels",
+        "Nissan",
+        "Skyline",
+        "JDM",
+        "1:64",
+        "car model"
+      ],
+      "rating": 4.8,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "6",
+      "name": "Hot Wheels Toyota Supra",
+      "category": "Diecast Cars",
+      "description": "A legendary 1:64 scale Toyota Supra diecast model from Hot Wheels. A favorite among JDM collectors and enthusiasts.",
+      "price": 9.49,
+      "stock": 22,
+      "brand": "Hot Wheels",
+      "images": [
+        "https://i.pinimg.com/736x/96/61/58/966158f41b0bcd06fa427972539fd5d9.jpg"
+      ],
+      "tags": [
+        "diecast",
+        "Hot Wheels",
+        "Toyota",
+        "Supra",
+        "JDM",
+        "1:64",
+        "collector"
+      ],
+      "rating": 4.7,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "7",
+      "name": "LEGO Dodge SRT",
+      "category": "Building Toys",
+      "description": "A buildable LEGO set of the powerful Dodge SRT. Great for fans of muscle cars and hands-on creativity.",
+      "price": 19.99,
+      "stock": 10,
+      "brand": "LEGO",
+      "images": [
+        "https://i.pinimg.com/1200x/d7/54/16/d754163e2991758da3467e934cc55457.jpg"
+      ],
+      "tags": [
+        "LEGO",
+        "Dodge",
+        "SRT",
+        "muscle car",
+        "building set",
+        "collectible"
+      ],
+      "rating": 4.9,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "8",
+      "name": "LEGO Lamborghini Aventador",
+      "category": "Building Toys",
+      "description": "An intricate LEGO model of the Lamborghini Aventador. Offers a realistic and fun building experience for supercar fans.",
+      "price": 24.99,
+      "stock": 8,
+      "brand": "LEGO",
+      "images": [
+        "https://i.pinimg.com/1200x/27/ab/68/27ab68fdc57406ab0cf9ea0dc8db57e9.jpg"
+      ],
+      "tags": [
+        "LEGO",
+        "Lamborghini",
+        "Aventador",
+        "supercar",
+        "building toy",
+        "collector"
+      ],
+      "rating": 4.8,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "9",
+      "name": "LEGO Porsche 911 GT3 RS",
+      "category": "Building Toys",
+      "description": "A premium LEGO set of the Porsche 911 GT3 RS. Perfect for car lovers and experienced builders.",
+      "price": 29.99,
+      "stock": 6,
+      "brand": "LEGO",
+      "images": [
+        "https://i.pinimg.com/736x/1b/c9/bb/1bc9bb6da34f418e28e45bf552d3695b.jpg"
+      ],
+      "tags": [
+        "LEGO",
+        "Porsche",
+        "911 GT3 RS",
+        "supercar",
+        "1:64",
+        "building kit"
+      ],
+      "rating": 4.9,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "10",
+      "name": "Mazda RX7 LB Super Silhouette #41",
+      "category": "Diecast Cars",
+      "description": "A 1:64 scale diecast model of the Mazda RX7 LB Super Silhouette #41 by Mini GT, featuring race livery and detailed craftsmanship.",
+      "price": 13.49,
+      "stock": 14,
+      "brand": "Mini GT",
+      "images": [
+        "https://i.pinimg.com/1200x/d0/1a/a2/d01aa27b17be5722f5e919ff456a89cf.jpg"
+      ],
+      "tags": [
+        "diecast",
+        "Mini GT",
+        "Mazda",
+        "RX7",
+        "1:64",
+        "Super Silhouette"
+      ],
+      "rating": 4.8,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "11",
+      "name": "Porsche 911 GT3",
+      "category": "Diecast Cars",
+      "description": "A precision 1:64 scale model of the Porsche 911 GT3 by Mini GT. A collector’s favorite with track-ready detailing.",
+      "price": 14.25,
+      "stock": 16,
+      "brand": "Mini GT",
+      "images": [
+        "https://i.pinimg.com/1200x/32/da/a7/32daa77e2ef7dd8f3446ed8ef79442fe.jpg"
+      ],
+      "tags": [
+        "diecast",
+        "Mini GT",
+        "Porsche",
+        "911",
+        "GT3",
+        "1:64"
+      ],
+      "rating": 4.7,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "12",
+      "name": "McLaren P1",
+      "category": "Diecast Cars",
+      "description": "Hot Wheels 1:64 scale McLaren P1 model, designed to capture the essence of a hybrid hypercar with stunning details.",
+      "price": 11.99,
+      "stock": 20,
+      "brand": "Hot Wheels",
+      "images": [
+        "https://i.pinimg.com/736x/83/41/38/8341386159979d6a4354b12b69532f70.jpg"
+      ],
+      "tags": [
+        "diecast",
+        "Hot Wheels",
+        "McLaren",
+        "P1",
+        "1:64",
+        "hypercar"
+      ],
+      "rating": 4.5,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "13",
+      "name": "BMW E21",
+      "category": "Diecast Cars",
+      "description": "Hot Wheels presents the BMW E21 in 1:64 scale, a nostalgic and collectible diecast model for classic car fans.",
+      "price": 10.99,
+      "stock": 12,
+      "brand": "Hot Wheels",
+      "images": [
+        "https://i.pinimg.com/736x/00/ac/e8/00ace8c3ca90eeb77788105ae04a3901.jpg"
+      ],
+      "tags": [
+        "diecast",
+        "Hot Wheels",
+        "BMW",
+        "E21",
+        "1:64",
+        "classic"
+      ],
+      "rating": 4.4,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "14",
+      "name": "BMW M3 '92",
+      "category": "Diecast Cars",
+      "description": "Hot Wheels' 1:64 scale BMW M3 '92 diecast model combines iconic styling with great attention to detail.",
+      "price": 12.25,
+      "stock": 10,
+      "brand": "Hot Wheels",
+      "images": [
+        "https://i.pinimg.com/736x/f4/f4/9f/f4f49f45fecc47163f26a26524ec79cd.jpg"
+      ],
+      "tags": [
+        "diecast",
+        "Hot Wheels",
+        "BMW",
+        "M3",
+        "1992",
+        "1:64"
+      ],
+      "rating": 4.6,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "15",
+      "name": "Red Bull RB9",
+      "category": "Diecast Cars",
+      "description": "Hot Wheels' 1:64 scale Red Bull RB9 F1 car model featuring authentic race design and sponsor detailing.",
+      "price": 13.75,
+      "stock": 9,
+      "brand": "Hot Wheels",
+      "images": [
+        "https://i.pinimg.com/736x/5f/a4/09/5fa40951b8a80cbd464f7cfc4001b51d.jpg"
+      ],
+      "tags": [
+        "diecast",
+        "Hot Wheels",
+        "Red Bull",
+        "F1",
+        "RB9",
+        "1:64"
+      ],
+      "rating": 4.7,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "16",
+      "name": "Moon-knight",
+      "category": "action-figure",
+      "description": "Highly detailed Moon Knight figure for Marvel fans, with articulated joints and a dynamic cape.",
+      "price": 19.99,
+      "stock": 10,
+      "brand": "Marvel Legends",
+      "images": [
+        "https://i.pinimg.com/736x/17/f5/56/17f5569c9e00cc32d6e89fd999264606.jpg"
+      ],
+      "tags": [
+        "moon knight",
+        "marvel",
+        "action figure",
+        "collectible"
+      ],
+      "rating": 4.8,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "17",
+      "name": "luffy gear5",
+      "category": "action-figure",
+      "description": "Luffy Gear 5 action figure with iconic detailing and expressive styling from One Piece.",
+      "price": 17.49,
+      "stock": 12,
+      "brand": "Bandai",
+      "images": [
+        "https://i.pinimg.com/1200x/d6/ae/93/d6ae9327c89b54a469eb58c67884bad4.jpg"
+      ],
+      "tags": [
+        "luffy",
+        "gear5",
+        "one piece",
+        "anime",
+        "action figure"
+      ],
+      "rating": 4.9,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "18",
+      "name": "venom",
+      "category": "action-figure",
+      "description": "Venom collectible action figure with oversized sculpt and fearsome detail.",
+      "price": 18.25,
+      "stock": 7,
+      "brand": "Marvel Select",
+      "images": [
+        "https://i.pinimg.com/736x/7e/7d/97/7e7d971eeeb3e7737517867be22657f1.jpg"
+      ],
+      "tags": [
+        "venom",
+        "marvel",
+        "action figure",
+        "anti-hero"
+      ],
+      "rating": 4.6,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "19",
+      "name": "iron man",
+      "category": "action-figure",
+      "description": "Iron Man figure in red and gold armor, articulated and perfect for dynamic poses.",
+      "price": 20,
+      "stock": 8,
+      "brand": "Marvel Legends",
+      "images": [
+        "https://i.pinimg.com/1200x/c1/20/8c/c1208cbd3c0125cd31a9f507cdadf4be.jpg"
+      ],
+      "tags": [
+        "iron man",
+        "marvel",
+        "avengers",
+        "action figure"
+      ],
+      "rating": 4.7,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "20",
+      "name": "chopper action figure",
+      "category": "action-figure",
+      "description": "Adorable Chopper figure from One Piece, perfect for collectors and fans alike.",
+      "price": 14,
+      "stock": 11,
+      "brand": "Banpresto",
+      "images": [
+        "https://i.pinimg.com/736x/16/6b/40/166b405511738d5f6d706138431e2725.jpg"
+      ],
+      "tags": [
+        "chopper",
+        "one piece",
+        "anime",
+        "action figure"
+      ],
+      "rating": 4.8,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "21",
+      "name": "Dr.strange",
+      "category": "action-figure",
+      "description": "High-quality Dr. Strange action figure with detailed sculpting and dynamic poseability.",
+      "price": 14.99,
+      "stock": 10,
+      "brand": "Marvel Legends",
+      "images": [
+        "https://i.pinimg.com/736x/2f/18/d6/2f18d6334833e35742ae7a298cd63ccc.jpg"
+      ],
+      "tags": [
+        "action figure",
+        "Dr. Strange",
+        "Marvel",
+        "collectible"
+      ],
+      "rating": 4.6,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "22",
+      "name": "zoro action figure",
+      "category": "action-figure",
+      "description": "Detailed Roronoa Zoro figure from One Piece, perfect for anime collectors.",
+      "price": 12.99,
+      "stock": 8,
+      "brand": "Banpresto",
+      "images": [
+        "https://i.pinimg.com/1200x/2c/75/ac/2c75ac387d9466c51f595e452708bea7.jpg"
+      ],
+      "tags": [
+        "anime",
+        "One Piece",
+        "Zoro",
+        "figure",
+        "collectible"
+      ],
+      "rating": 4.8,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "23",
+      "name": "iron man",
+      "category": "action-figure",
+      "description": "Iconic Iron Man figure with premium paintwork and articulations.",
+      "price": 16.99,
+      "stock": 7,
+      "brand": "Hasbro",
+      "images": [
+        "https://i.pinimg.com/1200x/c1/20/8c/c1208cbd3c0125cd31a9f507cdadf4be.jpg"
+      ],
+      "tags": [
+        "Iron Man",
+        "Avengers",
+        "Marvel",
+        "collectible",
+        "figure"
+      ],
+      "rating": 4.9,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "24",
+      "name": "deadpool vs volwerine",
+      "category": "action-figure",
+      "description": "Epic Deadpool vs Wolverine dual figure set with battle poses.",
+      "price": 18.5,
+      "stock": 5,
+      "brand": "Hasbro",
+      "images": [
+        "https://i.pinimg.com/1200x/e0/b0/71/e0b071efbe9d4f7a5828b4471d817d0a.jpg"
+      ],
+      "tags": [
+        "Deadpool",
+        "Wolverine",
+        "Marvel",
+        "action figure",
+        "battle"
+      ],
+      "rating": 4.7,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "25",
+      "name": "luffy gear5",
+      "category": "action-figure",
+      "description": "Gear 5 Monkey D. Luffy figure in dynamic battle stance with intricate detail.",
+      "price": 13.5,
+      "stock": 12,
+      "brand": "Banpresto",
+      "images": [
+        "https://i.pinimg.com/1200x/d6/ae/93/d6ae9327c89b54a469eb58c67884bad4.jpg"
+      ],
+      "tags": [
+        "Luffy",
+        "Gear 5",
+        "One Piece",
+        "anime",
+        "figure"
+      ],
+      "rating": 4.9,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "26",
+      "name": "Black leg sanji",
+      "category": "action-figure",
+      "description": "Sanji figure with trademark Black Leg pose from One Piece anime.",
+      "price": 12.25,
+      "stock": 6,
+      "brand": "Bandai",
+      "images": [
+        "https://i.pinimg.com/1200x/a7/bf/4d/a7bf4d599df5319d55b6ff2cd5d1fa64.jpg"
+      ],
+      "tags": [
+        "Sanji",
+        "One Piece",
+        "anime",
+        "collectible",
+        "figure"
+      ],
+      "rating": 4.5,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "27",
+      "name": "Moon-knight",
+      "category": "action-figure",
+      "description": "Highly detailed Moon Knight figure from the Marvel series.",
+      "price": 15,
+      "stock": 9,
+      "brand": "Marvel Select",
+      "images": [
+        "https://i.pinimg.com/736x/17/f5/56/17f5569c9e00cc32d6e89fd999264606.jpg"
+      ],
+      "tags": [
+        "Moon Knight",
+        "Marvel",
+        "figure",
+        "collectible",
+        "hero"
+      ],
+      "rating": 4.6,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "28",
+      "name": "thousand sunny(pirate-ship)",
+      "category": "action-figure",
+      "description": "Model of the Thousand Sunny ship from One Piece with intricate parts.",
+      "price": 19.99,
+      "stock": 4,
+      "brand": "Bandai",
+      "images": [
+        "https://i.pinimg.com/1200x/e7/66/8a/e7668a97e0fa177e16e5cfbeb16bb9de.jpg"
+      ],
+      "tags": [
+        "One Piece",
+        "Thousand Sunny",
+        "ship",
+        "model",
+        "anime"
+      ],
+      "rating": 4.8,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "29",
+      "name": "chopper action figure",
+      "category": "action-figure",
+      "description": "Cute and collectible Chopper action figure from One Piece.",
+      "price": 11.49,
+      "stock": 11,
+      "brand": "Banpresto",
+      "images": [
+        "https://i.pinimg.com/736x/16/6b/40/166b405511738d5f6d706138431e2725.jpg"
+      ],
+      "tags": [
+        "Chopper",
+        "anime",
+        "One Piece",
+        "figure",
+        "cute"
+      ],
+      "rating": 4.7,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "30",
+      "name": "venom",
+      "category": "action-figure",
+      "description": "Detailed and menacing Venom figure with sharp detailing and base.",
+      "price": 14.25,
+      "stock": 6,
+      "brand": "Marvel Select",
+      "images": [
+        "https://i.pinimg.com/736x/7e/7d/97/7e7d971eeeb3e7737517867be22657f1.jpg"
+      ],
+      "tags": [
+        "Venom",
+        "Marvel",
+        "Spider-Man",
+        "figure",
+        "villain"
+      ],
+      "rating": 4.8,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "31",
+      "name": "Black Panther",
+      "category": "action-figure",
+      "description": "Black Panther action figure showcasing Wakandan detail and high articulation for dynamic poses.",
+      "price": 16.99,
+      "stock": 8,
+      "brand": "Marvel Legends",
+      "images": [
+        "https://i.pinimg.com/736x/4d/b4/73/4db4735a8f71245d17564f0a89c7d01b.jpg"
+      ],
+      "tags": [
+        "Black Panther",
+        "Marvel",
+        "Wakanda",
+        "action-figure"
+      ],
+      "rating": 4.5,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "32",
+      "name": "Moon Knight",
+      "category": "action-figure",
+      "description": "Highly detailed Moon Knight action figure featuring his iconic white suit and weapons.",
+      "price": 18.25,
+      "stock": 7,
+      "brand": "Hasbro",
+      "images": [
+        "https://i.pinimg.com/736x/17/f5/56/17f5569c9e00cc32d6e89fd999264606.jpg"
+      ],
+      "tags": [
+        "Moon Knight",
+        "Marvel",
+        "action-figure"
+      ],
+      "rating": 4.6,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "33",
+      "name": "Loki",
+      "category": "action-figure",
+      "description": "Loki action figure with his classic horned helmet and green cape, based on the Marvel Universe.",
+      "price": 15.75,
+      "stock": 6,
+      "brand": "Marvel Select",
+      "images": [
+        "https://i.pinimg.com/736x/ab/d4/bc/abd4bc4df8171b0299f93a7c7935d330.jpg"
+      ],
+      "tags": [
+        "Loki",
+        "Marvel",
+        "action-figure",
+        "Villain"
+      ],
+      "rating": 4.3,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "34",
+      "name": "Iron Man",
+      "category": "action-figure",
+      "description": "Iron Man collectible figure in red and gold armor, perfect for any Marvel fan's collection.",
+      "price": 19.99,
+      "stock": 5,
+      "brand": "Hot Toys",
+      "images": [
+        "https://i.pinimg.com/1200x/c1/20/8c/c1208cbd3c0125cd31a9f507cdadf4be.jpg"
+      ],
+      "tags": [
+        "Iron Man",
+        "Avengers",
+        "action-figure",
+        "Marvel"
+      ],
+      "rating": 4.9,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "35",
+      "name": "Thor",
+      "category": "action-figure",
+      "description": "Thor action figure wielding Mjölnir, showcasing Norse armor details and Marvel authenticity.",
+      "price": 17.5,
+      "stock": 10,
+      "brand": "Marvel Legends",
+      "images": [
+        "https://i.pinimg.com/1200x/f9/56/6c/f9566ca45656190fe3bc4b69e4580de4.jpg"
+      ],
+      "tags": [
+        "Thor",
+        "Avengers",
+        "Marvel",
+        "action-figure",
+        "Mjolnir"
+      ],
+      "rating": 4.8,
+      "createdAt": "2025-07-17T09:00:00.000Z"
+    }
+  ]
 }

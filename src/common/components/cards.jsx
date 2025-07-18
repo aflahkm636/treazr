@@ -9,6 +9,7 @@ const ProductCard = ({ product }) => {
         navigate(`/productdetails/${product.id}`);
 ;
     };
+console.log("card rendered");
 
     return (
         <div
