@@ -4,18 +4,19 @@ import axios from "axios";
 import { updateUserWishlist } from "../services/UpdateWishlist";
 import { URL } from "../services/Api";
 import { updateUserCart } from "../services/UpdateCart";
+import { CiHeart, CiTrash } from "react-icons/ci";
+import { useNavigate } from "react-router-dom";
 
 function Wishlist() {
     const [wishlistProducts, setWishlistProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
+    const navigate = useNavigate();
 
-    // Helper function to extract ID whether it's a string or object
     const getProductId = (item) => {
         return typeof item === 'string' ? item : item.id;
     };
 
-    // Load user and wishlist on component mount and when user changes
     useEffect(() => {
         const currentUser = JSON.parse(localStorage.getItem("user"));
         setUser(currentUser);
@@ -28,7 +29,6 @@ function Wishlist() {
         }
     }, []);
 
-    // Add this useEffect to listen for localStorage changes
     useEffect(() => {
         const handleStorageChange = () => {
             const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -46,11 +46,9 @@ function Wishlist() {
         return () => window.removeEventListener("storage", handleStorageChange);
     }, [user]);
 
-    // Improved product fetching with error handling
     const fetchWishlistProducts = async (wishlistItems) => {
         try {
             setLoading(true);
-            // Extract valid IDs whether they're strings or objects
             const validIds = wishlistItems
                 .map(item => getProductId(item))
                 .filter(id => id && String(id).trim() !== "");
@@ -60,7 +58,6 @@ function Wishlist() {
                 return;
             }
 
-            // Fetch products with error handling for each request
             const products = [];
             for (const id of validIds) {
                 try {
@@ -70,7 +67,6 @@ function Wishlist() {
                     }
                 } catch (error) {
                     console.error(`Failed to fetch product ${id}:`, error);
-                    // Remove invalid product from wishlist
                     const updatedUser = await updateUserWishlist(
                         user.id,
                         user.wishlist.filter(wishlistItem => getProductId(wishlistItem) !== id)
@@ -89,7 +85,6 @@ function Wishlist() {
         }
     };
 
-    // Add product to cart
     const handleAddToCart = async (product) => {
         try {
             if (!user) {
@@ -127,7 +122,6 @@ function Wishlist() {
         }
     };
 
-    // Remove product from wishlist
     const handleRemoveFromWishlist = async (productId) => {
         try {
             if (!user) {
@@ -155,70 +149,123 @@ function Wishlist() {
     };
 
     if (loading) {
-        return <div className="p-6 text-center">Loading your wishlist...</div>;
+        return (
+            <div className="min-h-[50vh] flex items-center justify-center p-4">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600 mx-auto"></div>
+                    <p className="mt-4 text-gray-600">Loading your wishlist...</p>
+                </div>
+            </div>
+        );
     }
 
     if (!user) {
-        return <div className="p-6 text-center">Please login to view your wishlist</div>;
+        return (
+            <div className="min-h-[50vh] flex items-center justify-center p-4">
+                <div className="text-center max-w-md w-full">
+                    <p className="text-gray-700 mb-4">Please login to view your wishlist</p>
+                    <button
+                        onClick={() => navigate("/login")}
+                        className="mt-4 px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors w-full sm:w-auto"
+                    >
+                        Login
+                    </button>
+                </div>
+            </div>
+        );
     }
 
-    const wishlistCount = user.wishlist ? user.wishlist.length : 0;
     const productsCount = wishlistProducts.length;
 
-    if (wishlistCount === 0 || productsCount === 0) {
-        return <div className="p-6 text-center mt-20"><h1>Your wishlist is empty!</h1></div>;
+    if (productsCount === 0) {
+        return (
+            <div className="min-h-[50vh] flex items-center justify-center p-4">
+                <div className="text-center max-w-md w-full p-6 bg-white rounded-lg shadow-sm">
+                    <CiHeart className="h-16 w-16 mx-auto text-gray-400" />
+                    <h2 className="text-xl font-medium text-gray-800 mt-4">
+                        Your wishlist is empty
+                    </h2>
+                    <p className="text-gray-600 mt-2">
+                        Save items you love to your wishlist
+                    </p>
+                    <button
+                        onClick={() => navigate("/products")}
+                        className="mt-4 px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors w-full sm:w-auto"
+                    >
+                        Browse Products
+                    </button>
+                </div>
+            </div>
+        );
     }
 
     return (
-        <div className="max-w-6xl mx-auto p-6 mt-20">
-            <h1 className="text-2xl font-bold mb-6">
-                Your Wishlist ({productsCount} item{productsCount !== 1 ? "s" : ""})
-            </h1>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {wishlistProducts.map((product) => (
-                    <div key={product.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                        <div className="mb-4">
-                            <img
-                                src={product.images?.[0] || "/default-product.jpg"}
-                                alt={product.name}
-                                className="w-full h-48 object-cover rounded"
-                                onError={(e) => {
-                                    e.target.src = "/default-product.jpg";
-                                }}
-                            />
-                        </div>
+        <div className="py-8 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto">
+                <div className="mb-6">
+                    <h1 className="text-xl font-bold text-gray-900">Your Wishlist</h1>
+                    <p className="text-gray-600 mt-1 text-sm">
+                        {productsCount} {productsCount === 1 ? "item" : "items"}
+                    </p>
+                </div>
 
-                        <div className="space-y-2">
-                            <h3 className="text-lg font-semibold">{product.name}</h3>
-                            <p className="text-gray-600">${product.price}</p>
-                            <p className="text-sm text-gray-500">Category: {product.category}</p>
-
-                            <div className="flex gap-2 pt-4">
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        handleAddToCart(product);
+                <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+                    {wishlistProducts.map((product) => (
+                        <div
+                            key={product.id}
+                            className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col"
+                        >
+                            <div className="relative h-48 w-full">
+                                <img
+                                    src={product.images?.[0] || "/default-product.jpg"}
+                                    alt={product.name}
+                                    className="w-full h-full object-cover cursor-pointer"
+                                    onClick={() => navigate(`/products/${product.id}`)}
+                                    onError={(e) => {
+                                        e.target.src = "/default-product.jpg";
                                     }}
-                                    disabled={loading}
-                                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded disabled:opacity-50"
-                                >
-                                    Add to Cart
-                                </button>
-
+                                />
                                 <button
                                     onClick={(e) => {
                                         e.stopPropagation();
                                         handleRemoveFromWishlist(product.id);
                                     }}
                                     disabled={loading}
-                                    className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded disabled:opacity-50"
+                                    className="absolute top-2 right-2 p-1.5 bg-white/80 rounded-full shadow hover:bg-red-100 hover:text-red-600 transition-colors backdrop-blur-sm"
                                 >
-                                    Remove
+                                    <CiTrash className="h-4 w-4" />
                                 </button>
                             </div>
+
+                            <div className="p-3 flex flex-col justify-between flex-grow">
+                                <div>
+                                    <h3
+                                        className="text-sm font-medium text-gray-900 mb-1 cursor-pointer hover:text-indigo-600 line-clamp-2"
+                                        onClick={() => navigate(`/products/${product.id}`)}
+                                    >
+                                        {product.name}
+                                    </h3>
+                                    <p className="text-gray-500 text-xs">{product.category}</p>
+                                </div>
+                                <div className="mt-2">
+                                    <p className="text-sm font-semibold text-gray-900">
+                                        ${product.price}
+                                    </p>
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleAddToCart(product);
+                                        }}
+                                        disabled={loading}
+                                        className="w-full mt-2 py-1.5 px-3 text-xs border border-transparent rounded-md shadow-sm font-medium text-white bg-black hover:bg-gray-800 transition-colors disabled:opacity-50"
+                                    >
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
         </div>
     );

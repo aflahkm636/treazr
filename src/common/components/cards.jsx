@@ -41,52 +41,48 @@ const ProductListCard = React.memo(({ product }) => {
   }, [checkWishlist]);
 
   const toggleWishlist = useCallback(
-    async (e) => {
-      e.stopPropagation();
-      if (isLoading) return;
+  async (e) => {
+    e.stopPropagation();
+    if (isLoading) return;
 
-      if (!user) {
-        toast.warning("Please login to use wishlist");
-        return;
+    if (!user) {
+      toast.warning("Please login to use wishlist");
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const { data } = await axios.get(`${API_URL}/${user.id}`);
+      let updatedWishlist;
+      const exists = data.wishlist?.some((item) => 
+        typeof item === 'string' ? item === product.id : item.id === product.id
+      );
+
+      if (exists) {
+        updatedWishlist = data.wishlist.filter((item) => 
+          typeof item === 'string' ? item !== product.id : item.id !== product.id
+        );
+      } else {
+        // Only store the ID in the wishlist
+        updatedWishlist = [...(data.wishlist || []), product.id];
       }
 
-      setIsLoading(true);
-      try {
-        const { data } = await axios.get(`${API_URL}/${user.id}`);
-        let updatedWishlist;
-        const exists = data.wishlist?.some((item) => item.id === product.id);
+      // Optimistic UI update
+      setIsInWishlist(!exists);
 
-        if (exists) {
-          updatedWishlist = data.wishlist.filter((item) => item.id !== product.id);
-        } else {
-          updatedWishlist = [
-            ...(data.wishlist || []),
-            { 
-              id: product.id, 
-              name: product.name, 
-              price: product.price, 
-              image_url: product.images?.[0], 
-              brand: product.brand 
-            },
-          ];
-        }
-
-        // Optimistic UI update
-        setIsInWishlist(!exists);
-
-        await updateUserData(user.id, { wishlist: updatedWishlist });
-        toast.success(exists ? "Removed from wishlist" : "Added to wishlist");
-      } catch (err) {
-        console.error("Error updating wishlist:", err);
-        // Revert optimistic update if error occurs
-        setIsInWishlist((prev) => !prev);
-        toast.error("Failed to update wishlist");
-      } finally {
-        setIsLoading(false);
-      }
-    },
-    [user, product, isLoading]
-  );
+      await updateUserData(user.id, { wishlist: updatedWishlist });
+      toast.success(exists ? "Removed from wishlist" : "Added to wishlist");
+    } catch (err) {
+      console.error("Error updating wishlist:", err);
+      // Revert optimistic update if error occurs
+      setIsInWishlist((prev) => !prev);
+      toast.error("Failed to update wishlist");
+    } finally {
+      setIsLoading(false);
+    }
+  },
+  [user, product, isLoading]
+);
 
   const handleAddToCart = useCallback(
     async (e) => {
