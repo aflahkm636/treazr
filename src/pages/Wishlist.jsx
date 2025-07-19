@@ -10,6 +10,11 @@ function Wishlist() {
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState(null);
 
+    // Helper function to extract ID whether it's a string or object
+    const getProductId = (item) => {
+        return typeof item === 'string' ? item : item.id;
+    };
+
     // Load user and wishlist on component mount and when user changes
     useEffect(() => {
         const currentUser = JSON.parse(localStorage.getItem("user"));
@@ -42,10 +47,13 @@ function Wishlist() {
     }, [user]);
 
     // Improved product fetching with error handling
-    const fetchWishlistProducts = async (productIds) => {
+    const fetchWishlistProducts = async (wishlistItems) => {
         try {
             setLoading(true);
-            const validIds = productIds.filter((id) => id && id.trim() !== "");
+            // Extract valid IDs whether they're strings or objects
+            const validIds = wishlistItems
+                .map(item => getProductId(item))
+                .filter(id => id && String(id).trim() !== "");
 
             if (validIds.length === 0) {
                 setWishlistProducts([]);
@@ -65,7 +73,7 @@ function Wishlist() {
                     // Remove invalid product from wishlist
                     const updatedUser = await updateUserWishlist(
                         user.id,
-                        user.wishlist.filter((wId) => wId !== id)
+                        user.wishlist.filter(wishlistItem => getProductId(wishlistItem) !== id)
                     );
                     localStorage.setItem("user", JSON.stringify(updatedUser));
                     setUser(updatedUser);
@@ -128,7 +136,9 @@ function Wishlist() {
             }
 
             setLoading(true);
-            const updatedWishlist = user.wishlist.filter((id) => id !== productId);
+            const updatedWishlist = user.wishlist.filter(
+                item => getProductId(item) !== productId
+            );
             const updatedUser = await updateUserWishlist(user.id, updatedWishlist);
 
             localStorage.setItem("user", JSON.stringify(updatedUser));
@@ -152,59 +162,65 @@ function Wishlist() {
         return <div className="p-6 text-center">Please login to view your wishlist</div>;
     }
 
-    if (user.wishlist.length === 0 || wishlistProducts.length === 0) {
+    const wishlistCount = user.wishlist ? user.wishlist.length : 0;
+    const productsCount = wishlistProducts.length;
+
+    if (wishlistCount === 0 || productsCount === 0) {
         return <div className="p-6 text-center mt-20"><h1>Your wishlist is empty!</h1></div>;
     }
 
     return (
+        <div className="max-w-6xl mx-auto p-6 mt-20">
+            <h1 className="text-2xl font-bold mb-6">
+                Your Wishlist ({productsCount} item{productsCount !== 1 ? "s" : ""})
+            </h1>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {wishlistProducts.map((product) => (
+                    <div key={product.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div className="mb-4">
+                            <img
+                                src={product.images?.[0] || "/default-product.jpg"}
+                                alt={product.name}
+                                className="w-full h-48 object-cover rounded"
+                                onError={(e) => {
+                                    e.target.src = "/default-product.jpg";
+                                }}
+                            />
+                        </div>
 
-      <div className="max-w-6xl mx-auto p-6 mt-20">
-  <h1 className="text-2xl font-bold mb-6">
-    Your Wishlist ({wishlistProducts.length} item{wishlistProducts.length !== 1 ? "s" : ""})
-  </h1>
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {wishlistProducts.map((product) => (
-        <div key={product.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-          <div className="mb-4">
-            <img
-              src={product.images?.[0] || "/default-product.jpg"}
-              alt={product.name}
-              className="w-full h-48 object-cover rounded"
-              onError={(e) => {
-                e.target.src = "/default-product.jpg";
-              }}
-            />
-          </div>
+                        <div className="space-y-2">
+                            <h3 className="text-lg font-semibold">{product.name}</h3>
+                            <p className="text-gray-600">${product.price}</p>
+                            <p className="text-sm text-gray-500">Category: {product.category}</p>
 
-          <div className="space-y-2">
-            <h3 className="text-lg font-semibold">{product.name}</h3>
-            <p className="text-gray-600">${product.price}</p>
-            <p className="text-sm text-gray-500">Category: {product.category}</p>
+                            <div className="flex gap-2 pt-4">
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleAddToCart(product);
+                                    }}
+                                    disabled={loading}
+                                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded disabled:opacity-50"
+                                >
+                                    Add to Cart
+                                </button>
 
-            <div className="flex gap-2 pt-4">
-              <button
-                onClick={() => handleAddToCart(product)}
-                disabled={loading}
-                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded disabled:opacity-50"
-              >
-                Add to Cart
-              </button>
-
-              <button
-                onClick={() => handleRemoveFromWishlist(product.id)}
-                disabled={loading}
-                className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded disabled:opacity-50"
-              >
-                Remove
-              </button>
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleRemoveFromWishlist(product.id);
+                                    }}
+                                    disabled={loading}
+                                    className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded disabled:opacity-50"
+                                >
+                                    Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                ))}
             </div>
-          </div>
         </div>
-      ))}
-    </div>
-  
-</div>
-
     );
 }
 
