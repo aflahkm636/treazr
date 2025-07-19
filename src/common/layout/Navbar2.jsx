@@ -66,8 +66,8 @@ const AuthMenuItems = ({ isAuthenticated, logout }) => {
 const NavLinkItem = ({ item }) => {
     const getNavLinkClass = useCallback((isActive) => 
         classNames(
-            isActive ? "bg-gray-900 text-white" : "text-gray-300 hover:bg-gray-700 hover:text-white",
-            "rounded-md px-3 py-2 text-sm font-medium flex items-center"
+            isActive ? "text-white border-b-2 border-white" : "text-gray-200 hover:text-white",
+            "px-3 py-2 text-sm font-medium flex items-center no-underline transition-colors duration-200"
         ),
     []);
 
@@ -78,7 +78,7 @@ const NavLinkItem = ({ item }) => {
             className={getNavLinkClass}
         >
             <FontAwesomeIcon icon={item.icon} className="mr-2" />
-            {item.name}
+            <span className="hidden md:inline">{item.name}</span>
         </NavLink>
     );
 };
@@ -99,15 +99,15 @@ export default function NavBar2() {
     );
 
     return (
-        <Disclosure as="nav" className="fixed top-0 w-full z-50 bg-gray-800">
+        <Disclosure as="nav" className="fixed top-0 w-full z-50 bg-gray-800/90 backdrop-blur-sm">
             {({ open }) => (
                 <>
-                    <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+                    <div className="mx-auto px-2 sm:px-4 lg:px-6">
                         <div className="relative flex h-16 items-center justify-between">
                             {/* Mobile menu button */}
                             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                                 <DisclosureButton 
-                                    className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                                    className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-200 hover:bg-gray-700 hover:text-white focus:outline-none"
                                     aria-label={open ? "Close menu" : "Open menu"}
                                 >
                                     {open ? (
@@ -122,8 +122,8 @@ export default function NavBar2() {
                                 <div className="flex shrink-0 items-center">
                                     <span className="text-white font-bold text-xl">Treazr</span>
                                 </div>
-                                <div className="hidden sm:ml-6 sm:block">
-                                    <div className="flex space-x-4">
+                                <div className="hidden sm:ml-4 sm:block">
+                                    <div className="flex space-x-2 md:space-x-4">
                                         {navigation.map((item) => (
                                             <NavLinkItem key={item.name} item={item} />
                                         ))}
@@ -131,11 +131,19 @@ export default function NavBar2() {
                                 </div>
                             </div>
 
-                            {/* Profile dropdown */}
-                            <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                                <Menu as="div" className="relative ml-3">
+                            {/* Right side elements */}
+                            <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 space-x-2">
+                                {/* User name - hidden on mobile, shown on sm+ */}
+                                {user?.name && (
+                                    <span className="hidden sm:inline text-white text-sm font-medium">
+                                        {user.name}
+                                    </span>
+                                )}
+                                
+                                {/* Profile dropdown */}
+                                <Menu as="div" className="relative">
                                     <MenuButton 
-                                        className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                                        className="relative flex rounded-full text-sm focus:outline-none"
                                         aria-label="User menu"
                                     >
                                         <img
@@ -146,7 +154,7 @@ export default function NavBar2() {
                                             height={32}
                                         />
                                     </MenuButton>
-                                    <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                    <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white/95 backdrop-blur-sm py-1 shadow-lg ring-1 ring-black/5 focus:outline-none">
                                         <AuthMenuItems isAuthenticated={isAuthenticated} logout={logout} />
                                     </MenuItems>
                                 </Menu>
@@ -154,7 +162,8 @@ export default function NavBar2() {
                         </div>
                     </div>
 
-                    <DisclosurePanel className="sm:hidden">
+                    {/* Mobile menu */}
+                    <DisclosurePanel className="sm:hidden bg-gray-800/95">
                         <div className="space-y-1 px-2 pb-3 pt-2">
                             {navigation.map((item) => (
                                 <DisclosureButton
@@ -164,15 +173,29 @@ export default function NavBar2() {
                                     className={({ isActive }) =>
                                         classNames(
                                             isActive ? "bg-gray-900 text-white" : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                                            "block rounded-md px-3 py-2 text-base font-medium flex items-center"
+                                            "block rounded-md px-3 py-2 text-base font-medium flex items-center no-underline"
                                         )
                                     }
                                 >
-                                    <FontAwesomeIcon icon={item.icon} className="mr-2" />
+                                    <FontAwesomeIcon icon={item.icon} className="mr-3 w-5" />
                                     {item.name}
                                 </DisclosureButton>
                             ))}
                         </div>
+                        {user?.name && (
+                            <div className="border-t border-gray-700 px-4 py-3">
+                                <div className="flex items-center">
+                                    <img
+                                        className="h-8 w-8 rounded-full mr-3"
+                                        src={user?.avatar || FALLBACK_AVATAR}
+                                        alt="User profile"
+                                    />
+                                    <span className="text-white text-sm font-medium">
+                                        {user.name}
+                                    </span>
+                                </div>
+                            </div>
+                        )}
                     </DisclosurePanel>
                 </>
             )}

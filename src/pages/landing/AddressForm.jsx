@@ -164,7 +164,7 @@ const AddressForm = () => {
           </form>
         </div>
         
-        <div className="bg-gray-50 p-6 rounded-lg h-fit sticky top-4">
+        <div className="bg-gray-50 p-6 rounded-lg h-fit top-4">
           <h2 className="text-xl font-bold mb-4">Order Summary</h2>
           <div className="space-y-4">
             <div className="flex justify-between">

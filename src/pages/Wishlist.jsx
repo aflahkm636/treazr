@@ -179,7 +179,7 @@ function Wishlist() {
           <div className="space-y-2">
             <h3 className="text-lg font-semibold">{product.name}</h3>
             <p className="text-gray-600">${product.price}</p>
-            <p className="text-sm text-gray-500">Product ID: {product.id}</p>
+            <p className="text-sm text-gray-500">Category: {product.category}</p>
 
             <div className="flex gap-2 pt-4">
               <button
