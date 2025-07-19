@@ -76,7 +76,7 @@ const Cart = () => {
 
     if (loading) {
         return (
-           <Loading/>
+           <Loading name="cart"/>
         );
     }
     if (!JSON.parse(localStorage.getItem("user"))) {

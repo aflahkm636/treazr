@@ -31,7 +31,7 @@ const Comics = () => {
 
     if (loading) {
         return (
-           <Loading/>
+           <Loading name="comics"/>
         );
     }    if (error) return <div className="text-center py-8 text-red-500">Error: {error}</div>;
 

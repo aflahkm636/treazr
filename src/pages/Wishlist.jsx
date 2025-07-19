@@ -151,7 +151,7 @@ function Wishlist() {
 
 if (loading) {
         return (
-           <Loading/>
+           <Loading name="Wishlist"/>
         );}
 
     if (!user) {

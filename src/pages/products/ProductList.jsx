@@ -30,7 +30,7 @@ const ProductList = () => {
 
   if (loading) {
         return (
-           <Loading/>
+           <Loading name="All product"/>
         );
     }  if (error) return <div className="text-center py-8 text-red-500">Error: {error}</div>;
 

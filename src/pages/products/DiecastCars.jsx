@@ -30,7 +30,7 @@ const DiecastCars = () => {
 
 if (loading) {
         return (
-           <Loading/>
+           <Loading name="Diecast-cars"/>
         );
     }    if (error) return <div className="text-center py-8 text-red-500">Error: {error}</div>;
 
