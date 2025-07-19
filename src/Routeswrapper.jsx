@@ -13,9 +13,16 @@ import Newest from "./pages/landing/Newest";
 import ProductDetails from "./common/components/ProductDetails";
 import Footer from "./common/layout/Footer";
 import Cart from "./pages/Cart";
+import OrderDetails from "./pages/landing/OrderDetails";
+import AddressForm from "./pages/landing/AddressForm";
+import ProductList from "./pages/products/ProductList";
+import DiecastCars from "./pages/products/DiecastCars";
+import Comics from "./pages/products/Comics";
+import ActionFigures from "./pages/products/ActionFigures";
+import TradingCards from "./pages/products/TradingCards";
 
 // ✅ Lazy loaded components
-const Products = lazy(() => import("./pages/Products"));
+const Products = lazy(() => import("./pages/products/Products"));
 
 const ProtectedRoute = ({ children }) => {
     const { isAuthenticated, loading } = useAuth();
@@ -26,6 +33,7 @@ const ProtectedRoute = ({ children }) => {
 const RoutesWrapper = () => {
     const location = useLocation();
     const hideNavbar = ["/login", "/register"].includes(location.pathname);
+    const hideFooter = ["/login", "/register", "/cart", "/wishlist"].includes(location.pathname);
 
     return (
         <>
@@ -43,7 +51,14 @@ const RoutesWrapper = () => {
                         <Route path="/register" element={<Register />} />
                         <Route path="/login" element={<Login />} />
 
-                        <Route path="/products" element={<Products />} />
+                        <Route path="/products" element={<Products />}>
+                            <Route index element={<ProductList />} />
+                            <Route path="all" element={<ProductList />} />
+                            <Route path="diecast-cars" element={<DiecastCars />} />
+                            <Route path="action-figures" element={<ActionFigures />} />
+                            <Route path="comics" element={<Comics />} />
+                            <Route path="TradingCards" element={<TradingCards />} />
+                        </Route>
 
                         <Route path="/productdetails/:id" element={<ProductDetails />} />
 
@@ -63,12 +78,28 @@ const RoutesWrapper = () => {
                                 </ProtectedRoute>
                             }
                         />
+                        <Route
+                            path="/order-details"
+                            element={
+                                <ProtectedRoute>
+                                    <OrderDetails />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/address-form"
+                            element={
+                                <ProtectedRoute>
+                                    <AddressForm />
+                                </ProtectedRoute>
+                            }
+                        />
 
                         <Route path="/*" element={<ErrorResponse />} />
                     </Routes>
                 </Suspense>
             </main>
-            {!hideNavbar && <Footer />}
+            {!hideFooter && <Footer />}
         </>
     );
 };

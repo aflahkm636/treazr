@@ -153,56 +153,58 @@ function Wishlist() {
     }
 
     if (user.wishlist.length === 0 || wishlistProducts.length === 0) {
-        return <div className="p-6 text-center">Your wishlist is empty</div>;
+        return <div className="p-6 text-center mt-20"><h1>Your wishlist is empty!</h1></div>;
     }
 
     return (
-        <div className="max-w-6xl mx-auto p-6 mt-20">
-            <h1 className="text-2xl font-bold mb-6">
-                Your Wishlist ({wishlistProducts.length} item{wishlistProducts.length !== 1 ? "s" : ""})
-            </h1>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {wishlistProducts.map((product) => (
-                    <div key={product.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
-                        <div className="mb-4">
-                            <img
-                                src={product.images?.[0] || "/default-product.jpg"}
-                                alt={product.name}
-                                className="w-full h-48 object-cover rounded"
-                                onError={(e) => {
-                                    e.target.src = "/default-product.jpg";
-                                }}
-                            />
-                        </div>
+      <div className="max-w-6xl mx-auto p-6 mt-20">
+  <h1 className="text-2xl font-bold mb-6">
+    Your Wishlist ({wishlistProducts.length} item{wishlistProducts.length !== 1 ? "s" : ""})
+  </h1>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {wishlistProducts.map((product) => (
+        <div key={product.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+          <div className="mb-4">
+            <img
+              src={product.images?.[0] || "/default-product.jpg"}
+              alt={product.name}
+              className="w-full h-48 object-cover rounded"
+              onError={(e) => {
+                e.target.src = "/default-product.jpg";
+              }}
+            />
+          </div>
 
-                        <div className="space-y-2">
-                            <h3 className="text-lg font-semibold">{product.name}</h3>
-                            <p className="text-gray-600">${product.price}</p>
-                            <p className="text-sm text-gray-500">Product ID: {product.id}</p>
+          <div className="space-y-2">
+            <h3 className="text-lg font-semibold">{product.name}</h3>
+            <p className="text-gray-600">${product.price}</p>
+            <p className="text-sm text-gray-500">Product ID: {product.id}</p>
 
-                            <div className="flex gap-2 pt-4">
-                                <button
-                                    onClick={() => handleAddToCart(product)}
-                                    disabled={loading}
-                                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded disabled:opacity-50"
-                                >
-                                    Add to Cart
-                                </button>
+            <div className="flex gap-2 pt-4">
+              <button
+                onClick={() => handleAddToCart(product)}
+                disabled={loading}
+                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded disabled:opacity-50"
+              >
+                Add to Cart
+              </button>
 
-                                <button
-                                    onClick={() => handleRemoveFromWishlist(product.id)}
-                                    disabled={loading}
-                                    className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded disabled:opacity-50"
-                                >
-                                    Remove
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                ))}
+              <button
+                onClick={() => handleRemoveFromWishlist(product.id)}
+                disabled={loading}
+                className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded disabled:opacity-50"
+              >
+                Remove
+              </button>
             </div>
+          </div>
         </div>
+      ))}
+    </div>
+  
+</div>
+
     );
 }
 

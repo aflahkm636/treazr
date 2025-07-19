@@ -9,23 +9,78 @@
       "isBlock": false,
       "cart": [
         {
-          "productId": "7",
-          "quantity": 1,
-          "price": 19.99,
-          "name": "LEGO Dodge SRT",
-          "image": "https://i.pinimg.com/1200x/d7/54/16/d754163e2991758da3467e934cc55457.jpg"
+          "productId": "2",
+          "quantity": 3,
+          "price": 14.99,
+          "name": "INIGT 1:64 Weiß 911 (992) GT3 RS Weissach Package",
+          "image": "https://i.pinimg.com/1200x/0d/46/61/0d46615f14419a3223b56a5d5beb7638.jpg"
         },
         {
-          "productId": "11",
-          "quantity": 1,
-          "price": 14.25,
-          "name": "Porsche 911 GT3",
-          "image": "https://i.pinimg.com/1200x/32/da/a7/32daa77e2ef7dd8f3446ed8ef79442fe.jpg"
+          "productId": "35",
+          "quantity": 2,
+          "price": 17.5,
+          "name": "Thor",
+          "image": "https://i.pinimg.com/1200x/f9/56/6c/f9566ca45656190fe3bc4b69e4580de4.jpg"
+        },
+        {
+          "productId": "37",
+          "quantity": 2,
+          "price": 19.95,
+          "name": "Yu-Gi-Oh! Blue-Eyes White Dragon",
+          "image": "https://i.pinimg.com/1200x/29/4a/b2/294ab27746705b329ebcd1275cb90df3.jpg"
+        },
+        {
+          "productId": "1",
+          "quantity": 2,
+          "price": 12.99,
+          "name": "Mini GT Liberty Walk RX-7",
+          "image": "https://i.pinimg.com/736x/1c/47/33/1c4733a320b6797408c0491aa8b8dabc.jpg"
         }
       ],
-      "orders": [],
+      "orders": [
+        {
+          "id": "1752913070275",
+          "items": [
+            {
+              "productId": "7",
+              "quantity": 2,
+              "price": 19.99,
+              "name": "LEGO Dodge SRT",
+              "image": "https://i.pinimg.com/1200x/d7/54/16/d754163e2991758da3467e934cc55457.jpg"
+            },
+            {
+              "productId": "6",
+              "quantity": 3,
+              "price": 9.49,
+              "name": "Hot Wheels Toyota Supra",
+              "image": "https://i.pinimg.com/736x/96/61/58/966158f41b0bcd06fa427972539fd5d9.jpg"
+            },
+            {
+              "productId": "11",
+              "quantity": 1,
+              "price": 14.25,
+              "name": "Porsche 911 GT3",
+              "image": "https://i.pinimg.com/1200x/32/da/a7/32daa77e2ef7dd8f3446ed8ef79442fe.jpg"
+            }
+          ],
+          "total": "82.70",
+          "address": {
+            "street": "aflah",
+            "city": "tirur",
+            "state": "kerala",
+            "zipCode": "676106",
+            "country": "India",
+            "phone": "9645884622"
+          },
+          "status": "pending",
+          "createdAt": "2025-07-19T08:17:50.275Z"
+        }
+      ],
       "wishlist": [
-        "11"
+        "17",
+        "2",
+        "37",
+        "41"
       ],
       "created_at": "2025-07-16T12:22:26.207Z"
     },
@@ -91,7 +146,7 @@
     },
     {
       "id": "2",
-      "name": "INIGT 1:64 Weiß 911 (992) GT3 RS Weissach Package",
+      "name": "INIGT 1:64 Weiß 911 (992) GT3 RS",
       "category": "Diecast Cars",
       "description": "A premium 1:64 scale diecast model of the Porsche 911 (992) GT3 RS with Weissach Package in white. Detailed and perfect for collectors.",
       "price": 14.99,
@@ -114,7 +169,7 @@
     },
     {
       "id": "3",
-      "name": "Mini GT Lamborghini Huracán",
+      "name": "Mini GT Lamborghini ",
       "category": "Diecast Cars",
       "description": "A sleek and detailed 1:64 scale diecast model of the Lamborghini Huracán by Mini GT. A must-have for supercar fans and diecast collectors.",
       "price": 13.99,
@@ -136,7 +191,7 @@
     },
     {
       "id": "4",
-      "name": "Mini GT Ford Mustang Shelby GT500",
+      "name": "Mini GT Ford Mustang Shelby ",
       "category": "Diecast Cars",
       "description": "A muscular 1:64 scale diecast model of the Ford Mustang Shelby GT500 by Mini GT. Captures the iconic design and power of the original.",
       "price": 12.49,
@@ -271,7 +326,7 @@
     },
     {
       "id": "10",
-      "name": "Mazda RX7 LB Super Silhouette #41",
+      "name": "Mazda RX7 LB Super Silhouette ",
       "category": "Diecast Cars",
       "description": "A 1:64 scale diecast model of the Mazda RX7 LB Super Silhouette #41 by Mini GT, featuring race livery and detailed craftsmanship.",
       "price": 13.49,
@@ -810,6 +865,631 @@
       ],
       "rating": 4.8,
       "createdAt": "2025-07-17T09:00:00.000Z"
+    },
+    {
+      "id": "36",
+      "name": "Charizard VMAX - Holo",
+      "category": "Trading Cards",
+      "description": "Ultra-rare Charizard VMAX holographic trading card with dynamic art from the Pokémon TCG.",
+      "price": 24.99,
+      "stock": 8,
+      "brand": "Pokémon",
+      "images": [
+        "https://i.pinimg.com/736x/e7/03/51/e70351863685f36eb810a17d712a094b.jpg"
+      ],
+      "tags": [
+        "pokemon",
+        "charizard",
+        "vmax",
+        "holo",
+        "trading card"
+      ],
+      "rating": 4.8,
+      "createdAt": "2025-07-18T09:00:00.000Z"
+    },
+    {
+      "id": "37",
+      "name": " Blue-Eyes White Dragon",
+      "category": "Trading Cards",
+      "description": "Classic Blue-Eyes White Dragon card from the Yu-Gi-Oh! TCG, prized by collectors.",
+      "price": 19.95,
+      "stock": 15,
+      "brand": "Konami",
+      "images": [
+        "https://i.pinimg.com/1200x/29/4a/b2/294ab27746705b329ebcd1275cb90df3.jpg"
+      ],
+      "tags": [
+        "yu-gi-oh",
+        "blue-eyes",
+        "white dragon",
+        "konami",
+        "trading card"
+      ],
+      "rating": 4.7,
+      "createdAt": "2025-07-18T09:00:00.000Z"
+    },
+    {
+      "id": "38",
+      "name": "Naruto Uzumaki SR",
+      "category": "Trading Cards",
+      "description": "Super rare Naruto Uzumaki card from the Naruto collectible card game series.",
+      "price": 14.75,
+      "stock": 10,
+      "brand": "Bandai",
+      "images": [
+        "https://i.pinimg.com/736x/78/26/3f/78263f01ae433e031914d6fc6b13695b.jpg"
+      ],
+      "tags": [
+        "naruto",
+        "uzumaki",
+        "anime",
+        "sr",
+        "trading card"
+      ],
+      "rating": 4.6,
+      "createdAt": "2025-07-18T09:00:00.000Z"
+    },
+    {
+      "id": "39",
+      "name": "Luffy Gear 5 Card - One Piece",
+      "category": "Trading Cards",
+      "description": "Gear 5 Monkey D. Luffy collectible trading card featuring vibrant art and anime-style power stats.",
+      "price": 16.25,
+      "stock": 9,
+      "brand": "Bandai",
+      "images": [
+        "https://i.pinimg.com/736x/62/25/74/62257412fcccedb171491c007fba4b16.jpg"
+      ],
+      "tags": [
+        "one piece",
+        "luffy",
+        "gear5",
+        "anime",
+        "trading card"
+      ],
+      "rating": 4.9,
+      "createdAt": "2025-07-18T09:00:00.000Z"
+    },
+    {
+      "id": "40",
+      "name": "Batman #1",
+      "category": "comics",
+      "description": "Classic Batman comic featuring the Dark Knight in Gotham’s iconic noir setting.",
+      "price": 12.99,
+      "stock": 20,
+      "brand": "DC Comics",
+      "images": [
+        "https://i.pinimg.com/1200x/a4/27/37/a427374f4585741f7aaa99fb0e089f63.jpg"
+      ],
+      "tags": [
+        "batman",
+        "dc",
+        "dark knight",
+        "comic book"
+      ],
+      "rating": 4.8,
+      "createdAt": "2025-07-18T10:00:00.000Z"
+    },
+    {
+      "id": "41",
+      "name": "Avengers #1",
+      "category": "comics",
+      "description": "The first issue of Avengers featuring Iron Man, Thor, Hulk, and more.",
+      "price": 14.99,
+      "stock": 18,
+      "brand": "Marvel",
+      "images": [
+        "https://i.pinimg.com/1200x/22/31/0c/22310c3b8caccd9971dd25ebe7269213.jpg"
+      ],
+      "tags": [
+        "avengers",
+        "marvel",
+        "team",
+        "superheroes"
+      ],
+      "rating": 4.7,
+      "createdAt": "2025-07-18T10:00:00.000Z"
+    },
+    {
+      "id": "42",
+      "name": "Iron Man Origins",
+      "category": "comics",
+      "description": "Explore the origins of Iron Man in this action-packed comic issue.",
+      "price": 13.49,
+      "stock": 16,
+      "brand": "Marvel",
+      "images": [
+        "https://i.pinimg.com/736x/cd/0f/90/cd0f90b9aa12a294679e311c405023e1.jpg"
+      ],
+      "tags": [
+        "iron man",
+        "tony stark",
+        "marvel",
+        "origin"
+      ],
+      "rating": 4.6,
+      "createdAt": "2025-07-18T10:00:00.000Z"
+    },
+    {
+      "id": "43",
+      "name": "Spider-Man Noir",
+      "category": "comics",
+      "description": "Spider-Man in a noir universe with darker tones and gritty storytelling.",
+      "price": 11.99,
+      "stock": 22,
+      "brand": "Marvel",
+      "images": [
+        "https://i.pinimg.com/736x/4c/4a/d0/4c4ad0961a42186db933b7001f52a5cf.jpg"
+      ],
+      "tags": [
+        "spider-man",
+        "noir",
+        "marvel",
+        "peter parker"
+      ],
+      "rating": 4.5,
+      "createdAt": "2025-07-18T10:00:00.000Z"
+    },
+    {
+      "id": "44",
+      "name": "X-Men Classic",
+      "category": "comics",
+      "description": "A classic X-Men issue featuring the original mutant team in action.",
+      "price": 13.99,
+      "stock": 15,
+      "brand": "Marvel",
+      "images": [
+        "https://i.pinimg.com/736x/f8/74/7a/f8747a77e6075ab8f128f239c9c77dc2.jpg"
+      ],
+      "tags": [
+        "x-men",
+        "mutants",
+        "marvel",
+        "classic"
+      ],
+      "rating": 4.6,
+      "createdAt": "2025-07-18T10:00:00.000Z"
+    },
+    {
+      "id": "45",
+      "name": "Spiderman Vol.1",
+      "category": "comics",
+      "description": "First volume of Spiderman comic series with intense story arcs and stunning art.",
+      "price": 9.99,
+      "stock": 15,
+      "brand": "Marvel",
+      "images": [
+        "https://i.pinimg.com/1200x/a4/27/37/a427374f4585741f7aaa99fb0e089f63.jpg"
+      ],
+      "tags": [
+        "spiderman",
+        "marvel",
+        "superhero",
+        "comic",
+        "volume1"
+      ],
+      "rating": 4.8,
+      "createdAt": "2025-07-18T09:00:00.000Z"
+    },
+    {
+      "id": "46",
+      "name": "X-Men Origins",
+      "category": "comics",
+      "description": "The origin story of the X-Men featuring classic characters and epic battles.",
+      "price": 10.99,
+      "stock": 18,
+      "brand": "Marvel",
+      "images": [
+        "https://i.pinimg.com/1200x/22/31/0c/22310c3b8caccd9971dd25ebe7269213.jpg"
+      ],
+      "tags": [
+        "x-men",
+        "marvel",
+        "mutants",
+        "origins",
+        "comic"
+      ],
+      "rating": 4.6,
+      "createdAt": "2025-07-18T09:01:00.000Z"
+    },
+    {
+      "id": "47",
+      "name": "Batman: Dark Night",
+      "category": "comics",
+      "description": "Follow Batman through Gotham's darkest nights in this thrilling comic edition.",
+      "price": 11.49,
+      "stock": 20,
+      "brand": "DC",
+      "images": [
+        "https://i.pinimg.com/736x/cd/0f/90/cd0f90b9aa12a294679e311c405023e1.jpg"
+      ],
+      "tags": [
+        "batman",
+        "dc",
+        "dark knight",
+        "gotham",
+        "comic"
+      ],
+      "rating": 4.9,
+      "createdAt": "2025-07-18T09:02:00.000Z"
+    },
+    {
+      "id": "48",
+      "name": "The Flash Chronicles",
+      "category": "comics",
+      "description": "High-speed adventures of The Flash captured in colorful comic panels.",
+      "price": 8.75,
+      "stock": 22,
+      "brand": "DC",
+      "images": [
+        "https://i.pinimg.com/736x/4c/4a/d0/4c4ad0961a42186db933b7001f52a5cf.jpg"
+      ],
+      "tags": [
+        "flash",
+        "dc",
+        "speed",
+        "chronicles",
+        "comic"
+      ],
+      "rating": 4.5,
+      "createdAt": "2025-07-18T09:03:00.000Z"
+    },
+    {
+      "id": "49",
+      "name": "Iron Man Tech Wars",
+      "category": "comics",
+      "description": "Iron Man battles tech villains in this futuristic comic issue.",
+      "price": 10.49,
+      "stock": 10,
+      "brand": "Marvel",
+      "images": [
+        "https://i.pinimg.com/736x/f8/74/7a/f8747a77e6075ab8f128f239c9c77dc2.jpg"
+      ],
+      "tags": [
+        "iron man",
+        "marvel",
+        "tech",
+        "war",
+        "comic"
+      ],
+      "rating": 4.7,
+      "createdAt": "2025-07-18T09:04:00.000Z"
+    },
+    {
+      "id": "50",
+      "name": "Avengers: United",
+      "category": "comics",
+      "description": "Avengers assemble to face new threats in this action-packed comic.",
+      "price": 12.99,
+      "stock": 14,
+      "brand": "Marvel",
+      "images": [
+        "https://i.pinimg.com/736x/73/c8/3c/73c83c107fe2a57de8fb63af41dc8021.jpg"
+      ],
+      "tags": [
+        "avengers",
+        "marvel",
+        "superheroes",
+        "team",
+        "comic"
+      ],
+      "rating": 4.9,
+      "createdAt": "2025-07-18T09:05:00.000Z"
+    },
+    {
+      "id": "51",
+      "name": "Wonder Woman Rebirth",
+      "category": "comics",
+      "description": "A powerful reboot of Wonder Woman’s iconic stories with modern artwork.",
+      "price": 11.75,
+      "stock": 13,
+      "brand": "DC",
+      "images": [
+        "https://i.pinimg.com/736x/bc/8b/16/bc8b164cc40c5c668b093551fb54ad27.jpg"
+      ],
+      "tags": [
+        "wonder woman",
+        "dc",
+        "rebirth",
+        "superhero",
+        "comic"
+      ],
+      "rating": 4.6,
+      "createdAt": "2025-07-18T09:06:00.000Z"
+    },
+    {
+      "id": "52",
+      "name": "Deadpool Mayhem",
+      "category": "comics",
+      "description": "Hilarious chaos and fourth-wall breaks with Deadpool in his wildest comic yet.",
+      "price": 9.25,
+      "stock": 17,
+      "brand": "Marvel",
+      "images": [
+        "https://i.pinimg.com/736x/73/4f/06/734f061437cd51994b9243217053c560.jpg"
+      ],
+      "tags": [
+        "deadpool",
+        "marvel",
+        "funny",
+        "action",
+        "comic"
+      ],
+      "rating": 4.8,
+      "createdAt": "2025-07-18T09:07:00.000Z"
+    },
+    {
+      "id": "53",
+      "name": "Justice League Origins",
+      "category": "comics",
+      "description": "The ultimate team-up story of Justice League’s formation.",
+      "price": 13.49,
+      "stock": 9,
+      "brand": "DC",
+      "images": [
+        "https://i.pinimg.com/1200x/4a/9c/f9/4a9cf9c02bccea6eebe16e4dce225611.jpg"
+      ],
+      "tags": [
+        "justice league",
+        "dc",
+        "team",
+        "origins",
+        "comic"
+      ],
+      "rating": 4.9,
+      "createdAt": "2025-07-18T09:08:00.000Z"
+    },
+    {
+      "id": "54",
+      "name": "Venom: Inner Demons",
+      "category": "comics",
+      "description": "Dark and gritty look into Venom's past and his internal battles.",
+      "price": 9.95,
+      "stock": 16,
+      "brand": "Marvel",
+      "images": [
+        "https://i.pinimg.com/1200x/a3/d8/ae/a3d8ae45d2305e5834e22d572f232182.jpg"
+      ],
+      "tags": [
+        "venom",
+        "marvel",
+        "symbiote",
+        "antihero",
+        "comic"
+      ],
+      "rating": 4.7,
+      "createdAt": "2025-07-18T09:09:00.000Z"
+    },
+    {
+      "id": "55",
+      "name": "Charizard Holo Rare",
+      "category": "Trading Cards",
+      "description": "A classic holographic Charizard card, prized by collectors worldwide.",
+      "price": 29.99,
+      "stock": 12,
+      "brand": "Pokémon",
+      "images": [
+        "https://i.pinimg.com/1200x/a9/3f/a8/a93fa893439e83662376d8177ccd2096.jpg"
+      ],
+      "tags": [
+        "charizard",
+        "pokemon",
+        "rare",
+        "holo",
+        "trading card"
+      ],
+      "rating": 4.9,
+      "createdAt": "2025-07-18T09:09:00.000Z"
+    },
+    {
+      "id": "56",
+      "name": "Yu-Gi-Oh! Blue-Eyes ",
+      "category": "Trading Cards",
+      "description": "Legendary Blue-Eyes White Dragon card from the original Yu-Gi-Oh! series.",
+      "price": 19.99,
+      "stock": 8,
+      "brand": "Yu-Gi-Oh!",
+      "images": [
+        "https://i.pinimg.com/736x/3f/a1/e5/3fa1e5ad69824c3af68a8c510357baa7.jpg"
+      ],
+      "tags": [
+        "blue-eyes",
+        "yugioh",
+        "dragon",
+        "legendary",
+        "card"
+      ],
+      "rating": 4.8,
+      "createdAt": "2025-07-18T09:09:00.000Z"
+    },
+    {
+      "id": "57",
+      "name": "One Piece - Luffy  Card",
+      "category": "Trading Cards",
+      "description": "Exclusive card featuring Luffy's iconic wanted poster from One Piece.",
+      "price": 14.5,
+      "stock": 20,
+      "brand": "Bandai",
+      "images": [
+        "https://i.pinimg.com/736x/70/72/fd/7072fd9961abccc79469a0519b379451.jpg"
+      ],
+      "tags": [
+        "one piece",
+        "luffy",
+        "anime",
+        "wanted",
+        "card"
+      ],
+      "rating": 4.6,
+      "createdAt": "2025-07-18T09:09:00.000Z"
+    },
+    {
+      "id": "58",
+      "name": "Dragon Ball Z Goku",
+      "category": "Trading Cards",
+      "description": "Trading card showing Goku in his powerful Super Saiyan form.",
+      "price": 13.99,
+      "stock": 18,
+      "brand": "Dragon Ball Z",
+      "images": [
+        "https://i.pinimg.com/1200x/8c/b5/5d/8cb55db3ce409051e9974f7a9b83f190.jpg"
+      ],
+      "tags": [
+        "goku",
+        "dragon ball",
+        "super saiyan",
+        "anime",
+        "card"
+      ],
+      "rating": 4.5,
+      "createdAt": "2025-07-18T09:09:00.000Z"
+    },
+    {
+      "id": "59",
+      "name": "Marvel Avengers  Card",
+      "category": "Trading Cards",
+      "description": "A colorful card featuring the main Avengers from Marvel Universe.",
+      "price": 10.5,
+      "stock": 14,
+      "brand": "Marvel",
+      "images": [
+        "https://i.pinimg.com/1200x/58/0d/54/580d5484fb6f0d1094c090ae8220b094.jpg"
+      ],
+      "tags": [
+        "avengers",
+        "marvel",
+        "heroes",
+        "collectible",
+        "card"
+      ],
+      "rating": 4.4,
+      "createdAt": "2025-07-18T09:09:00.000Z"
+    },
+    {
+      "id": "60",
+      "name": "Naruto Uzumaki  Card",
+      "category": "Trading Cards",
+      "description": "Powerful trading card of Naruto Uzumaki in ninja action pose.",
+      "price": 11.75,
+      "stock": 10,
+      "brand": "Naruto",
+      "images": [
+        "https://i.pinimg.com/736x/a6/3f/15/a63f155ca56f52424011dbe562ce1fef.jpg"
+      ],
+      "tags": [
+        "naruto",
+        "anime",
+        "ninja",
+        "uzumaki",
+        "card"
+      ],
+      "rating": 4.6,
+      "createdAt": "2025-07-18T09:09:00.000Z"
+    },
+    {
+      "id": "61",
+      "name": "Attack on Titan -",
+      "category": "Trading Cards",
+      "description": "Card featuring Levi Ackerman from Attack on Titan in action.",
+      "price": 12.25,
+      "stock": 11,
+      "brand": "AOT",
+      "images": [
+        "https://i.pinimg.com/736x/04/e8/38/04e83839be1298ee76d903c32856a557.jpg"
+      ],
+      "tags": [
+        "levi",
+        "attack on titan",
+        "anime",
+        "aot",
+        "card"
+      ],
+      "rating": 4.7,
+      "createdAt": "2025-07-18T09:09:00.000Z"
+    },
+    {
+      "id": "62",
+      "name": "Demon Slayer -  Card",
+      "category": "Trading Cards",
+      "description": "Tanjiro in action from the Demon Slayer series.",
+      "price": 13,
+      "stock": 15,
+      "brand": "Demon Slayer",
+      "images": [
+        "https://i.pinimg.com/1200x/12/eb/4c/12eb4caf3b55e8cb3a0bd72f4d94f30d.jpg"
+      ],
+      "tags": [
+        "tanjiro",
+        "demon slayer",
+        "anime",
+        "card",
+        "kamado"
+      ],
+      "rating": 4.8,
+      "createdAt": "2025-07-18T09:09:00.000Z"
+    },
+    {
+      "id": "63",
+      "name": "Spider-Man Swinging ",
+      "category": "Trading Cards",
+      "description": "Spider-Man flying high above New York City on this collectible card.",
+      "price": 9.99,
+      "stock": 17,
+      "brand": "Marvel",
+      "images": [
+        "https://i.pinimg.com/736x/44/82/b4/4482b408754fe6f471be3c23c9bd25c0.jpg"
+      ],
+      "tags": [
+        "spiderman",
+        "marvel",
+        "web",
+        "city",
+        "card"
+      ],
+      "rating": 4.5,
+      "createdAt": "2025-07-18T09:09:00.000Z"
+    },
+    {
+      "id": "64",
+      "name": "Iron Man Tech Card",
+      "category": "Trading Cards",
+      "description": "Sleek collectible card featuring Tony Stark’s Iron Man tech designs.",
+      "price": 10.75,
+      "stock": 13,
+      "brand": "Marvel",
+      "images": [
+        "https://i.pinimg.com/1200x/29/4a/b2/294ab27746705b329ebcd1275cb90df3.jpg"
+      ],
+      "tags": [
+        "iron man",
+        "marvel",
+        "tech",
+        "stark",
+        "card"
+      ],
+      "rating": 4.6,
+      "createdAt": "2025-07-18T09:09:00.000Z"
+    },
+    {
+      "id": "65",
+      "name": "Batman Dark Knight",
+      "category": "Trading Cards",
+      "description": "Card showcasing Batman in a dark Gotham setting, full of mystery.",
+      "price": 11.25,
+      "stock": 9,
+      "brand": "DC",
+      "images": [
+        "https://i.pinimg.com/736x/cd/0f/90/cd0f90b9aa12a294679e311c405023e1.jpg"
+      ],
+      "tags": [
+        "batman",
+        "dc",
+        "gotham",
+        "dark knight",
+        "card"
+      ],
+      "rating": 4.7,
+      "createdAt": "2025-07-18T09:09:00.000Z"
     }
   ]
 }
