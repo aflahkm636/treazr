@@ -6,6 +6,7 @@ import { URL } from "../services/Api";
 import { updateUserCart } from "../services/UpdateCart";
 import { CiHeart, CiTrash } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
+import Loading from "../common/components/Loading";
 
 function Wishlist() {
     const [wishlistProducts, setWishlistProducts] = useState([]);
@@ -148,16 +149,10 @@ function Wishlist() {
         }
     };
 
-    if (loading) {
+if (loading) {
         return (
-            <div className="min-h-[50vh] flex items-center justify-center p-4">
-                <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600 mx-auto"></div>
-                    <p className="mt-4 text-gray-600">Loading your wishlist...</p>
-                </div>
-            </div>
-        );
-    }
+           <Loading/>
+        );}
 
     if (!user) {
         return (
@@ -200,7 +195,7 @@ function Wishlist() {
     }
 
     return (
-        <div className="py-8 px-4 sm:px-6 lg:px-8">
+        <div className="py-8 px-4 sm:px-6 lg:px-8 mt-10">
             <div className="max-w-7xl mx-auto">
                 <div className="mb-6">
                     <h1 className="text-xl font-bold text-gray-900">Your Wishlist</h1>

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ProductCard from "../../common/components/cards";
 import { URL } from "../../services/Api";
+import Loading from "../../common/components/Loading";
 
 const Comics = () => {
     const [products, setProducts] = useState([]);
@@ -27,8 +28,12 @@ const Comics = () => {
         fetchComics();
     }, []);
 
-    if (loading) return <div className="text-center py-8">Loading Comics...</div>;
-    if (error) return <div className="text-center py-8 text-red-500">Error: {error}</div>;
+
+    if (loading) {
+        return (
+           <Loading/>
+        );
+    }    if (error) return <div className="text-center py-8 text-red-500">Error: {error}</div>;
 
     return (
         <div className="container mx-auto px-4 py-8">

@@ -1,10 +1,10 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faHouse, faHeart, faBoxesStacked } from "@fortawesome/free-solid-svg-icons";
-import { useAuth } from "../context/AuthProvider";
 import { useMemo, useCallback } from "react";
+import { useAuth } from "../context/AuthProvider";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -63,29 +63,34 @@ const AuthMenuItems = ({ isAuthenticated, logout }) => {
     );
 };
 
-const NavLinkItem = ({ item }) => {
-    const getNavLinkClass = useCallback((isActive) => 
-        classNames(
-            isActive ? "text-white border-b-2 border-white" : "text-gray-200 hover:text-white",
-            "px-3 py-2 text-sm font-medium flex items-center no-underline transition-colors duration-200"
-        ),
-    []);
+const NavLinkItem = ({ item, cartCount }) => {
+    const location = useLocation();
+    const isActive = location.pathname === item.href || 
+                    (item.href !== '/' && location.pathname.startsWith(item.href));
 
     return (
         <NavLink
-            key={item.name}
             to={item.href}
-            className={getNavLinkClass}
+            className={classNames(
+                isActive ? "bg-gray-900 text-white" : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                "px-3 py-2 rounded-md text-sm font-medium flex items-center relative transition-colors duration-200"
+            )}
         >
             <FontAwesomeIcon icon={item.icon} className="mr-2" />
             {item.name}
+            {item.name === "Cart" && cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {cartCount}
+                </span>
+            )}
         </NavLink>
     );
 };
 
 export default function NavBar2() {
-    const { user, isAuthenticated, logout } = useAuth();
-  
+    const { user, isAuthenticated, logout, cartCount } = useAuth();
+    const location = useLocation();
+
     const navigation = useMemo(
         () => [
             { name: "Home", href: "/", icon: faHouse },
@@ -99,45 +104,42 @@ export default function NavBar2() {
     );
 
     return (
-        <Disclosure as="nav" className="fixed top-0 w-full z-50 bg-gray-800/90 backdrop-blur-sm">
+        <Disclosure as="nav" className="fixed top-0 w-full z-50 bg-gray-800 shadow-lg">
             {({ open }) => (
                 <>
-                    <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-                        <div className="relative flex h-16 items-center justify-between">
-                            {/* Mobile menu button */}
-                            <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                                <DisclosureButton 
-                                    className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-200 hover:text-white focus:outline-none"
-                                    aria-label={open ? "Close menu" : "Open menu"}
-                                >
-                                    {open ? (
-                                        <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
-                                    ) : (
-                                        <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
-                                    )}
-                                </DisclosureButton>
-                            </div>
-                            
-                            <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                                <div className="flex shrink-0 items-center">
+                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                        <div className="flex h-16 items-center justify-between">
+                            {/* Left side - Logo and Nav */}
+                            <div className="flex items-center">
+                                <div className="flex-shrink-0">
                                     <span className="text-white font-bold text-xl">Treazr</span>
                                 </div>
                                 <div className="hidden sm:ml-6 sm:block">
-                                    <div className="flex space-x-4">
+                                    <div className="flex space-x-1">
                                         {navigation.map((item) => (
-                                            <NavLinkItem key={item.name} item={item} />
+                                            <NavLinkItem 
+                                                key={item.name} 
+                                                item={item} 
+                                                cartCount={item.name === "Cart" ? cartCount : 0} 
+                                            />
                                         ))}
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Profile dropdown */}
-                            <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                                <Menu as="div" className="relative ml-3">
-                                    <MenuButton 
-                                        className="relative flex rounded-full text-sm focus:outline-none"
-                                        aria-label="User menu"
-                                    >
+                            {/* Right side - Profile */}
+                            <div className="flex items-center">
+                                {isAuthenticated && (
+                                    <div className="hidden sm:block mr-4">
+                                        <span className="text-white text-sm font-medium">
+                                            {user?.name}
+                                        </span>
+                                    </div>
+                                )}
+                                
+                                {/* Profile dropdown */}
+                                <Menu as="div" className="relative">
+                                    <MenuButton className="flex rounded-full text-sm focus:outline-none">
                                         <img
                                             className="h-8 w-8 rounded-full"
                                             src={user?.avatar || FALLBACK_AVATAR}
@@ -146,16 +148,29 @@ export default function NavBar2() {
                                             height={32}
                                         />
                                     </MenuButton>
-                                    <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white/95 backdrop-blur-sm py-1 shadow-lg ring-1 ring-black/5 focus:outline-none">
+                                    <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                         <AuthMenuItems isAuthenticated={isAuthenticated} logout={logout} />
                                     </MenuItems>
                                 </Menu>
+
+                                {/* Mobile menu button */}
+                                <div className="sm:hidden ml-4">
+                                    <DisclosureButton 
+                                        className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:text-white focus:outline-none"
+                                    >
+                                        {open ? (
+                                            <XMarkIcon className="block h-6 w-6" />
+                                        ) : (
+                                            <Bars3Icon className="block h-6 w-6" />
+                                        )}
+                                    </DisclosureButton>
+                                </div>
                             </div>
-                           <p className="text-whit">{user?.name}</p>
                         </div>
                     </div>
 
-                    <DisclosurePanel className="sm:hidden bg-gray-800/95">
+                    {/* Mobile menu */}
+                    <DisclosurePanel className="sm:hidden bg-gray-800">
                         <div className="space-y-1 px-2 pb-3 pt-2">
                             {navigation.map((item) => (
                                 <DisclosureButton
@@ -164,15 +179,36 @@ export default function NavBar2() {
                                     to={item.href}
                                     className={({ isActive }) =>
                                         classNames(
-                                            isActive ? "text-white border-l-2 border-white" : "text-gray-200 hover:text-white",
-                                            "block px-3 py-2 text-base font-medium flex items-center no-underline"
+                                            isActive ? "bg-gray-900 text-white" : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                                            "block px-3 py-2 rounded-md text-base font-medium flex items-center relative"
                                         )
                                     }
                                 >
                                     <FontAwesomeIcon icon={item.icon} className="mr-2" />
                                     {item.name}
+                                    {item.name === "Cart" && cartCount > 0 && (
+                                        <span className="ml-auto bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                                            {cartCount}
+                                        </span>
+                                    )}
                                 </DisclosureButton>
                             ))}
+                            {isAuthenticated && (
+                                <div className="pt-4 pb-2 border-t border-gray-700">
+                                    <div className="flex items-center px-4">
+                                        <img
+                                            className="h-10 w-10 rounded-full"
+                                            src={user?.avatar || FALLBACK_AVATAR}
+                                            alt="User profile"
+                                        />
+                                        <div className="ml-3">
+                                            <div className="text-sm font-medium text-white">
+                                                {user?.name}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </DisclosurePanel>
                 </>

@@ -1,5 +1,5 @@
 // context/AuthContext.js
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,7 +9,23 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
+
+  // Calculate cart count from user's cart
+  const updateCartCount = useCallback(() => {
+    if (user?.cart) {
+      const count = user.cart.reduce((total, item) => total + (item.quantity || 1), 0);
+      setCartCount(count);
+    } else {
+      setCartCount(0);
+    }
+  }, [user]);
+
+  // Update cart count whenever user changes
+  useEffect(() => {
+    updateCartCount();
+  }, [user, updateCartCount]);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -18,8 +34,8 @@ export const AuthProvider = ({ children }) => {
         const userData = localStorage.getItem('user');
         
         if (token && userData) {
-          // In a real app, you would verify the token with your backend
-          setUser(JSON.parse(userData));
+          const parsedUser = JSON.parse(userData);
+          setUser(parsedUser);
           setIsAuthenticated(true);
         }
       } catch (error) {
@@ -34,7 +50,6 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (credentials) => {
     try {
-      // Mock API call - replace with your actual login endpoint
       const response = await axios.get(
         `http://localhost:3000/users?email=${credentials.email}&password=${credentials.password}`
       );
@@ -44,14 +59,13 @@ export const AuthProvider = ({ children }) => {
       }
 
       const user = response.data[0];
-      
-      // In a real app, you would get a token from your backend
       const mockToken = 'mock-jwt-token';
       
       localStorage.setItem('token', mockToken);
       localStorage.setItem('user', JSON.stringify(user));
       setUser(user);
       setIsAuthenticated(true);
+      updateCartCount(); // Update cart count on login
       navigate('/');
       return { success: true };
     } catch (error) {
@@ -61,7 +75,6 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     try {
-      // Check if email exists
       const emailCheck = await axios.get(
         `http://localhost:3000/users?email=${userData.email}`
       );
@@ -70,7 +83,6 @@ export const AuthProvider = ({ children }) => {
         throw new Error('Email already registered');
       }
 
-      // Create new user
       const newUser = {
         ...userData,
         role: 'user',
@@ -93,7 +105,25 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('user');
     setUser(null);
     setIsAuthenticated(false);
+    setCartCount(0); // Reset cart count on logout
     navigate('/login');
+  };
+
+  // Function to update user's cart (and consequently cart count)
+  const updateUserCart = async (userId, newCart) => {
+    try {
+      const response = await axios.patch(`http://localhost:3000/users/${userId}`, {
+        cart: newCart
+      });
+      
+      const updatedUser = response.data;
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      setUser(updatedUser);
+      return updatedUser;
+    } catch (error) {
+      console.error('Error updating cart:', error);
+      throw error;
+    }
   };
 
   return (
@@ -101,9 +131,11 @@ export const AuthProvider = ({ children }) => {
       user, 
       isAuthenticated, 
       loading, 
+      cartCount,
       login, 
       register, 
-      logout 
+      logout,
+      updateUserCart
     }}>
       {children}
     </AuthContext.Provider>
