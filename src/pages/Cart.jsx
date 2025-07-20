@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import Loading from "../common/components/Loading";
 
 const Cart = () => {
@@ -61,11 +62,23 @@ const Cart = () => {
         );
         updateUserCart(updatedCart);
     };
-
+  const handleRemove = (productId) => {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      removeItem(productId);
+      Swal.fire("Deleted!", "Item has been removed.", "success");
+    }
+  });
+};
     const removeItem = (productId) => {
-        const confirmDelete = window.confirm("Are you sure you want to remove this item?");
-        if (!confirmDelete) return;
-
         const updatedCart = cartItems.filter((item) => item.productId !== productId);
         updateUserCart(updatedCart);
     };
@@ -75,9 +88,7 @@ const Cart = () => {
     };
 
     if (loading) {
-        return (
-           <Loading name="cart"/>
-        );
+        return <Loading name="cart" />;
     }
     if (!JSON.parse(localStorage.getItem("user"))) {
         return <div className="p-4">Please login to view your cart</div>;
@@ -144,7 +155,7 @@ const Cart = () => {
                         </div>
                         <div className="font-medium">${(item.price * item.quantity).toFixed(2)}</div>
                         <button
-                            onClick={() => removeItem(item.productId)}
+                            onClick={() => handleRemove(item.productId)}
                             disabled={updating}
                             className="text-red-500 hover:text-red-700"
                         >

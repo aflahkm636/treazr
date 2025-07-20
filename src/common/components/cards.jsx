@@ -1,4 +1,4 @@
-import React, {  useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -41,48 +41,44 @@ const ProductListCard = React.memo(({ product }) => {
   }, [checkWishlist]);
 
   const toggleWishlist = useCallback(
-  async (e) => {
-    e.stopPropagation();
-    if (isLoading) return;
+    async (e) => {
+      e.stopPropagation();
+      if (isLoading) return;
 
-    if (!user) {
-      toast.warning("Please login to use wishlist");
-      return;
-    }
-
-    setIsLoading(true);
-    try {
-      const { data } = await axios.get(`${API_URL}/${user.id}`);
-      let updatedWishlist;
-      const exists = data.wishlist?.some((item) => 
-        typeof item === 'string' ? item === product.id : item.id === product.id
-      );
-
-      if (exists) {
-        updatedWishlist = data.wishlist.filter((item) => 
-          typeof item === 'string' ? item !== product.id : item.id !== product.id
-        );
-      } else {
-        // Only store the ID in the wishlist
-        updatedWishlist = [...(data.wishlist || []), product.id];
+      if (!user) {
+        toast.warning("Please login to use wishlist");
+        return;
       }
 
-      // Optimistic UI update
-      setIsInWishlist(!exists);
+      setIsLoading(true);
+      try {
+        const { data } = await axios.get(`${API_URL}/${user.id}`);
+        let updatedWishlist;
+        const exists = data.wishlist?.some((item) => 
+          typeof item === 'string' ? item === product.id : item.id === product.id
+        );
 
-      await updateUserData(user.id, { wishlist: updatedWishlist });
-      toast.success(exists ? "Removed from wishlist" : "Added to wishlist");
-    } catch (err) {
-      console.error("Error updating wishlist:", err);
-      // Revert optimistic update if error occurs
-      setIsInWishlist((prev) => !prev);
-      toast.error("Failed to update wishlist");
-    } finally {
-      setIsLoading(false);
-    }
-  },
-  [user, product, isLoading]
-);
+        if (exists) {
+          updatedWishlist = data.wishlist.filter((item) => 
+            typeof item === 'string' ? item !== product.id : item.id !== product.id
+          );
+        } else {
+          updatedWishlist = [...(data.wishlist || []), product.id];
+        }
+
+        setIsInWishlist(!exists);
+        await updateUserData(user.id, { wishlist: updatedWishlist });
+        toast.success(exists ? "Removed from wishlist" : "Added to wishlist");
+      } catch (err) {
+        console.error("Error updating wishlist:", err);
+        setIsInWishlist((prev) => !prev);
+        toast.error("Failed to update wishlist");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [user, product, isLoading]
+  );
 
   const handleAddToCart = useCallback(
     async (e) => {
@@ -126,6 +122,49 @@ const ProductListCard = React.memo(({ product }) => {
     [user, product]
   );
 
+  const handleBuyNow = useCallback(
+    async (e) => {
+      e.stopPropagation();
+      
+      try {
+        if (!user) {
+          toast.error("Please login to proceed to checkout");
+          return;
+        }
+        
+        const currentCart = user.cart || [];
+        const existingItemIndex = currentCart.findIndex(
+          (item) => item.productId === product.id
+        );
+        
+        let updatedCart;
+        if (existingItemIndex >= 0) {
+          updatedCart = [...currentCart];
+          updatedCart[existingItemIndex].quantity += 1;
+        } else {
+          updatedCart = [
+            ...currentCart,
+            {
+              productId: product.id,
+              quantity: 1,
+              price: product.price,
+              name: product.name,
+              image: product.images?.[0] || "/default-product.jpg",
+            },
+          ];
+        }
+        
+        await updateUserData(user.id, { cart: updatedCart });
+        toast.success("Added to cart!");
+        navigate("/cart"); // Navigate to cart after adding the item
+      } catch (error) {
+        toast.error("Failed to add to cart");
+        console.error("Add to cart error:", error);
+      }
+    },
+    [user, product, navigate]
+  );
+
   const handleClick = useCallback(() => {
     navigate(`/productdetails/${product.id}`);
   }, [navigate, product.id]);
@@ -134,7 +173,7 @@ const ProductListCard = React.memo(({ product }) => {
     <div
       onClick={handleClick}
       className="h-full flex flex-col justify-between relative border border-gray-200 rounded-lg shadow-sm p-2.5 transition-all duration-300 group bg-white cursor-pointer
-                 hover:shadow-lg hover:border-gray-300 hover:scale-[1.02] transform-gpu" // Enhanced hover effect
+                 hover:shadow-lg hover:border-gray-300 hover:scale-[1.02] transform-gpu"
     >
       {/* Wishlist Button */}
       <button
@@ -145,7 +184,7 @@ const ProductListCard = React.memo(({ product }) => {
             ? "text-red-500 bg-white hover:bg-red-50"
             : "text-gray-500 bg-white hover:bg-gray-50"
         } ${isLoading ? "opacity-70" : ""}
-        active:scale-90`} // Click effect
+        active:scale-90`}
         aria-label={isInWishlist ? "Remove from wishlist" : "Add to wishlist"}
       >
         <CiHeart className={`text-lg ${isInWishlist ? "fill-current" : ""}`} />
@@ -157,7 +196,7 @@ const ProductListCard = React.memo(({ product }) => {
           src={product.images?.[0] || "/default-product.jpg"}
           alt={product.name}
           onError={(e) => (e.currentTarget.src = "/default-product.jpg")}
-          className="w-full h-full object-contain rounded transition-transform duration-300 group-hover:scale-105" // Image zoom effect
+          className="w-full h-full object-contain rounded transition-transform duration-300 group-hover:scale-105"
           style={{ objectFit: "contain" }}
         />
       </div>
@@ -165,12 +204,12 @@ const ProductListCard = React.memo(({ product }) => {
       {/* Product Info */}
       <div className="flex-grow space-y-1.5">
         <h3 
-          className="text-sm font-medium text-gray-900 truncate px-0.5 group-hover:text-gray-700" // Text color change on hover
+          className="text-sm font-medium text-gray-900 truncate px-0.5 group-hover:text-gray-700"
           title={product.name}
         >
           {product.name}
         </h3>
-        <p className="text-base font-bold text-gray-900 group-hover:text-gray-800"> {/* Hover effect */}
+        <p className="text-base font-bold text-gray-900 group-hover:text-gray-800">
           ${product.price.toFixed(2)}
         </p>
         <div className="flex items-center text-xs text-gray-500 space-x-1.5">
@@ -197,14 +236,15 @@ const ProductListCard = React.memo(({ product }) => {
           onClick={handleAddToCart}
           className="border border-amber-800 text-amber-800 hover:bg-amber-50 hover:border-amber-900 hover:text-amber-900 
                      py-1.5 px-2 rounded-lg text-xs font-medium flex items-center justify-center 
-                     transition-all duration-200 active:scale-95 active:bg-amber-100" // Click effect
+                     transition-all duration-200 active:scale-95 active:bg-amber-100"
         >
           Add to Cart
         </button>
         <button
+          onClick={handleBuyNow}
           className="border border-gray-800 text-gray-800 hover:bg-gray-50 hover:border-black hover:text-black 
                      py-1.5 px-2 rounded-lg text-xs font-medium flex items-center justify-center 
-                     transition-all duration-200 active:scale-95 active:bg-gray-100" // Click effect
+                     transition-all duration-200 active:scale-95 active:bg-gray-100"
         >
           Buy Now
         </button>
