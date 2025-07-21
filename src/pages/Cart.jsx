@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import { useAuth } from "../common/context/AuthProvider";
 import Swal from "sweetalert2";
 import Loading from "../common/components/Loading";
-import { URL } from "../services/Api";
 
 function Cart() {
   const { user, updateUserCart, setUser, loading: authLoading } = useAuth();

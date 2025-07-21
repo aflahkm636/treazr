@@ -3,10 +3,10 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { updateUserWishlist } from "../services/UpdateWishlist";
 import { URL } from "../services/Api";
-import { updateUserCart } from "../services/UpdateCart";
 import { CiHeart, CiTrash } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import Loading from "../common/components/Loading";
+import useAddToCart from "../common/components/AddToCart";
 
 function Wishlist() {
     const [wishlistProducts, setWishlistProducts] = useState([]);
@@ -86,42 +86,8 @@ function Wishlist() {
         }
     };
 
-    const handleAddToCart = async (product) => {
-        try {
-            if (!user) {
-                toast.error("Please login to manage your cart");
-                return;
-            }
+   const { handleAddToCart } = useAddToCart();
 
-            setLoading(true);
-            const currentCart = user.cart || [];
-            const existingItemIndex = currentCart.findIndex((item) => item.productId === product.id);
-
-            const updatedCart = [...currentCart];
-
-            if (existingItemIndex >= 0) {
-                updatedCart[existingItemIndex].quantity += 1;
-            } else {
-                updatedCart.push({
-                    productId: product.id,
-                    quantity: 1,
-                    price: product.price,
-                    name: product.name,
-                    image: product.images?.[0] || "/default-product.jpg",
-                });
-            }
-
-            const updatedUser = await updateUserCart(user.id, updatedCart);
-            localStorage.setItem("user", JSON.stringify(updatedUser));
-            setUser(updatedUser);
-            toast.success(`${product.name} added to cart!`);
-        } catch (error) {
-            toast.error("Failed to add to cart");
-            console.error("Add to cart error:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const handleRemoveFromWishlist = async (productId) => {
         try {
@@ -246,16 +212,16 @@ if (loading) {
                                     <p className="text-sm font-semibold text-gray-900">
                                         ${product.price}
                                     </p>
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            handleAddToCart(product);
-                                        }}
-                                        disabled={loading}
-                                        className="w-full mt-2 py-1.5 px-3 text-xs border border-transparent rounded-md shadow-sm font-medium text-white bg-black hover:bg-gray-800 transition-colors disabled:opacity-50"
-                                    >
-                                        Add to Cart
-                                    </button>
+                                  <button
+  onClick={(e) => {
+    e.stopPropagation();
+    handleAddToCart(product);
+  }}
+  disabled={loading}
+  className="w-full mt-2 py-1.5 px-3 text-xs border border-transparent rounded-md shadow-sm font-medium text-white bg-black hover:bg-gray-800 transition-colors disabled:opacity-50"
+>
+  Add to Cart
+</button>
                                 </div>
                             </div>
                         </div>

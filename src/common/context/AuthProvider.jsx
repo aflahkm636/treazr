@@ -135,7 +135,8 @@ export const AuthProvider = ({ children }) => {
       login, 
       register, 
       logout,
-      updateUserCart
+      updateUserCart,
+      setUser
     }}>
       {children}
     </AuthContext.Provider>

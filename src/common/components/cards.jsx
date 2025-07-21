@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { CiHeart } from "react-icons/ci";
 import { useAuth,} from "../context/AuthProvider";
-import { updateUserCart } from "../../services/UpdateCart";
+import useAddToCart from "./AddToCart";
 
 const ProductListCard = React.memo(({ product }) => {
   const navigate = useNavigate();
@@ -81,46 +81,7 @@ const ProductListCard = React.memo(({ product }) => {
     [user, product, isLoading]
   );
 
-  const handleAddToCart = useCallback(
-    async (e) => {
-      e.stopPropagation();
-      
-      try {
-        if (!user) {
-          toast.error("Please login to add items to cart");
-          return;
-        }
-        
-        const currentCart = user.cart || [];
-        const existingItemIndex = currentCart.findIndex((item) => item.productId === product.id);
-        
-   
-        
-                    const updatedCart = [...currentCart];
-        
-                    if (existingItemIndex >= 0) {
-                        updatedCart[existingItemIndex].quantity += 1;
-                    } else {
-                        updatedCart.push({
-                            productId: product.id,
-                            quantity: 1,
-                            price: product.price,
-                            name: product.name,
-                            image: product.images?.[0] || "/default-product.jpg",
-                        });
-                    }
-        
-                    const updatedUser = await updateUserCart(user.id, updatedCart);
-                    localStorage.setItem("user", JSON.stringify(updatedUser));
-                    setUser(updatedUser);
-                    toast.success(`${product.name} added to cart!`);
-                } catch (error) {
-                    toast.error("Failed to add to cart");
-                    console.error("Add to cart error:", error);
-                } 
-    },
-    [user, product,setUser]
-  );
+ const { handleAddToCart } = useAddToCart();
 
   const handleBuyNow = useCallback(
     async (e) => {
@@ -232,14 +193,17 @@ const ProductListCard = React.memo(({ product }) => {
 
       {/* Action Buttons */}
       <div className="mt-3 grid grid-cols-2 gap-2">
-        <button
-          onClick={handleAddToCart}
-          className="border border-amber-800 text-amber-800 hover:bg-amber-50 hover:border-amber-900 hover:text-amber-900 
-                     py-1.5 px-2 rounded-lg text-xs font-medium flex items-center justify-center 
-                     transition-all duration-200 active:scale-95 active:bg-amber-100"
-        >
-          Add to Cart
-        </button>
+      <button
+  onClick={(e) => {
+    e.stopPropagation();
+    handleAddToCart(product);
+  }}
+  className="border border-amber-800 text-amber-800 hover:bg-amber-50 hover:border-amber-900 hover:text-amber-900 
+             py-1.5 px-2 rounded-lg text-xs font-medium flex items-center justify-center 
+             transition-all duration-200 active:scale-95 active:bg-amber-100"
+>
+  Add to Cart
+</button>
         <button
           onClick={handleBuyNow}
           className="border border-gray-800 text-gray-800 hover:bg-gray-50 hover:border-black hover:text-black 

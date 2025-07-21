@@ -1,14 +1,16 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { updateUserCart } from "../../services/UpdateCart";
-import { updateUserWishlist } from "../../services/UpdateWishlist";
+import useAddToCart from "./AddToCart";
 import { URL } from "../../services/Api";
+import { CiShoppingCart, CiStar } from "react-icons/ci";
 
 const ProductDetails = () => {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const navigate = useNavigate();
+    const { handleAddToCart } = useAddToCart();
 
     useEffect(() => {
         fetch(`${URL}/products/${id}`)
@@ -16,137 +18,118 @@ const ProductDetails = () => {
             .then((data) => setProduct(data));
     }, [id]);
 
-    const handleAddToCart = async () => {
+    const handleBuyNow = async () => {
         try {
             setIsLoading(true);
-            const user = JSON.parse(localStorage.getItem("user"));
-            
-            if (!user) {
-                toast.error("Please login to add items to cart");
-                return;
+            const success = await handleAddToCart(product, { showToast: false });
+            if (success) {
+                navigate("/cart");
             }
-
-            const currentCart = user.cart || [];
-            const existingItemIndex = currentCart.findIndex(item => item.productId === product.id);
-            
-            let updatedCart;
-            if (existingItemIndex >= 0) {
-                updatedCart = [...currentCart];
-                updatedCart[existingItemIndex].quantity += 1;
-            } else {
-                updatedCart = [
-                    ...currentCart,
-                    {
-                        productId: product.id,
-                        quantity: 1,
-                        price: product.price,
-                        name: product.name,
-                        image: product.images?.[0] || "/default-product.jpg"
-                    }
-                ];
-            }
-            
-            await updateUserCart(user.id, updatedCart);
-            toast.success("Added to cart!");
         } catch (error) {
-            toast.error("Failed to add to cart");
-            console.error("Add to cart error:", error);
+            toast.error("Failed to proceed to checkout");
         } finally {
             setIsLoading(false);
         }
     };
 
-    const handleAddToWishlist = async () => {
-        try {
-            setIsLoading(true);
-            const user = JSON.parse(localStorage.getItem("user"));
-            
-            if (!user) {
-                toast.error("Please login to add items to wishlist");
-                return;
-            }
-
-            const currentWishlist = user.wishlist || [];
-            
-            // Check if product already in wishlist
-            if (currentWishlist.includes(product.id)) {
-                toast.info("Product already in wishlist");
-                return;
-            }
-
-            const updatedWishlist = [...currentWishlist, product.id];
-            
-            await updateUserWishlist(user.id, updatedWishlist);
-            toast.success("Added to wishlist!");
-        } catch (error) {
-            toast.error("Failed to add to wishlist");
-            console.error("Add to wishlist error:", error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    const handleBuyNow = () => {
-        // Implement your buy now logic here
-        toast.info("Proceed to checkout");
-    };
-
-    if (!product) return <div className="p-6">Loading...</div>;
+    if (!product) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gray-50">
+                <div className="animate-pulse text-2xl text-gray-400">Loading luxury finds...</div>
+            </div>
+        );
+    }
 
     return (
-        <div className="max-w-6xl mx-auto p-6">
-            <div className="flex flex-col lg:flex-row lg:items-center gap-10 min-h-[calc(100vh-80px)]">
-                {/* Image Section */}
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+            {/* Breadcrumbs */}
+            <nav className="text-sm mb-6 text-gray-500">
+                <ol className="flex items-center space-x-2">
+                    <li>
+                        <Link to="/" className="hover:underline hover:text-gray-800">Home</Link>
+                        <span className="mx-2">/</span>
+                    </li>
+                    <li>
+                        <Link to="/products" className="hover:underline hover:text-gray-800">Products</Link>
+                        <span className="mx-2">/</span>
+                    </li>
+                    <li className="text-gray-700">{product.name}</li>
+                </ol>
+            </nav>
+
+            <div className="flex flex-col lg:flex-row gap-10">
+                {/* Product Image */}
                 <div className="lg:w-1/2 w-full">
-                    <img
-                        src={product.images?.[0] || "/default-product.jpg"}
-                        alt={product.name}
-                        className="w-full h-[400px] object-cover rounded"
-                    />
+                    <div className="rounded-xl overflow-hidden shadow-lg border border-gray-200 bg-white h-full">
+                        <img
+                            src={product.images?.[0] || "/default-product.jpg"}
+                            alt={product.name}
+                            className="w-full h-[500px] object-cover transition-transform duration-300 hover:scale-105"
+                        />
+                    </div>
                 </div>
 
-                {/* Details Section */}
-                <div className="lg:w-1/2 w-full space-y-4">
-                    <h1 className="text-3xl font-bold">{product.name}</h1>
-                    <p className="text-gray-500">
-                        {product.category} - {product.brand}
-                    </p>
-                    <p className="text-lg">{product.description}</p>
-                    <p className="text-xl font-semibold text-blue-600">${product.price}</p>
-                    <p className="text-gray-700">Rating: ⭐ {product.rating}</p>
-                    <p className="text-gray-700">Stock: {product.stock}</p>
+                {/* Product Info */}
+                <div className="lg:w-1/2 w-full flex flex-col justify-between h-[500px]">
+                    <div className="space-y-6 text-gray-800">
+                        <div className="pb-3 border-b border-gray-200">
+                            <h1 className="text-3xl font-bold tracking-tight">{product.name}</h1>
+                            <div className="flex items-center gap-3 mt-2 text-sm text-gray-500">
+                                <span>{product.brand}</span>
+                                <span className="flex items-center gap-1 text-amber-600">
+                                    <CiStar className="w-4 h-4" />
+                                    {product.rating}
+                                </span>
+                            </div>
+                        </div>
 
-                    {/* Tags */}
-                    <div className="flex flex-wrap gap-2">
-                        {product.tags?.map((tag, i) => (
-                            <span key={i} className="bg-gray-200 text-sm px-3 py-1 rounded-full">
-                                #{tag}
-                            </span>
-                        ))}
+                        <div className="space-y-3">
+                            <p className="text-2xl font-semibold text-gray-900">${product.price.toFixed(2)}</p>
+                            <div className="flex items-center gap-2">
+                                <span
+                                    className={`text-xs font-medium px-3 py-1 rounded-full ${
+                                        product.stock > 0
+                                            ? "bg-emerald-50 text-emerald-700"
+                                            : "bg-rose-50 text-rose-700"
+                                    }`}
+                                >
+                                    {product.stock > 0 ? "In Stock" : "Out of Stock"}
+                                </span>
+                                <span className="text-sm text-gray-400">| {product.category}</span>
+                            </div>
+                            <p className="text-sm sm:text-base leading-relaxed text-gray-600">{product.description}</p>
+                        </div>
+
+                        {product.tags?.length > 0 && (
+                            <div className="flex flex-wrap gap-2 pt-1">
+                                {product.tags.map((tag, index) => (
+                                    <span
+                                        key={index}
+                                        className="bg-gray-100 text-gray-500 text-xs px-3 py-1 rounded-full"
+                                    >
+                                        #{tag}
+                                    </span>
+                                ))}
+                            </div>
+                        )}
                     </div>
 
-                    {/* Action Buttons */}
-                    <div className="flex flex-col sm:flex-row gap-4 pt-6">
+                    {/* Buttons */}
+                    <div className="pt-6 space-y-3">
                         <button
-                            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded transition disabled:opacity-50"
-                            onClick={handleAddToCart}
+                            onClick={() => handleAddToCart(product)}
                             disabled={isLoading}
+                            className="w-full flex items-center justify-center gap-2 bg-gray-900 text-white py-3 rounded-md transition-all duration-300 hover:shadow-xl hover:scale-[1.02] active:scale-100 disabled:opacity-60"
                         >
+                            <CiShoppingCart className="w-5 h-5" />
                             {isLoading ? "Adding..." : "Add to Cart"}
                         </button>
                         <button
-                            className="w-full sm:w-auto bg-pink-600 hover:bg-pink-700 text-white py-2 px-6 rounded transition disabled:opacity-50"
-                            onClick={handleAddToWishlist}
-                            disabled={isLoading}
-                        >
-                            {isLoading ? "Adding..." : "Add to Wishlist"}
-                        </button>
-                        <button
-                            className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded transition disabled:opacity-50"
                             onClick={handleBuyNow}
-                            disabled={isLoading}
+                            disabled={isLoading || product.stock <= 0}
+                            className="w-full bg-white border border-amber-500 text-amber-600 font-semibold py-3 rounded-md transition-all duration-300 hover:bg-amber-50 hover:shadow-lg hover:scale-[1.02] active:scale-100 disabled:opacity-60"
                         >
-                            Buy Now
+                            {isLoading ? "Processing..." : "Buy Now"}
                         </button>
                     </div>
                 </div>
