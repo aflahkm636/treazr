@@ -18,7 +18,7 @@ const OrderDetails = () => {
   const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   const handleProceedToAddress = () => {
-    navigate("/address-form", { 
+    navigate("/checkout", { 
       state: { 
         cartItems,
         orderTotal: total,

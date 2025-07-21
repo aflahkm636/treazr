@@ -14,12 +14,13 @@ import ProductDetails from "./common/components/ProductDetails";
 import Footer from "./common/layout/Footer";
 import Cart from "./pages/Cart";
 import OrderDetails from "./pages/landing/OrderDetails";
-import AddressForm from "./pages/landing/AddressForm";
 import ProductList from "./pages/products/ProductList";
 import DiecastCars from "./pages/products/DiecastCars";
 import Comics from "./pages/products/Comics";
 import ActionFigures from "./pages/products/ActionFigures";
 import TradingCards from "./pages/products/TradingCards";
+import CheckOut from "./pages/landing/CheckOut";
+import OrderStatus from "./pages/landing/OrderStatus";
 
 // ✅ Lazy loaded components
 const Products = lazy(() => import("./pages/products/Products"));
@@ -87,10 +88,18 @@ const RoutesWrapper = () => {
                             }
                         />
                         <Route
-                            path="/address-form"
+                            path="/checkout"
                             element={
                                 <ProtectedRoute>
-                                    <AddressForm />
+                                    <CheckOut />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/orderstatus/:orderId"
+                            element={
+                                <ProtectedRoute>
+                                    <OrderStatus />
                                 </ProtectedRoute>
                             }
                         />

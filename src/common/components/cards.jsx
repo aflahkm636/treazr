@@ -3,11 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { CiHeart } from "react-icons/ci";
-import { useAuth } from "../context/AuthProvider";
+import { useAuth,} from "../context/AuthProvider";
+import { updateUserCart } from "../../services/UpdateCart";
 
 const ProductListCard = React.memo(({ product }) => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user,setUser } = useAuth();
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const API_URL = "http://localhost:3000/users";
@@ -91,35 +92,34 @@ const ProductListCard = React.memo(({ product }) => {
         }
         
         const currentCart = user.cart || [];
-        const existingItemIndex = currentCart.findIndex(
-          (item) => item.productId === product.id
-        );
+        const existingItemIndex = currentCart.findIndex((item) => item.productId === product.id);
         
-        let updatedCart;
-        if (existingItemIndex >= 0) {
-          updatedCart = [...currentCart];
-          updatedCart[existingItemIndex].quantity += 1;
-        } else {
-          updatedCart = [
-            ...currentCart,
-            {
-              productId: product.id,
-              quantity: 1,
-              price: product.price,
-              name: product.name,
-              image: product.images?.[0] || "/default-product.jpg",
-            },
-          ];
-        }
+   
         
-        await updateUserData(user.id, { cart: updatedCart });
-        toast.success("Added to cart!");
-      } catch (error) {
-        toast.error("Failed to add to cart");
-        console.error("Add to cart error:", error);
-      }
+                    const updatedCart = [...currentCart];
+        
+                    if (existingItemIndex >= 0) {
+                        updatedCart[existingItemIndex].quantity += 1;
+                    } else {
+                        updatedCart.push({
+                            productId: product.id,
+                            quantity: 1,
+                            price: product.price,
+                            name: product.name,
+                            image: product.images?.[0] || "/default-product.jpg",
+                        });
+                    }
+        
+                    const updatedUser = await updateUserCart(user.id, updatedCart);
+                    localStorage.setItem("user", JSON.stringify(updatedUser));
+                    setUser(updatedUser);
+                    toast.success(`${product.name} added to cart!`);
+                } catch (error) {
+                    toast.error("Failed to add to cart");
+                    console.error("Add to cart error:", error);
+                } 
     },
-    [user, product]
+    [user, product,setUser]
   );
 
   const handleBuyNow = useCallback(
