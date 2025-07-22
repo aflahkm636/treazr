@@ -21,6 +21,7 @@ import ActionFigures from "./pages/products/ActionFigures";
 import TradingCards from "./pages/products/TradingCards";
 import CheckOut from "./pages/landing/CheckOut";
 import OrderStatus from "./pages/landing/OrderStatus";
+import ViewOrders from "./common/components/ViewOrders";
 
 // ✅ Lazy loaded components
 const Products = lazy(() => import("./pages/products/Products"));
@@ -100,6 +101,14 @@ const RoutesWrapper = () => {
                             element={
                                 <ProtectedRoute>
                                     <OrderStatus />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/vieworder"
+                            element={
+                                <ProtectedRoute>
+                                    <ViewOrders/>
                                 </ProtectedRoute>
                             }
                         />
