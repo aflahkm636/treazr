@@ -3,14 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { CiHeart } from "react-icons/ci";
-import { useAuth,} from "../context/AuthProvider";
+import { useAuth } from "../context/AuthProvider";
 import useAddToCart from "./AddToCart";
 
 const ProductListCard = React.memo(({ product }) => {
   const navigate = useNavigate();
-  const { user,setUser } = useAuth();
+  const { user, setUser } = useAuth();
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isInCart, setIsInCart] = useState(false);
   const API_URL = "http://localhost:3000/users";
 
   const updateUserData = async (userId, updatedData) => {
@@ -25,21 +26,28 @@ const ProductListCard = React.memo(({ product }) => {
     }
   };
 
-  // Check if product is in wishlist
-  const checkWishlist = useCallback(async () => {
+  // Check if product is in wishlist and cart
+  const checkProductStatus = useCallback(async () => {
     if (!user) return;
     try {
       const { data } = await axios.get(`${API_URL}/${user.id}`);
-      const found = data.wishlist?.some((item) => item.id === product.id);
-      setIsInWishlist(found);
+      // Check wishlist status
+      const inWishlist = data.wishlist?.some((item) => 
+        typeof item === 'string' ? item === product.id : item.id === product.id
+      );
+      setIsInWishlist(!!inWishlist);
+      
+      // Check cart status
+      const inCart = data.cart?.some((item) => item.productId === product.id);
+      setIsInCart(!!inCart);
     } catch (err) {
-      console.error("Error checking wishlist:", err);
+      console.error("Error checking product status:", err);
     }
   }, [user, product.id]);
 
   useEffect(() => {
-    checkWishlist();
-  }, [checkWishlist]);
+    checkProductStatus();
+  }, [checkProductStatus]);
 
   const toggleWishlist = useCallback(
     async (e) => {
@@ -53,6 +61,10 @@ const ProductListCard = React.memo(({ product }) => {
 
       setIsLoading(true);
       try {
+        // Optimistically update the UI
+        const newWishlistStatus = !isInWishlist;
+        setIsInWishlist(newWishlistStatus);
+
         const { data } = await axios.get(`${API_URL}/${user.id}`);
         let updatedWishlist;
         const exists = data.wishlist?.some((item) => 
@@ -67,26 +79,28 @@ const ProductListCard = React.memo(({ product }) => {
           updatedWishlist = [...(data.wishlist || []), product.id];
         }
 
-        setIsInWishlist(!exists);
-        await updateUserData(user.id, { wishlist: updatedWishlist });
-        toast.success(exists ? "Removed from wishlist" : "Added to wishlist");
+        // Update the server and local storage
+        const updatedUser = await updateUserData(user.id, { wishlist: updatedWishlist });
+        setUser(updatedUser);
+        
+        toast.success(newWishlistStatus ? "Added to wishlist" : "Removed from wishlist");
       } catch (err) {
         console.error("Error updating wishlist:", err);
+        // Revert the UI if the request fails
         setIsInWishlist((prev) => !prev);
         toast.error("Failed to update wishlist");
       } finally {
         setIsLoading(false);
       }
     },
-    [user, product, isLoading]
+    [user, product, isLoading, isInWishlist]
   );
 
- const { handleAddToCart } = useAddToCart();
+  const { handleAddToCart } = useAddToCart();
 
   const handleBuyNow = useCallback(
     async (e) => {
-      e.stopPropagation();
-      
+      e?.stopPropagation();
       try {
         if (!user) {
           toast.error("Please login to proceed to checkout");
@@ -116,8 +130,11 @@ const ProductListCard = React.memo(({ product }) => {
         }
         
         await updateUserData(user.id, { cart: updatedCart });
+        setUser({ ...user, cart: updatedCart });
+        setIsInCart(true);
+
         toast.success("Added to cart!");
-        navigate("/cart"); // Navigate to cart after adding the item
+        navigate("/cart");
       } catch (error) {
         toast.error("Failed to add to cart");
         console.error("Add to cart error:", error);
@@ -193,38 +210,37 @@ const ProductListCard = React.memo(({ product }) => {
 
       {/* Action Buttons */}
       <div className="mt-3 grid grid-cols-2 gap-2">
-     <button
-  onClick={(e) => {
-    e.stopPropagation();
-    handleAddToCart(product);
-  }}
-  disabled={product.stock === 0}
-  className={`border text-amber-800 py-1.5 px-2 rounded-lg text-xs font-medium flex items-center justify-center 
-              transition-all duration-200 active:scale-95
-              ${product.stock === 0
-                ? "cursor-not-allowed bg-gray-100 border-gray-300 text-gray-400"
-                : "border-amber-800 hover:bg-amber-50 hover:border-amber-900 hover:text-amber-900 active:bg-amber-100"
-              }`}
->
-  {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
-</button>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            isInCart ? navigate("/cart") : handleAddToCart(product);
+          }}
+          disabled={product.stock === 0}
+          className={`border text-amber-800 py-1.5 px-2 rounded-lg text-xs font-medium flex items-center justify-center 
+                      transition-all duration-200 active:scale-95
+                      ${product.stock === 0
+                        ? "cursor-not-allowed bg-gray-100 border-gray-300 text-gray-400"
+                        : "border-amber-800 hover:bg-amber-50 hover:border-amber-900 hover:text-amber-900 active:bg-amber-100"
+                      }`}
+        >
+          {product.stock === 0 ? "Out of Stock" : (isInCart ? "Go to Cart" : "Add to Cart")}
+        </button>
 
-       <button
-  onClick={(e) => {
-    e.stopPropagation();
-    handleBuyNow(product);
-  }}
-  disabled={product.stock === 0}
-  className={`py-1.5 px-2 rounded-lg text-xs font-medium flex items-center justify-center 
-              transition-all duration-200 active:scale-95
-              ${product.stock === 0
-                ? "cursor-not-allowed bg-gray-100 border-gray-300 text-gray-400"
-                : "border border-gray-800 text-gray-800 hover:bg-gray-50 hover:border-black hover:text-black active:bg-gray-100"
-              }`}
->
-  Buy Now
-</button>
-
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            handleBuyNow(e);
+          }}
+          disabled={product.stock === 0}
+          className={`py-1.5 px-2 rounded-lg text-xs font-medium flex items-center justify-center 
+                      transition-all duration-200 active:scale-95
+                      ${product.stock === 0
+                        ? "cursor-not-allowed bg-gray-100 border-gray-300 text-gray-400"
+                        : "border border-gray-800 text-gray-800 hover:bg-gray-50 hover:border-black hover:text-black active:bg-gray-100"
+                      }`}
+        >
+          Buy Now
+        </button>
       </div>
     </div>
   );
