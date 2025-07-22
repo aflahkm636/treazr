@@ -193,25 +193,38 @@ const ProductListCard = React.memo(({ product }) => {
 
       {/* Action Buttons */}
       <div className="mt-3 grid grid-cols-2 gap-2">
-      <button
+     <button
   onClick={(e) => {
     e.stopPropagation();
     handleAddToCart(product);
   }}
-  className="border border-amber-800 text-amber-800 hover:bg-amber-50 hover:border-amber-900 hover:text-amber-900 
-             py-1.5 px-2 rounded-lg text-xs font-medium flex items-center justify-center 
-             transition-all duration-200 active:scale-95 active:bg-amber-100"
+  disabled={product.stock === 0}
+  className={`border text-amber-800 py-1.5 px-2 rounded-lg text-xs font-medium flex items-center justify-center 
+              transition-all duration-200 active:scale-95
+              ${product.stock === 0
+                ? "cursor-not-allowed bg-gray-100 border-gray-300 text-gray-400"
+                : "border-amber-800 hover:bg-amber-50 hover:border-amber-900 hover:text-amber-900 active:bg-amber-100"
+              }`}
 >
-  Add to Cart
+  {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
 </button>
-        <button
-          onClick={handleBuyNow}
-          className="border border-gray-800 text-gray-800 hover:bg-gray-50 hover:border-black hover:text-black 
-                     py-1.5 px-2 rounded-lg text-xs font-medium flex items-center justify-center 
-                     transition-all duration-200 active:scale-95 active:bg-gray-100"
-        >
-          Buy Now
-        </button>
+
+       <button
+  onClick={(e) => {
+    e.stopPropagation();
+    handleBuyNow(product);
+  }}
+  disabled={product.stock === 0}
+  className={`py-1.5 px-2 rounded-lg text-xs font-medium flex items-center justify-center 
+              transition-all duration-200 active:scale-95
+              ${product.stock === 0
+                ? "cursor-not-allowed bg-gray-100 border-gray-300 text-gray-400"
+                : "border border-gray-800 text-gray-800 hover:bg-gray-50 hover:border-black hover:text-black active:bg-gray-100"
+              }`}
+>
+  Buy Now
+</button>
+
       </div>
     </div>
   );

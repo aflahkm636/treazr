@@ -41,16 +41,20 @@ const ProductDetails = () => {
     }
 
     return (
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 mb-20">
             {/* Breadcrumbs */}
             <nav className="text-sm mb-6 text-gray-500">
                 <ol className="flex items-center space-x-2">
                     <li>
-                        <Link to="/" className="hover:underline hover:text-gray-800">Home</Link>
+                        <Link to="/" className="hover:underline hover:text-gray-800">
+                            Home
+                        </Link>
                         <span className="mx-2">/</span>
                     </li>
                     <li>
-                        <Link to="/products" className="hover:underline hover:text-gray-800">Products</Link>
+                        <Link to="/products" className="hover:underline hover:text-gray-800">
+                            Products
+                        </Link>
                         <span className="mx-2">/</span>
                     </li>
                     <li className="text-gray-700">{product.name}</li>
@@ -88,9 +92,7 @@ const ProductDetails = () => {
                             <div className="flex items-center gap-2">
                                 <span
                                     className={`text-xs font-medium px-3 py-1 rounded-full ${
-                                        product.stock > 0
-                                            ? "bg-emerald-50 text-emerald-700"
-                                            : "bg-rose-50 text-rose-700"
+                                        product.stock > 0 ? "bg-emerald-50 text-emerald-700" : "bg-rose-50 text-rose-700"
                                     }`}
                                 >
                                     {product.stock > 0 ? "In Stock" : "Out of Stock"}
@@ -103,10 +105,7 @@ const ProductDetails = () => {
                         {product.tags?.length > 0 && (
                             <div className="flex flex-wrap gap-2 pt-1">
                                 {product.tags.map((tag, index) => (
-                                    <span
-                                        key={index}
-                                        className="bg-gray-100 text-gray-500 text-xs px-3 py-1 rounded-full"
-                                    >
+                                    <span key={index} className="bg-gray-100 text-gray-500 text-xs px-3 py-1 rounded-full">
                                         #{tag}
                                     </span>
                                 ))}
@@ -118,7 +117,7 @@ const ProductDetails = () => {
                     <div className="pt-6 space-y-3">
                         <button
                             onClick={() => handleAddToCart(product)}
-                            disabled={isLoading}
+                            disabled={isLoading || product.stock <= 0}
                             className="w-full flex items-center justify-center gap-2 bg-gray-900 text-white py-3 rounded-md transition-all duration-300 hover:shadow-xl hover:scale-[1.02] active:scale-100 disabled:opacity-60"
                         >
                             <CiShoppingCart className="w-5 h-5" />

@@ -181,7 +181,7 @@ if (loading) {
                                     src={product.images?.[0] || "/default-product.jpg"}
                                     alt={product.name}
                                     className="w-full h-full object-cover cursor-pointer"
-                                    onClick={() => navigate(`/products/${product.id}`)}
+                                    onClick={() => navigate(`/productdetails/${product.id}`)}
                                     onError={(e) => {
                                         e.target.src = "/default-product.jpg";
                                     }}
@@ -217,10 +217,10 @@ if (loading) {
     e.stopPropagation();
     handleAddToCart(product);
   }}
-  disabled={loading}
+  disabled={loading || product.stock <= 0}
   className="w-full mt-2 py-1.5 px-3 text-xs border border-transparent rounded-md shadow-sm font-medium text-white bg-black hover:bg-gray-800 transition-colors disabled:opacity-50"
 >
-  Add to Cart
+  {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
 </button>
                                 </div>
                             </div>

@@ -265,7 +265,7 @@ const Checkout = () => {
                                                 <span className="font-medium">Cash on Delivery</span>
                                             </div>
                                             <p className="text-sm text-gray-600 mt-1">
-                                                Pay when you receive your order. ₹{shippingFee} convenience fee applies.
+                                                Pay when you receive your order. ${shippingFee} convenience fee applies.
                                             </p>
                                         </div>
                                     </div>
@@ -502,11 +502,11 @@ const Checkout = () => {
                                                     <div className="flex-1 min-w-0">
                                                         <p className="font-medium truncate">{product.name}</p>
                                                         <p className="text-sm text-gray-600">
-                                                            ₹{product.price.toFixed(2)} × {item.quantity}
+                                                            ${product.price.toFixed(2)} × {item.quantity}
                                                         </p>
                                                     </div>
                                                     <p className="font-medium whitespace-nowrap ml-2">
-                                                        ₹{(product.price * item.quantity).toFixed(2)}
+                                                        ${(product.price * item.quantity).toFixed(2)}
                                                     </p>
                                                 </div>
                                             ) : null;
@@ -516,15 +516,15 @@ const Checkout = () => {
                                     <div className="border-t border-gray-200 pt-4 space-y-3">
                                         <div className="flex justify-between">
                                             <span className="text-gray-600">Subtotal</span>
-                                            <span>₹{calculateSubtotal().toFixed(2)}</span>
+                                            <span>${calculateSubtotal().toFixed(2)}</span>
                                         </div>
                                         <div className="flex justify-between">
                                             <span className="text-gray-600">Shipping</span>
-                                            <span>₹{shippingFee.toFixed(2)}</span>
+                                            <span>${shippingFee.toFixed(2)}</span>
                                         </div>
                                         <div className="flex justify-between font-bold text-lg pt-2">
                                             <span>Total</span>
-                                            <span>₹{calculateTotal()}</span>
+                                            <span>${calculateTotal()}</span>
                                         </div>
                                         <button
                                             onClick={handlePlaceOrder}

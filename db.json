@@ -68,36 +68,7 @@
       "password": "fasil@1234",
       "role": "user",
       "isBlock": true,
-      "cart": [
-        {
-          "productId": "1",
-          "quantity": 1,
-          "price": 12.99,
-          "name": "Mini GT Liberty Walk RX-7",
-          "image": "https://i.pinimg.com/736x/1c/47/33/1c4733a320b6797408c0491aa8b8dabc.jpg"
-        },
-        {
-          "productId": "8",
-          "quantity": 1,
-          "price": 24.99,
-          "name": "LEGO Lamborghini Aventador",
-          "image": "https://i.pinimg.com/1200x/27/ab/68/27ab68fdc57406ab0cf9ea0dc8db57e9.jpg"
-        },
-        {
-          "productId": "5",
-          "quantity": 1,
-          "price": 9.99,
-          "name": "Hot Wheels Nissan Skyline",
-          "image": "https://i.pinimg.com/736x/4d/d1/e4/4dd1e46245e6fc7082ac84d21c7135f4.jpg"
-        },
-        {
-          "productId": "3",
-          "quantity": 1,
-          "price": 13.99,
-          "name": "Mini GT Lamborghini ",
-          "image": "https://i.pinimg.com/1200x/6c/c3/01/6cc3018d17ef456be7da7aa6dcdaf618.jpg"
-        }
-      ],
+      "cart": [],
       "orders": [
         {
           "id": "1753095320547",
@@ -307,6 +278,58 @@
           "paymentMethod": "cod",
           "status": "processing",
           "date": "2025-07-21T12:23:31.463Z"
+        },
+        {
+          "id": "1753156705811",
+          "items": [
+            {
+              "productId": "2",
+              "name": "INIGT 1:64 Weiß 911 (992) GT3 RS",
+              "price": 14.99,
+              "quantity": 4,
+              "image": "https://i.pinimg.com/1200x/0d/46/61/0d46615f14419a3223b56a5d5beb7638.jpg"
+            }
+          ],
+          "subtotal": 59.96,
+          "shippingFee": 5,
+          "total": "64.96",
+          "shippingAddress": {
+            "street": "aflah",
+            "city": "tirur",
+            "state": "kerala",
+            "zip": "676106",
+            "country": "India"
+          },
+          "paymentMethod": "cod",
+          "paymentDetails": {},
+          "status": "processing",
+          "date": "2025-07-22T03:58:25.811Z"
+        },
+        {
+          "id": "1753157482651",
+          "items": [
+            {
+              "productId": "2",
+              "name": "INIGT 1:64 Weiß 911 (992) GT3 RS",
+              "price": 14.99,
+              "quantity": 2,
+              "image": "https://i.pinimg.com/1200x/0d/46/61/0d46615f14419a3223b56a5d5beb7638.jpg"
+            }
+          ],
+          "subtotal": 29.98,
+          "shippingFee": 5,
+          "total": "34.98",
+          "shippingAddress": {
+            "street": "aflah",
+            "city": "tirur",
+            "state": "kerala",
+            "zip": "676106",
+            "country": "India"
+          },
+          "paymentMethod": "cod",
+          "paymentDetails": {},
+          "status": "processing",
+          "date": "2025-07-22T04:11:22.651Z"
         }
       ],
       "wishlist": [
@@ -314,17 +337,20 @@
         "1",
         "7",
         "12",
-        "13"
+        "13",
+        "6",
+        "2"
       ],
       "created_at": "2025-07-16T12:22:26.207Z",
       "shippingAddresses": [
         "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        ""
+        {
+          "street": "aflah",
+          "city": "tirur",
+          "state": "kerala",
+          "zip": "676106",
+          "country": "India"
+        }
       ]
     },
     {
@@ -381,7 +407,7 @@
       "category": "Diecast Cars",
       "description": "A premium 1:64 scale diecast model of the Porsche 911 (992) GT3 RS with Weissach Package in white. Detailed and perfect for collectors.",
       "price": 14.99,
-      "stock": 4,
+      "stock": 0,
       "brand": "INIGT",
       "images": [
         "https://i.pinimg.com/1200x/0d/46/61/0d46615f14419a3223b56a5d5beb7638.jpg"

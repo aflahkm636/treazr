@@ -105,7 +105,7 @@ function Cart() {
             <div className="flex-1">
               <h3 className="font-medium">{item.name}</h3>
 {typeof item.price === "number" && (
-  <p className="text-gray-600">₹{item.price.toFixed(2)}</p>
+  <p className="text-gray-600">${item.price.toFixed(2)}</p>
 )}
             </div>
             <div className="flex items-center">
