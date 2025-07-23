@@ -13,15 +13,16 @@ import Newest from "./pages/landing/Newest";
 import ProductDetails from "./common/components/ProductDetails";
 import Footer from "./common/layout/Footer";
 import Cart from "./pages/Cart";
-import OrderDetails from "./pages/landing/OrderDetails";
+import OrderDetails from "./pages/Order/OrderDetails";
 import ProductList from "./pages/products/ProductList";
 import DiecastCars from "./pages/products/DiecastCars";
 import Comics from "./pages/products/Comics";
 import ActionFigures from "./pages/products/ActionFigures";
 import TradingCards from "./pages/products/TradingCards";
-import CheckOut from "./pages/landing/CheckOut";
-import OrderStatus from "./pages/landing/OrderStatus";
+import CheckOut from "./pages/Order/CheckOut";
+import OrderStatus from "./pages/Order/OrderStatus";
 import ViewOrders from "./common/components/ViewOrders";
+import Profile from "./common/components/Profile";
 
 // ✅ Lazy loaded components
 const Products = lazy(() => import("./pages/products/Products"));
@@ -31,11 +32,15 @@ const ProtectedRoute = ({ children }) => {
     if (loading) return <div>Loading...</div>;
     return isAuthenticated ? children : <Navigate to="/login" replace />;
 };
+const PublicRoute = ({ children }) => {
+    const { isAuthenticated } = useAuth();
+    return isAuthenticated ? <Navigate to="/" replace /> : children;
+};
 
 const RoutesWrapper = () => {
     const location = useLocation();
     const hideNavbar = ["/login", "/register"].includes(location.pathname);
-    const hideFooter = ["/login", "/register", "/cart", "/wishlist"].includes(location.pathname);
+    const hideFooter = ["/login", "/register", "/cart", "/wishlist","/profile","/checkout"].includes(location.pathname);
 
     return (
         <>
@@ -50,8 +55,6 @@ const RoutesWrapper = () => {
                             <Route path="newest" element={<Newest />} />
                         </Route>
 
-                        <Route path="/register" element={<Register />} />
-                        <Route path="/login" element={<Login />} />
 
                         <Route path="/products" element={<Products />}>
                             <Route index element={<ProductList />} />
@@ -61,7 +64,22 @@ const RoutesWrapper = () => {
                             <Route path="comics" element={<Comics />} />
                             <Route path="TradingCards" element={<TradingCards />} />
                         </Route>
-
+                        <Route
+                            path="/register"
+                            element={
+                                <PublicRoute>
+                                    <Register />
+                                </PublicRoute>
+                            }
+                        />
+                        <Route
+                            path="/login"
+                            element={
+                                <PublicRoute>
+                                    <Login />
+                                </PublicRoute>
+                            }
+                        />
                         <Route path="/productdetails/:id" element={<ProductDetails />} />
 
                         <Route
@@ -69,6 +87,14 @@ const RoutesWrapper = () => {
                             element={
                                 <ProtectedRoute>
                                     <Wishlist />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/profile"
+                            element={
+                                <ProtectedRoute>
+                                    <Profile/>
                                 </ProtectedRoute>
                             }
                         />
@@ -84,7 +110,7 @@ const RoutesWrapper = () => {
                             path="/order-details"
                             element={
                                 <ProtectedRoute>
-                                    <OrderDetails />
+                                    <OrderDetails/>
                                 </ProtectedRoute>
                             }
                         />
@@ -108,7 +134,7 @@ const RoutesWrapper = () => {
                             path="/vieworder"
                             element={
                                 <ProtectedRoute>
-                                    <ViewOrders/>
+                                    <ViewOrders />
                                 </ProtectedRoute>
                             }
                         />

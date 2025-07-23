@@ -6,6 +6,23 @@ import { useAuth } from "../../common/context/AuthProvider";
 import { FaHome, FaCreditCard, FaMoneyBillWave, FaMobileAlt, FaPiggyBank } from "react-icons/fa";
 import { RiVisaLine, RiMastercardLine } from "react-icons/ri";
 import { SiPaytm, SiGooglepay, SiPhonepe } from "react-icons/si";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+
+// Address validation schema
+const addressValidationSchema = Yup.object().shape({
+    street: Yup.string().required("Street address is required").min(5, "Street address must be at least 5 characters"),
+    city: Yup.string()
+        .required("City is required")
+        .matches(/^[a-zA-Z\s]*$/, "City can only contain letters"),
+    state: Yup.string()
+        .required("State is required")
+        .matches(/^[a-zA-Z\s]*$/, "State can only contain letters"),
+    zip: Yup.string()
+        .required("ZIP code is required")
+        .matches(/^\d{6}$/, "ZIP code must be 6 digits"),
+    country: Yup.string().required("Country is required"),
+});
 
 const Checkout = () => {
     const { user, setUser } = useAuth();
@@ -14,18 +31,26 @@ const Checkout = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedAddress, setSelectedAddress] = useState("");
-    const [newAddress, setNewAddress] = useState({
-        street: "",
-        city: "",
-        state: "",
-        zip: "",
-        country: "India",
-    });
     const [paymentMethod, setPaymentMethod] = useState("cod");
     const [useExistingAddress, setUseExistingAddress] = useState(true);
     const [cardType, setCardType] = useState("credit");
     const [upiProvider, setUpiProvider] = useState("googlepay");
     const [shippingFee, setShippingFee] = useState(0);
+
+    // Formik form for new address
+    const addressForm = useFormik({
+        initialValues: {
+            street: "",
+            city: "",
+            state: "",
+            zip: "",
+            country: "India",
+        },
+        validationSchema: addressValidationSchema,
+        onSubmit: async (values) => {
+            await saveAddress(values);
+        },
+    });
 
     useEffect(() => {
         if (!userId) return;
@@ -55,7 +80,6 @@ const Checkout = () => {
     }, [paymentMethod]);
 
     const handleAddressChange = (e) => setSelectedAddress(JSON.parse(e.target.value));
-    const handleNewAddressChange = (e) => setNewAddress((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
     const calculateSubtotal = () =>
         user?.cart?.reduce((total, item) => {
@@ -65,14 +89,15 @@ const Checkout = () => {
 
     const calculateTotal = () => (calculateSubtotal() + shippingFee).toFixed(2);
 
-    const saveAddress = async () => {
+    const saveAddress = async (address) => {
         try {
             const updatedUser = await axios.patch(`http://localhost:3000/users/${userId}`, {
-                shippingAddresses: [...(user.shippingAddresses || []), newAddress],
+                shippingAddresses: [...(user.shippingAddresses || []), address],
             });
             setUser(updatedUser.data);
-            setSelectedAddress(newAddress);
+            setSelectedAddress(address);
             setUseExistingAddress(true);
+            addressForm.resetForm();
             Swal.fire("Success", "Address saved successfully", "success");
         } catch (error) {
             console.error("Error saving address:", error);
@@ -82,7 +107,26 @@ const Checkout = () => {
 
     const handlePlaceOrder = async () => {
         try {
-            const shippingAddress = useExistingAddress ? selectedAddress : newAddress;
+            const shippingAddress = useExistingAddress ? selectedAddress : addressForm.values;
+
+            // Validate new address if using new address
+            if (!useExistingAddress) {
+                try {
+                    await addressForm.validateForm();
+                    if (Object.keys(addressForm.errors).length > 0) {
+                        throw new Error("Address validation failed");
+                    }
+                } catch (error) {
+                    Swal.fire("Error", "Please fill all address fields correctly", "error");
+                    return;
+                }
+            }
+
+            // Check if address is selected when using existing address
+            if (useExistingAddress && !selectedAddress) {
+                Swal.fire("Error", "Please select a shipping address", "error");
+                return;
+            }
 
             const orderItems = user.cart.map((cartItem) => {
                 const product = products.find((p) => p.id === cartItem.productId);
@@ -120,7 +164,8 @@ const Checkout = () => {
                     (addr, index, self) => index === self.findIndex((a) => JSON.stringify(a) === JSON.stringify(addr))
                 ),
             });
-
+            const updatedUser = { ...user, cart: [], orders: [...(user.orders || []), order] };
+            localStorage.setItem("user", JSON.stringify(updatedUser));
             Swal.fire({
                 title: "Order Placed!",
                 text: "Your order has been placed successfully",
@@ -203,35 +248,57 @@ const Checkout = () => {
                                     <p className="text-gray-500">No saved addresses found.</p>
                                 )
                             ) : (
-                                <div className="space-y-4">
+                                <form onSubmit={addressForm.handleSubmit} className="space-y-4">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         {["street", "city", "state", "zip", "country"].map((field) => (
                                             <div key={field}>
                                                 <label className="block text-sm font-medium text-gray-700 mb-1">
                                                     {field.charAt(0).toUpperCase() + field.slice(1)}
+                                                    {addressForm.touched[field] && addressForm.errors[field] ? (
+                                                        <span className="text-red-500 text-xs ml-1">
+                                                            {addressForm.errors[field]}
+                                                        </span>
+                                                    ) : null}
                                                 </label>
                                                 <input
-                                                    type={field === "zip" ? "number" : "text"}
+                                                    type={field === "zip" ? "text" : "text"}
                                                     name={field}
                                                     placeholder={
                                                         field === "zip"
                                                             ? "PIN Code"
                                                             : field.charAt(0).toUpperCase() + field.slice(1)
                                                     }
-                                                    value={newAddress[field]}
-                                                    onChange={handleNewAddressChange}
-                                                    className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                                                    value={addressForm.values[field]}
+                                                    onChange={addressForm.handleChange}
+                                                    onBlur={addressForm.handleBlur}
+                                                    className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 ${
+                                                        addressForm.touched[field] && addressForm.errors[field]
+                                                            ? "border-red-500"
+                                                            : "border-gray-200"
+                                                    }`}
                                                 />
                                             </div>
                                         ))}
                                     </div>
-                                    <button
-                                        onClick={saveAddress}
-                                        className="mt-4 px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
-                                    >
-                                        Save This Address
-                                    </button>
-                                </div>
+                                    <div className="flex gap-4">
+                                        <button
+                                            type="submit"
+                                            className="mt-4 px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+                                        >
+                                            Save This Address
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                addressForm.resetForm();
+                                                setUseExistingAddress(true);
+                                            }}
+                                            className="mt-4 px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </form>
                             )}
                         </div>
 
@@ -244,10 +311,10 @@ const Checkout = () => {
 
                             <div className="space-y-4">
                                 {/* Cash on Delivery */}
-                                <div 
+                                <div
                                     className={`p-4 border rounded-lg transition-all duration-200 cursor-pointer ${
-                                        paymentMethod === "cod" 
-                                            ? "border-indigo-500 bg-indigo-50" 
+                                        paymentMethod === "cod"
+                                            ? "border-indigo-500 bg-indigo-50"
                                             : "border-gray-200 hover:border-indigo-300"
                                     }`}
                                     onClick={() => setPaymentMethod("cod")}
@@ -265,17 +332,17 @@ const Checkout = () => {
                                                 <span className="font-medium">Cash on Delivery</span>
                                             </div>
                                             <p className="text-sm text-gray-600 mt-1">
-                                                Pay when you receive your order. ${shippingFee} convenience fee applies.
+                                                Pay when you receive your order. $5 convenience fee applies.
                                             </p>
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* Credit/Debit Card */}
-                                <div 
+                                <div
                                     className={`p-4 border rounded-lg transition-all duration-200 cursor-pointer ${
-                                        paymentMethod === "card" 
-                                            ? "border-indigo-500 bg-indigo-50" 
+                                        paymentMethod === "card"
+                                            ? "border-indigo-500 bg-indigo-50"
                                             : "border-gray-200 hover:border-indigo-300"
                                     }`}
                                     onClick={() => setPaymentMethod("card")}
@@ -292,7 +359,7 @@ const Checkout = () => {
                                                 <FaCreditCard className="text-blue-500 mr-2 text-lg" />
                                                 <span className="font-medium">Credit/Debit Card</span>
                                             </div>
-                                            
+
                                             {paymentMethod === "card" && (
                                                 <div className="mt-4 space-y-4">
                                                     <div className="flex flex-wrap gap-4">
@@ -326,34 +393,40 @@ const Checkout = () => {
 
                                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                         <div>
-                                                            <label className="block text-sm text-gray-600 mb-1">Card Number</label>
-                                                            <input 
-                                                                type="text" 
-                                                                placeholder="1234 5678 9012 3456" 
+                                                            <label className="block text-sm text-gray-600 mb-1">
+                                                                Card Number
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                placeholder="1234 5678 9012 3456"
                                                                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                                                             />
                                                         </div>
                                                         <div>
-                                                            <label className="block text-sm text-gray-600 mb-1">Expiry Date</label>
-                                                            <input 
-                                                                type="text" 
-                                                                placeholder="MM/YY" 
+                                                            <label className="block text-sm text-gray-600 mb-1">
+                                                                Expiry Date
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                placeholder="MM/YY"
                                                                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                                                             />
                                                         </div>
                                                         <div>
                                                             <label className="block text-sm text-gray-600 mb-1">CVV</label>
-                                                            <input 
-                                                                type="text" 
-                                                                placeholder="123" 
+                                                            <input
+                                                                type="text"
+                                                                placeholder="123"
                                                                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                                                             />
                                                         </div>
                                                         <div>
-                                                            <label className="block text-sm text-gray-600 mb-1">Cardholder Name</label>
-                                                            <input 
-                                                                type="text" 
-                                                                placeholder="John Doe" 
+                                                            <label className="block text-sm text-gray-600 mb-1">
+                                                                Cardholder Name
+                                                            </label>
+                                                            <input
+                                                                type="text"
+                                                                placeholder="John Doe"
                                                                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
                                                             />
                                                         </div>
@@ -365,10 +438,10 @@ const Checkout = () => {
                                 </div>
 
                                 {/* UPI Payment */}
-                                <div 
+                                <div
                                     className={`p-4 border rounded-lg transition-all duration-200 cursor-pointer ${
-                                        paymentMethod === "upi" 
-                                            ? "border-indigo-500 bg-indigo-50" 
+                                        paymentMethod === "upi"
+                                            ? "border-indigo-500 bg-indigo-50"
                                             : "border-gray-200 hover:border-indigo-300"
                                     }`}
                                     onClick={() => setPaymentMethod("upi")}
@@ -385,7 +458,7 @@ const Checkout = () => {
                                                 <FaMobileAlt className="text-purple-500 mr-2 text-lg" />
                                                 <span className="font-medium">UPI Payment</span>
                                             </div>
-                                            
+
                                             {paymentMethod === "upi" && (
                                                 <div className="mt-4 space-y-3">
                                                     <div className="flex flex-wrap gap-2">
@@ -441,10 +514,10 @@ const Checkout = () => {
                                 </div>
 
                                 {/* Net Banking */}
-                                <div 
+                                <div
                                     className={`p-4 border rounded-lg transition-all duration-200 cursor-pointer ${
-                                        paymentMethod === "netbanking" 
-                                            ? "border-indigo-500 bg-indigo-50" 
+                                        paymentMethod === "netbanking"
+                                            ? "border-indigo-500 bg-indigo-50"
                                             : "border-gray-200 hover:border-indigo-300"
                                     }`}
                                     onClick={() => setPaymentMethod("netbanking")}
@@ -461,7 +534,7 @@ const Checkout = () => {
                                                 <FaPiggyBank className="text-green-600 mr-2 text-lg" />
                                                 <span className="font-medium">Net Banking</span>
                                             </div>
-                                            
+
                                             {paymentMethod === "netbanking" && (
                                                 <div className="mt-4">
                                                     <select className="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
@@ -528,7 +601,11 @@ const Checkout = () => {
                                         </div>
                                         <button
                                             onClick={handlePlaceOrder}
-                                            disabled={user.cart.length === 0 || (!useExistingAddress && !newAddress.street)}
+                                            disabled={
+                                                user.cart.length === 0 ||
+                                                (useExistingAddress && !selectedAddress) ||
+                                                (!useExistingAddress && !addressForm.isValid)
+                                            }
                                             className="w-full mt-6 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-3 px-6 rounded-lg hover:from-indigo-700 hover:to-indigo-800 transition-all shadow-md disabled:opacity-70 disabled:cursor-not-allowed"
                                         >
                                             Place Order

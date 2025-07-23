@@ -7,15 +7,7 @@
       "password": "aflah@1234",
       "role": "user",
       "isBlock": false,
-      "cart": [
-        {
-          "productId": "1",
-          "quantity": 1,
-          "price": 12.99,
-          "name": "Mini GT Liberty Walk RX-7",
-          "image": "https://i.pinimg.com/736x/1c/47/33/1c4733a320b6797408c0491aa8b8dabc.jpg"
-        }
-      ],
+      "cart": [],
       "orders": [
         {
           "id": "1752913070275",
@@ -53,13 +45,99 @@
           },
           "status": "pending",
           "createdAt": "2025-07-19T08:17:50.275Z"
+        },
+        {
+          "id": "1753254029206",
+          "items": [
+            {
+              "productId": "1",
+              "name": "Mini GT Liberty Walk RX-7",
+              "price": 12.99,
+              "quantity": 1,
+              "image": "https://i.pinimg.com/736x/1c/47/33/1c4733a320b6797408c0491aa8b8dabc.jpg"
+            }
+          ],
+          "subtotal": 12.99,
+          "shippingFee": 5,
+          "total": "17.99",
+          "shippingAddress": {
+            "street": "kurukkol",
+            "city": "tirur",
+            "state": "kerala",
+            "zip": "676106",
+            "country": "India"
+          },
+          "paymentMethod": "cod",
+          "paymentDetails": {},
+          "status": "processing",
+          "date": "2025-07-23T07:00:29.206Z"
+        },
+        {
+          "id": "1753254472073",
+          "items": [
+            {
+              "productId": "9",
+              "name": "LEGO Porsche 911 GT3 RS",
+              "price": 29.99,
+              "quantity": 1,
+              "image": "https://i.pinimg.com/736x/1b/c9/bb/1bc9bb6da34f418e28e45bf552d3695b.jpg"
+            }
+          ],
+          "subtotal": 29.99,
+          "shippingFee": 5,
+          "total": "34.99",
+          "shippingAddress": {
+            "street": "kurukkol",
+            "city": "tirur",
+            "state": "kerala",
+            "zip": "676106",
+            "country": "India"
+          },
+          "paymentMethod": "cod",
+          "paymentDetails": {},
+          "status": "processing",
+          "date": "2025-07-23T07:07:52.073Z"
+        },
+        {
+          "id": "1753260940157",
+          "items": [
+            {
+              "productId": "7",
+              "name": "LEGO Dodge SRT",
+              "price": 19.99,
+              "quantity": 1,
+              "image": "https://i.pinimg.com/1200x/d7/54/16/d754163e2991758da3467e934cc55457.jpg"
+            }
+          ],
+          "subtotal": 19.99,
+          "shippingFee": 5,
+          "total": "24.99",
+          "shippingAddress": {
+            "street": "kurukkol",
+            "city": "tirur",
+            "state": "kerala",
+            "zip": "676106",
+            "country": "India"
+          },
+          "paymentMethod": "cod",
+          "paymentDetails": {},
+          "status": "processing",
+          "date": "2025-07-23T08:55:40.157Z"
         }
       ],
       "wishlist": [
-        "9",
-        "4"
+        "9"
       ],
-      "created_at": "2025-07-16T12:22:26.207Z"
+      "created_at": "2025-07-16T12:22:26.207Z",
+      "shippingAddresses": [
+        {
+          "street": "kurukkol",
+          "city": "tirur",
+          "state": "kerala",
+          "zip": "676106",
+          "country": "India"
+        }
+      ]
     },
     {
       "id": "72f4",
@@ -68,57 +146,8 @@
       "password": "fasil@1234",
       "role": "user",
       "isBlock": true,
-      "cart": [
-        {
-          "productId": "7",
-          "quantity": 1,
-          "price": 19.99,
-          "name": "LEGO Dodge SRT",
-          "image": "https://i.pinimg.com/1200x/d7/54/16/d754163e2991758da3467e934cc55457.jpg"
-        }
-      ],
+      "cart": [],
       "orders": [
-        {
-          "id": "1753095320547",
-          "items": [
-            {
-              "productId": "2",
-              "name": "INIGT 1:64 Weiß 911 (992) GT3 RS",
-              "price": 14.99,
-              "quantity": 2,
-              "image": "https://i.pinimg.com/1200x/0d/46/61/0d46615f14419a3223b56a5d5beb7638.jpg"
-            },
-            {
-              "productId": "3",
-              "name": "Mini GT Lamborghini ",
-              "price": 13.99,
-              "quantity": 1,
-              "image": "https://i.pinimg.com/1200x/6c/c3/01/6cc3018d17ef456be7da7aa6dcdaf618.jpg"
-            }
-          ],
-          "total": 43.97,
-          "shippingAddress": "",
-          "paymentMethod": "cod",
-          "status": "pending",
-          "date": "2025-07-21T10:55:20.547Z"
-        },
-        {
-          "id": "1753095592968",
-          "items": [
-            {
-              "productId": "2",
-              "name": "INIGT 1:64 Weiß 911 (992) GT3 RS",
-              "price": 14.99,
-              "quantity": 1,
-              "image": "https://i.pinimg.com/1200x/0d/46/61/0d46615f14419a3223b56a5d5beb7638.jpg"
-            }
-          ],
-          "total": 14.99,
-          "shippingAddress": "",
-          "paymentMethod": "cod",
-          "status": "processing",
-          "date": "2025-07-21T10:59:52.968Z"
-        },
         {
           "id": "1753095642632",
           "items": [
@@ -185,7 +214,7 @@
           "total": 48.46,
           "shippingAddress": "",
           "paymentMethod": "cod",
-          "status": "processing",
+          "status": "cancelled",
           "date": "2025-07-21T11:03:51.577Z"
         },
         {
@@ -231,7 +260,7 @@
             }
           ],
           "date": "2025-07-21T12:13:32.883Z",
-          "status": "pending",
+          "status": "cancelled",
           "paymentMethod": "cash",
           "total": "43.97",
           "shippingAddress": {}
@@ -248,7 +277,7 @@
             }
           ],
           "date": "2025-07-21T12:16:39.975Z",
-          "status": "pending",
+          "status": "cancelled",
           "paymentMethod": "cash",
           "total": "14.99",
           "shippingAddress": {}
@@ -451,14 +480,73 @@
           "paymentDetails": {},
           "status": "processing",
           "date": "2025-07-22T09:58:48.286Z"
+        },
+        {
+          "id": "1753252144334",
+          "items": [
+            {
+              "productId": "7",
+              "name": "LEGO Dodge SRT",
+              "price": 19.99,
+              "quantity": 1,
+              "image": "https://i.pinimg.com/1200x/d7/54/16/d754163e2991758da3467e934cc55457.jpg"
+            }
+          ],
+          "subtotal": 19.99,
+          "shippingFee": 5,
+          "total": "24.99",
+          "shippingAddress": {
+            "street": "aflah",
+            "city": "tirur",
+            "state": "kerala",
+            "zip": "676106",
+            "country": "India"
+          },
+          "paymentMethod": "cod",
+          "paymentDetails": {},
+          "status": "processing",
+          "date": "2025-07-23T06:29:04.334Z"
+        },
+        {
+          "id": "1753263269340",
+          "items": [
+            {
+              "productId": "1",
+              "name": "Mini GT Liberty Walk RX-7",
+              "price": 12.99,
+              "quantity": 1,
+              "image": "https://i.pinimg.com/736x/1c/47/33/1c4733a320b6797408c0491aa8b8dabc.jpg"
+            },
+            {
+              "productId": "7",
+              "name": "LEGO Dodge SRT",
+              "price": 19.99,
+              "quantity": 1,
+              "image": "https://i.pinimg.com/1200x/d7/54/16/d754163e2991758da3467e934cc55457.jpg"
+            }
+          ],
+          "subtotal": 32.98,
+          "shippingFee": 5,
+          "total": "37.98",
+          "shippingAddress": {
+            "street": "kurukkol",
+            "city": "tirur",
+            "state": "kerala",
+            "zip": "676106",
+            "country": "India"
+          },
+          "paymentMethod": "cod",
+          "paymentDetails": {},
+          "status": "processing",
+          "date": "2025-07-23T09:34:29.340Z"
         }
       ],
       "wishlist": [
-        "12",
         "13",
         "2",
         "8",
-        "3"
+        "3",
+        "10"
       ],
       "created_at": "2025-07-16T12:22:26.207Z",
       "shippingAddresses": [
@@ -475,6 +563,13 @@
           "city": "",
           "state": "",
           "zip": "",
+          "country": "India"
+        },
+        {
+          "street": "kurukkol",
+          "city": "tirur",
+          "state": "kerala",
+          "zip": "676106",
           "country": "India"
         }
       ]

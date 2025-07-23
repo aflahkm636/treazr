@@ -1,8 +1,8 @@
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping, faHouse, faHeart, faBoxesStacked } from "@fortawesome/free-solid-svg-icons";
+import { faCartShopping, faHouse, faHeart, faBoxesStacked, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useMemo, useCallback } from "react";
 import { useAuth } from "../context/AuthProvider";
 
@@ -13,12 +13,10 @@ function classNames(...classes) {
 const FALLBACK_AVATAR = "src/assets/profile.png";
 
 const AuthMenuItems = ({ isAuthenticated, logout }) => {
-    const getMenuItemClass = useCallback((focus) => 
-        classNames(
-            focus ? "bg-gray-100" : "",
-            "block px-4 py-2 text-sm text-gray-700"
-        ),
-    []);
+    const getMenuItemClass = useCallback(
+        (focus) => classNames(focus ? "bg-gray-100" : "", "block px-4 py-2 text-sm text-gray-700"),
+        []
+    );
 
     return isAuthenticated ? (
         <>
@@ -31,13 +29,7 @@ const AuthMenuItems = ({ isAuthenticated, logout }) => {
             </MenuItem>
             <MenuItem>
                 {({ focus }) => (
-                    <button
-                        onClick={logout}
-                        className={classNames(
-                            getMenuItemClass(focus),
-                            "w-full text-left"
-                        )}
-                    >
+                    <button onClick={logout} className={classNames(getMenuItemClass(focus), "w-full text-left")}>
                         Sign out
                     </button>
                 )}
@@ -65,8 +57,7 @@ const AuthMenuItems = ({ isAuthenticated, logout }) => {
 
 const NavLinkItem = ({ item, cartCount }) => {
     const location = useLocation();
-    const isActive = location.pathname === item.href || 
-                    (item.href !== '/' && location.pathname.startsWith(item.href));
+    const isActive = location.pathname === item.href || (item.href !== "/" && location.pathname.startsWith(item.href));
 
     return (
         <NavLink
@@ -87,21 +78,24 @@ const NavLinkItem = ({ item, cartCount }) => {
     );
 };
 
-export default function NavBar2() {
+export default function NavBar() {
     const { user, isAuthenticated, logout, cartCount } = useAuth();
+    const navigate = useNavigate();
     const location = useLocation();
 
     const navigation = useMemo(
         () => [
             { name: "Home", href: "/", icon: faHouse },
             { name: "Products", href: "/products", icon: faBoxesStacked },
-            ...(isAuthenticated 
-                ? [{ name: "Wishlist", href: "/wishlist", icon: faHeart }] 
-                : []),
+            ...(isAuthenticated ? [{ name: "Wishlist", href: "/wishlist", icon: faHeart }] : []),
             { name: "Cart", href: "/cart", icon: faCartShopping },
         ],
         [isAuthenticated]
     );
+
+    const handleLoginClick = () => {
+        navigate("/login");
+    };
 
     return (
         <Disclosure as="nav" className="fixed top-0 w-full z-50 bg-gray-800 shadow-lg">
@@ -117,47 +111,63 @@ export default function NavBar2() {
                                 <div className="hidden sm:ml-6 sm:block">
                                     <div className="flex space-x-1">
                                         {navigation.map((item) => (
-                                            <NavLinkItem 
-                                                key={item.name} 
-                                                item={item} 
-                                                cartCount={item.name === "Cart" ? cartCount : 0} 
+                                            <NavLinkItem
+                                                key={item.name}
+                                                item={item}
+                                                cartCount={item.name === "Cart" ? cartCount : 0}
                                             />
                                         ))}
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Right side - Profile */}
+                            {/* Right side - Profile or Login */}
                             <div className="flex items-center">
-                                {isAuthenticated && (
-                                    <div className="hidden sm:block mr-4">
-                                        <span className="text-white text-sm font-medium">
-                                            {user?.name}
-                                        </span>
-                                    </div>
+                                {isAuthenticated ? (
+                                    <>
+                                        <div className="hidden sm:block mr-4">
+                                            <span className="text-white text-sm font-medium">{user?.name}</span>
+                                        </div>
+
+                                        {/* Profile dropdown */}
+                                        <Menu as="div" className="relative">
+                                            <MenuButton className="flex rounded-full text-sm focus:outline-none">
+                                                <img
+                                                    className="h-8 w-8 rounded-full"
+                                                    src={user?.avatar || FALLBACK_AVATAR}
+                                                    alt="User profile"
+                                                    width={32}
+                                                    height={32}
+                                                />
+                                            </MenuButton>
+                                            <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                <AuthMenuItems isAuthenticated={isAuthenticated} logout={logout} />
+                                            </MenuItems>
+                                        </Menu>
+                                    </>
+                                ) : (
+                                    <>
+                                        {/* Login button - desktop */}
+                                        <button
+                                            onClick={handleLoginClick}
+                                            className="hidden sm:flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200"
+                                            style={{
+                                                background:
+                                                    "linear-gradient(135deg, rgba(99,102,241,0.08) 0%, rgba(99,102,241,0.12) 100%)",
+                                                color: "#4f46e5", // Indigo-600
+                                                border: "1px solid rgba(99,102,241,0.2)",
+                                                boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
+                                            }}
+                                        >
+                                            <FontAwesomeIcon icon={faUser} className="mr-2" style={{ color: "#a5b4fc" }} />
+                                            Login
+                                        </button>
+                                    </>
                                 )}
-                                
-                                {/* Profile dropdown */}
-                                <Menu as="div" className="relative">
-                                    <MenuButton className="flex rounded-full text-sm focus:outline-none">
-                                        <img
-                                            className="h-8 w-8 rounded-full"
-                                            src={user?.avatar || FALLBACK_AVATAR}
-                                            alt="User profile"
-                                            width={32}
-                                            height={32}
-                                        />
-                                    </MenuButton>
-                                    <MenuItems className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                        <AuthMenuItems isAuthenticated={isAuthenticated} logout={logout} />
-                                    </MenuItems>
-                                </Menu>
 
                                 {/* Mobile menu button */}
                                 <div className="sm:hidden ml-4">
-                                    <DisclosureButton 
-                                        className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:text-white focus:outline-none"
-                                    >
+                                    <DisclosureButton className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:text-white focus:outline-none">
                                         {open ? (
                                             <XMarkIcon className="block h-6 w-6" />
                                         ) : (
@@ -179,7 +189,9 @@ export default function NavBar2() {
                                     to={item.href}
                                     className={({ isActive }) =>
                                         classNames(
-                                            isActive ? "bg-gray-900 text-white" : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                                            isActive
+                                                ? "bg-gray-900 text-white"
+                                                : "text-gray-300 hover:bg-gray-700 hover:text-white",
                                             "block px-3 py-2 rounded-md text-base font-medium flex items-center relative"
                                         )
                                     }
@@ -193,7 +205,7 @@ export default function NavBar2() {
                                     )}
                                 </DisclosureButton>
                             ))}
-                            {isAuthenticated && (
+                            {isAuthenticated ? (
                                 <div className="pt-4 pb-2 border-t border-gray-700">
                                     <div className="flex items-center px-4">
                                         <img
@@ -202,11 +214,53 @@ export default function NavBar2() {
                                             alt="User profile"
                                         />
                                         <div className="ml-3">
-                                            <div className="text-sm font-medium text-white">
-                                                {user?.name}
-                                            </div>
+                                            <div className="text-sm font-medium text-white">{user?.name}</div>
                                         </div>
                                     </div>
+                                    <div className="mt-2 space-y-1">
+                                        <DisclosureButton
+                                            as={NavLink}
+                                            to="/profile"
+                                            className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white"
+                                        >
+                                            Your Profile
+                                        </DisclosureButton>
+                                        <DisclosureButton
+                                            as="button"
+                                            onClick={logout}
+                                            className="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white"
+                                        >
+                                            Sign out
+                                        </DisclosureButton>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="pt-2 border-t border-gray-700">
+                                    <DisclosureButton
+                                        as={NavLink}
+                                        to="/login"
+                                        className="block px-4 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white rounded-md"
+                                        style={{
+                                            background:
+                                                "linear-gradient(135deg, rgba(99,102,241,0.1) 0%, rgba(99,102,241,0.2) 100%)",
+                                            border: "1px solid rgba(99,102,241,0.3)",
+                                            marginBottom: "0.5rem",
+                                        }}
+                                    >
+                                        Login
+                                    </DisclosureButton>
+                                    <DisclosureButton
+                                        as={NavLink}
+                                        to="/register"
+                                        className="block px-4 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white rounded-md"
+                                        style={{
+                                            background:
+                                                "linear-gradient(135deg, rgba(99,102,241,0.1) 0%, rgba(99,102,241,0.2) 100%)",
+                                            border: "1px solid rgba(99,102,241,0.3)",
+                                        }}
+                                    >
+                                        Register
+                                    </DisclosureButton>
                                 </div>
                             )}
                         </div>

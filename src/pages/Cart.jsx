@@ -31,7 +31,7 @@ function Cart() {
   };
 
   const updateQuantity = (productId, newQuantity) => {
-    if (newQuantity < 1) return;
+    if (newQuantity < 1|| newQuantity > 5) return;
     const updatedCart = cartItems.map((item) =>
       item.productId === productId ? { ...item, quantity: newQuantity } : item
     );
@@ -119,7 +119,7 @@ function Cart() {
               <span className="px-3 py-1 bg-gray-100">{item.quantity}</span>
               <button
                 onClick={() => updateQuantity(item.productId, item.quantity + 1)}
-                disabled={updating}
+                disabled={updating || item.quantity>=5}
                 className="px-3 py-1 bg-gray-200 rounded-r disabled:opacity-50"
               >
                 +
