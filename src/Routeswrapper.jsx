@@ -23,6 +23,7 @@ import CheckOut from "./pages/Order/CheckOut";
 import OrderStatus from "./pages/Order/OrderStatus";
 import ViewOrders from "./common/components/ViewOrders";
 import Profile from "./common/components/Profile";
+import BuyNow from "./common/components/BuyNow";
 
 // ✅ Lazy loaded components
 const Products = lazy(() => import("./pages/products/Products"));
@@ -95,6 +96,14 @@ const RoutesWrapper = () => {
                             element={
                                 <ProtectedRoute>
                                     <Profile/>
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/buy-now"
+                            element={
+                                <ProtectedRoute>
+                                    <BuyNow/>
                                 </ProtectedRoute>
                             }
                         />

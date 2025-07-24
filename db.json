@@ -146,7 +146,15 @@
       "password": "fasil@1234",
       "role": "user",
       "isBlock": true,
-      "cart": [],
+      "cart": [
+        {
+          "productId": "3",
+          "quantity": 1,
+          "price": 13.99,
+          "name": "Mini GT Lamborghini ",
+          "image": "https://i.pinimg.com/1200x/6c/c3/01/6cc3018d17ef456be7da7aa6dcdaf618.jpg"
+        }
+      ],
       "orders": [
         {
           "id": "1753095642632",
@@ -176,7 +184,7 @@
           "total": 34.47,
           "shippingAddress": "",
           "paymentMethod": "cod",
-          "status": "processing",
+          "status": "cancelled",
           "date": "2025-07-21T11:00:42.632Z"
         },
         {
@@ -539,12 +547,118 @@
           "paymentDetails": {},
           "status": "processing",
           "date": "2025-07-23T09:34:29.340Z"
+        },
+        {
+          "id": "1753275362654",
+          "items": [
+            {
+              "productId": "13",
+              "name": "BMW E21",
+              "price": 10.99,
+              "quantity": 1,
+              "image": "https://i.pinimg.com/736x/00/ac/e8/00ace8c3ca90eeb77788105ae04a3901.jpg"
+            }
+          ],
+          "subtotal": 10.99,
+          "shippingFee": 5,
+          "total": "15.99",
+          "shippingAddress": {
+            "street": "kurukkol",
+            "city": "tirur",
+            "state": "kerala",
+            "zip": "676106",
+            "country": "India"
+          },
+          "paymentMethod": "cod",
+          "paymentDetails": {},
+          "status": "processing",
+          "date": "2025-07-23T12:56:02.654Z"
+        },
+        {
+          "id": "1753333184158",
+          "items": [
+            {
+              "productId": "5",
+              "name": "Hot Wheels Nissan Skyline",
+              "price": 9.99,
+              "quantity": 1,
+              "image": "https://i.pinimg.com/736x/4d/d1/e4/4dd1e46245e6fc7082ac84d21c7135f4.jpg"
+            }
+          ],
+          "subtotal": 9.99,
+          "shippingFee": 5,
+          "total": "14.99",
+          "shippingAddress": {
+            "street": "kurukkol",
+            "city": "tirur",
+            "state": "kerala",
+            "zip": "676106",
+            "country": "India"
+          },
+          "paymentMethod": "cod",
+          "paymentDetails": {},
+          "status": "processing",
+          "date": "2025-07-24T04:59:44.158Z",
+          "isBuyNow": true
+        },
+        {
+          "id": "1753334239749",
+          "items": [
+            {
+              "productId": "7",
+              "name": "LEGO Dodge SRT",
+              "price": 19.99,
+              "quantity": 1,
+              "image": "https://i.pinimg.com/1200x/d7/54/16/d754163e2991758da3467e934cc55457.jpg"
+            }
+          ],
+          "subtotal": 19.99,
+          "shippingFee": 5,
+          "total": "24.99",
+          "shippingAddress": {
+            "street": "kurukkol",
+            "city": "tirur",
+            "state": "kerala",
+            "zip": "676106",
+            "country": "India"
+          },
+          "paymentMethod": "cod",
+          "paymentDetails": {},
+          "status": "processing",
+          "date": "2025-07-24T05:17:19.749Z",
+          "isBuyNow": true
+        },
+        {
+          "id": "1753334319263",
+          "items": [
+            {
+              "productId": "7",
+              "name": "LEGO Dodge SRT",
+              "price": 19.99,
+              "quantity": 1,
+              "image": "https://i.pinimg.com/1200x/d7/54/16/d754163e2991758da3467e934cc55457.jpg"
+            }
+          ],
+          "subtotal": 19.99,
+          "shippingFee": 5,
+          "total": "24.99",
+          "shippingAddress": {
+            "street": "kurukkol",
+            "city": "tirur",
+            "state": "kerala",
+            "zip": "676106",
+            "country": "India"
+          },
+          "paymentMethod": "cod",
+          "paymentDetails": {},
+          "status": "processing",
+          "date": "2025-07-24T05:18:39.263Z",
+          "isBuyNow": false
         }
       ],
       "wishlist": [
         "13",
         "2",
-        "8",
         "3",
         "10"
       ],

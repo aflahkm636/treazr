@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { CiCircleMinus, CiCirclePlus } from "react-icons/ci";
 
 const OrderDetails = () => {
   const location = useLocation();
@@ -26,21 +25,6 @@ const OrderDetails = () => {
       </div>
     );
   }
-
-  const updateQuantity = (productId, newQuantity) => {
-    if (newQuantity < 1) return;
-    
-    const updatedCart = cartItems.map(item => 
-      item.productId === productId ? { ...item, quantity: newQuantity } : item
-    );
-    
-    const newTotal = updatedCart.reduce(
-      (sum, item) => sum + (item.price * item.quantity), 0
-    ).toFixed(2);
-    
-    setCartItems(updatedCart);
-    setTotal(newTotal);
-  };
 
   const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
@@ -101,6 +85,7 @@ const OrderDetails = () => {
                     <div className="flex-1">
                       <h3 className="font-medium text-gray-900">{item.name}</h3>
                       <p className="text-gray-600 mt-1">${item.price.toFixed(2)}</p>
+                      <p className="text-sm text-gray-500">Quantity: {item.quantity}</p>
                       
                       {item.stock && (
                         <p className={`text-xs mt-1 ${
@@ -113,30 +98,8 @@ const OrderDetails = () => {
                       )}
                     </div>
                     
-                    <div className="flex items-center space-x-4">
-                      <div className="flex items-center border border-gray-200 rounded-full">
-                        <button 
-                          onClick={() => updateQuantity(item.productId, item.quantity - 1)}
-                          className="p-1 text-gray-500 hover:text-gray-700"
-                                          disabled={item.quantity<=1}
-
-                        >
-                          <CiCircleMinus className="w-5 h-5" />
-                        </button>
-                        <span className="px-3">{item.quantity}</span>
-                        <button 
-                          onClick={() => updateQuantity(item.productId, item.quantity + 1)}
-                          className="p-1 text-gray-500 hover:text-gray-700"
-                                          disabled={item.quantity>=5}
-
-                        >
-                          <CiCirclePlus className="w-5 h-5" />
-                        </button>
-                      </div>
-                      
-                      <div className="w-24 text-right font-medium">
-                        ${(item.price * item.quantity).toFixed(2)}
-                      </div>
+                    <div className="w-24 text-right font-medium">
+                      ${(item.price * item.quantity).toFixed(2)}
                     </div>
                   </div>
                 ))}

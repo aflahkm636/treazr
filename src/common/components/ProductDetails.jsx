@@ -21,10 +21,22 @@ const ProductDetails = () => {
     const handleBuyNow = async () => {
         try {
             setIsLoading(true);
-            const success = await handleAddToCart(product, { showToast: false });
-            if (success) {
-                navigate("/cart");
-            }
+            navigate("/buy-now", {
+                state: {
+                    product: {
+                        productId: product.id,
+                        name: product.name,
+                        price: product.price,
+                        image: product.images?.[0] || "/default-product.jpg",
+                        stock: product.stock,
+                        brand: product.brand,
+                        category: product.category,
+                        description: product.description,
+                        tags: product.tags,
+                        rating: product.rating
+                    }
+                }
+            });
         } catch (error) {
             toast.error("Failed to proceed to checkout");
         } finally {

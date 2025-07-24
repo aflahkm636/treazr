@@ -98,50 +98,22 @@ const ProductListCard = React.memo(({ product }) => {
 
   const { handleAddToCart } = useAddToCart();
 
-  const handleBuyNow = useCallback(
-    async (e) => {
-      e?.stopPropagation();
-      try {
-        if (!user) {
-          toast.error("Please login to proceed to checkout");
-          return;
-        }
-        
-        const currentCart = user.cart || [];
-        const existingItemIndex = currentCart.findIndex(
-          (item) => item.productId === product.id
-        );
-        
-        let updatedCart;
-        if (existingItemIndex >= 0) {
-          updatedCart = [...currentCart];
-          updatedCart[existingItemIndex].quantity += 1;
-        } else {
-          updatedCart = [
-            ...currentCart,
-            {
-              productId: product.id,
-              quantity: 1,
-              price: product.price,
-              name: product.name,
-              image: product.images?.[0] || "/default-product.jpg",
-            },
-          ];
-        }
-        
-        await updateUserData(user.id, { cart: updatedCart });
-        setUser({ ...user, cart: updatedCart });
-        setIsInCart(true);
-
-        toast.success("Added to cart!");
-        navigate("/cart");
-      } catch (error) {
-        toast.error("Failed to add to cart");
-        console.error("Add to cart error:", error);
+  const handleBuyNow = useCallback((e) => {
+  e?.stopPropagation();
+  navigate("/buy-now", {
+    state: {
+      product: {
+        productId: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.images?.[0] || "/default-product.jpg",
+        stock: product.stock,
+        brand: product.brand,
+        category: product.category
       }
-    },
-    [user, product, navigate]
-  );
+    }
+  });
+}, [navigate, product]);
 
   const handleClick = useCallback(() => {
     navigate(`/productdetails/${product.id}`);
