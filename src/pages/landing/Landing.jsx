@@ -1,16 +1,21 @@
-import React from "react";
-
-import ImageBanner from "./Imagebanner";
+import React, { useEffect } from "react";
 import Banner from "./Banner";
-import TopRated from "./Toprated";
-import Newest from "./Newest";
 import LandingNav from "./LandingNav";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Categories from "./Categories";
 import WhyChooseUs from "./WhyChooseUs.jsx";
-import ProductList from "../products/ProductList.jsx";
-
+import { useAuth } from "../../common/context/AuthProvider.jsx";
 function Landing() {
+    const navigate = useNavigate();
+    const { user } = useAuth();
+
+    useEffect(() => {
+        if (user && user.role == "admin") {
+            navigate("admin");
+        } else {
+            navigate("/");
+        }
+    }, [user, navigate]);
     return (
         <>
             <Banner />
@@ -21,11 +26,9 @@ function Landing() {
             <section id="categories">
                 <Categories />
             </section>
-                        <section id="categories">
-                          
-            <WhyChooseUs />
-                        </section>
-
+            <section id="categories">
+                <WhyChooseUs />
+            </section>
         </>
     );
 }

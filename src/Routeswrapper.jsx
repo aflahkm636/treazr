@@ -24,6 +24,11 @@ import OrderStatus from "./pages/Order/OrderStatus";
 import ViewOrders from "./common/components/ViewOrders";
 import Profile from "./common/components/Profile";
 import BuyNow from "./common/components/BuyNow";
+import AdminLayout from "./admin/AdminLayout";
+import OrderManage from "./admin/OrderManage";
+import ProductManage from "./admin/ProductManage";
+import ManageUser from "./admin/ManageUser";
+import AdminDashboard from "./admin/Admindashboard";
 
 // ✅ Lazy loaded components
 const Products = lazy(() => import("./pages/products/Products"));
@@ -40,30 +45,23 @@ const PublicRoute = ({ children }) => {
 
 const RoutesWrapper = () => {
     const location = useLocation();
-    const hideNavbar = ["/login", "/register"].includes(location.pathname);
-    const hideFooter = ["/login", "/register", "/cart", "/wishlist","/profile","/checkout"].includes(location.pathname);
+    const hideNavbar = ["/login", "/register"].includes(location.pathname) || location.pathname.startsWith("/admin");
+    const hideFooter =
+        ["/login", "/register", "/cart", "/wishlist", "/profile", "/checkout"].includes(location.pathname) ||
+        location.pathname.startsWith("/admin");
 
     return (
         <>
             {!hideNavbar && <NavBar2 />}
             <main>
-                {/* ✅ Wrap entire Routes in <Suspense /> */}
+                {/*  Wrap entire Routes in <Suspense /> */}
                 <Suspense fallback={<div className="text-center py-10">Loading...</div>}>
                     <Routes>
-                        <Route path="/" element={<Landing />}>
-                            <Route index element={<TopRated />} />
-                            <Route path="top-rated" element={<TopRated />} />
-                            <Route path="newest" element={<Newest />} />
-                        </Route>
-
-
-                        <Route path="/products" element={<Products />}>
-                            <Route index element={<ProductList />} />
-                            <Route path="all" element={<ProductList />} />
-                            <Route path="diecast-cars" element={<DiecastCars />} />
-                            <Route path="action-figures" element={<ActionFigures />} />
-                            <Route path="comics" element={<Comics />} />
-                            <Route path="TradingCards" element={<TradingCards />} />
+                        <Route path="/admin" element={<AdminLayout />}>
+                            <Route index element={<AdminDashboard />} />
+                            <Route path="users" element={<ManageUser />} />
+                            <Route path="products" element={<ProductManage />} />
+                            <Route path="orders" element={<OrderManage />} />
                         </Route>
                         <Route
                             path="/register"
@@ -81,6 +79,22 @@ const RoutesWrapper = () => {
                                 </PublicRoute>
                             }
                         />
+
+                        <Route path="/" element={<Landing />}>
+                            <Route index element={<TopRated />} />
+                            <Route path="top-rated" element={<TopRated />} />
+                            <Route path="newest" element={<Newest />} />
+                        </Route>
+
+                        <Route path="/products" element={<Products />}>
+                            <Route index element={<ProductList />} />
+                            <Route path="all" element={<ProductList />} />
+                            <Route path="diecast-cars" element={<DiecastCars />} />
+                            <Route path="action-figures" element={<ActionFigures />} />
+                            <Route path="comics" element={<Comics />} />
+                            <Route path="TradingCards" element={<TradingCards />} />
+                        </Route>
+
                         <Route path="/productdetails/:id" element={<ProductDetails />} />
 
                         <Route
@@ -95,7 +109,7 @@ const RoutesWrapper = () => {
                             path="/profile"
                             element={
                                 <ProtectedRoute>
-                                    <Profile/>
+                                    <Profile />
                                 </ProtectedRoute>
                             }
                         />
@@ -103,7 +117,7 @@ const RoutesWrapper = () => {
                             path="/buy-now"
                             element={
                                 <ProtectedRoute>
-                                    <BuyNow/>
+                                    <BuyNow />
                                 </ProtectedRoute>
                             }
                         />
@@ -119,7 +133,7 @@ const RoutesWrapper = () => {
                             path="/order-details"
                             element={
                                 <ProtectedRoute>
-                                    <OrderDetails/>
+                                    <OrderDetails />
                                 </ProtectedRoute>
                             }
                         />
