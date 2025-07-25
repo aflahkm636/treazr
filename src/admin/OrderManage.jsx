@@ -22,6 +22,8 @@ const OrderManage = () => {
     });
     const [selectedOrderItems, setSelectedOrderItems] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const ordersPerPage = 10;
 
     // Fetch all orders and products
     useEffect(() => {
@@ -177,6 +179,14 @@ const OrderManage = () => {
         setSelectedOrderItems(items);
     };
 
+    // Pagination logic
+    const indexOfLastOrder = currentPage * ordersPerPage;
+    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+    const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+    const totalPages = Math.ceil(orders.length / ordersPerPage);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
     if (loading) {
         return <div className="text-center py-8">Loading order data...</div>;
     }
@@ -243,7 +253,7 @@ const OrderManage = () => {
             </div>
 
             {/* Order List */}
-            <div className="bg-white p-4 rounded-lg shadow">
+            <div className="bg-white p-4 rounded-lg shadow mt-6">
                 <h2 className="text-lg font-semibold mb-4">Recent Orders</h2>
                 <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200">
@@ -273,7 +283,7 @@ const OrderManage = () => {
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
-                            {orders.map((order) => (
+                            {currentOrders.map((order) => (
                                 <tr key={order.id}>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         #{order.id.slice(-6)}
@@ -312,6 +322,41 @@ const OrderManage = () => {
                         </tbody>
                     </table>
                 </div>
+
+                {/* Pagination */}
+                {orders.length > ordersPerPage && (
+                    <div className="flex justify-center mt-6">
+                        <nav className="inline-flex rounded-md shadow">
+                            <button
+                                onClick={() => paginate(currentPage > 1 ? currentPage - 1 : 1)}
+                                disabled={currentPage === 1}
+                                className="px-3 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                Previous
+                            </button>
+                            {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
+                                <button
+                                    key={number}
+                                    onClick={() => paginate(number)}
+                                    className={`px-3 py-1 border-t border-b border-gray-300 bg-white text-sm font-medium ${
+                                        currentPage === number
+                                            ? "bg-indigo-50 text-indigo-600 border-indigo-500"
+                                            : "text-gray-700 hover:bg-gray-50"
+                                    }`}
+                                >
+                                    {number}
+                                </button>
+                            ))}
+                            <button
+                                onClick={() => paginate(currentPage < totalPages ? currentPage + 1 : totalPages)}
+                                disabled={currentPage === totalPages}
+                                className="px-3 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                Next
+                            </button>
+                        </nav>
+                    </div>
+                )}
             </div>
 
             {/* Order Items Modal */}
