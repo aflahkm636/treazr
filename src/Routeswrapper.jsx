@@ -29,6 +29,8 @@ import OrderManage from "./admin/OrderManage";
 import ProductManage from "./admin/ProductManage";
 import ManageUser from "./admin/ManageUser";
 import AdminDashboard from "./admin/Admindashboard";
+import ScrollToTop from "./common/components/ScrollTop";
+import UserDetails from "./admin/UserDetails";
 
 // ✅ Lazy loaded components
 const Products = lazy(() => import("./pages/products/Products"));
@@ -56,10 +58,15 @@ const RoutesWrapper = () => {
             <main>
                 {/*  Wrap entire Routes in <Suspense /> */}
                 <Suspense fallback={<div className="text-center py-10">Loading...</div>}>
+                    <ScrollToTop />
+
                     <Routes>
                         <Route path="/admin" element={<AdminLayout />}>
                             <Route index element={<AdminDashboard />} />
-                            <Route path="users" element={<ManageUser />} />
+                            <Route>
+                                <Route path="users" element={<ManageUser />} />
+                                <Route path="users-details/:userId" element={<UserDetails />} />
+                            </Route>
                             <Route path="products" element={<ProductManage />} />
                             <Route path="orders" element={<OrderManage />} />
                         </Route>
