@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import OrderTrendChart from "./OrderTrendChart";
 import StatsCard from "./StatsCard";
@@ -9,30 +9,19 @@ import OrderDistributionChart from "./OrderDistributionChart";
 const OrderManage = () => {
     const { user } = useAuth();
     const [orders, setOrders] = useState([]);
-    const [products, setProducts] = useState([]);
     const [stats, setStats] = useState({
         totalOrders: 0,
         revenue: 0,
         shippedOrders: 0,
         deliveredOrders: 0,
     });
-    const [topSelling, setTopSelling] = useState({
-        day: { product: null, count: 0 },
-        week: { product: null, count: 0 },
-    });
-    const [selectedOrderItems, setSelectedOrderItems] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [currentPage, setCurrentPage] = useState(1);
-    const ordersPerPage = 10;
 
-    // Fetch all orders and products
+    // Fetch all orders
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [usersRes, productsRes] = await Promise.all([
-                    axios.get("http://localhost:3000/users"),
-                    axios.get("http://localhost:3000/products"),
-                ]);
+                const usersRes = await axios.get("http://localhost:3000/users");
 
                 const allOrders = usersRes.data.flatMap(
                     (user) => user.orders?.map((order) => ({ ...order, customerName: user.name })) || []
@@ -44,9 +33,7 @@ const OrderManage = () => {
                 );
 
                 setOrders(sortedOrders);
-                setProducts(productsRes.data);
                 calculateStats(sortedOrders);
-                calculateTopSelling(sortedOrders, productsRes.data);
             } catch (error) {
                 console.error("Error fetching data:", error);
                 toast.error("Failed to load order data");
@@ -71,65 +58,6 @@ const OrderManage = () => {
             shippedOrders,
             deliveredOrders,
         });
-    };
-
-    // Calculate top selling products
-    const calculateTopSelling = (orders, products) => {
-        const today = new Date();
-        const oneWeekAgo = new Date(today);
-        oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-
-        // Flatten all items from all orders with their dates
-        const allItems = orders.flatMap((order) => {
-            const orderDate = new Date(order.date || order.createdAt);
-            return order.items.map((item) => ({
-                ...item,
-                date: orderDate,
-            }));
-        });
-
-        // Calculate daily top seller
-        const todayItems = allItems.filter((item) => item.date.toDateString() === today.toDateString());
-        const todayProductCount = countProducts(todayItems);
-        const todayTop = findTopProduct(todayProductCount, products);
-
-        // Calculate weekly top seller
-        const weekItems = allItems.filter((item) => item.date >= oneWeekAgo);
-        const weekProductCount = countProducts(weekItems);
-        const weekTop = findTopProduct(weekProductCount, products);
-
-        setTopSelling({
-            day: todayTop,
-            week: weekTop,
-        });
-    };
-
-    // Helper to count products
-    const countProducts = (items) => {
-        const countMap = {};
-        items.forEach((item) => {
-            countMap[item.productId] = (countMap[item.productId] || 0) + item.quantity;
-        });
-        return countMap;
-    };
-
-    // Helper to find top product
-    const findTopProduct = (productCount, products) => {
-        let topProductId = null;
-        let topCount = 0;
-
-        Object.entries(productCount).forEach(([productId, count]) => {
-            if (count > topCount) {
-                topProductId = productId;
-                topCount = count;
-            }
-        });
-
-        const product = products.find((p) => p.id === topProductId);
-        return {
-            product,
-            count: topCount,
-        };
     };
 
     // Update order status
@@ -174,19 +102,6 @@ const OrderManage = () => {
         return new Date(dateString).toLocaleDateString(undefined, options);
     };
 
-    // Show order items modal
-    const showOrderItems = (items) => {
-        setSelectedOrderItems(items);
-    };
-
-    // Pagination logic
-    const indexOfLastOrder = currentPage * ordersPerPage;
-    const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-    const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
-    const totalPages = Math.ceil(orders.length / ordersPerPage);
-
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
     if (loading) {
         return <div className="text-center py-8">Loading order data...</div>;
     }
@@ -203,49 +118,6 @@ const OrderManage = () => {
                 <StatsCard title="Delivered Orders" value={stats.deliveredOrders} icon="✅" />
             </div>
 
-            {/* Top Selling Products */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <div className="bg-white p-4 rounded-lg shadow">
-                    <h2 className="text-lg font-semibold mb-2">Top Selling Today</h2>
-                    {topSelling.day.product ? (
-                        <div className="flex items-center">
-                            <img
-                                src={topSelling.day.product.image}
-                                alt={topSelling.day.product.name}
-                                className="w-16 h-16 object-cover rounded mr-4"
-                            />
-                            <div>
-                                <p className="font-medium">{topSelling.day.product.name}</p>
-                                <p>Sold: {topSelling.day.count} units</p>
-                                <p>Price: ${topSelling.day.product.price}</p>
-                            </div>
-                        </div>
-                    ) : (
-                        <p>No sales today</p>
-                    )}
-                </div>
-
-                <div className="bg-white p-4 rounded-lg shadow">
-                    <h2 className="text-lg font-semibold mb-2">Top Selling This Week</h2>
-                    {topSelling.week.product ? (
-                        <div className="flex items-center">
-                            <img
-                                src={topSelling.week.product.image}
-                                alt={topSelling.week.product.name}
-                                className="w-16 h-16 object-cover rounded mr-4"
-                            />
-                            <div>
-                                <p className="font-medium">{topSelling.week.product.name}</p>
-                                <p>Sold: {topSelling.week.count} units</p>
-                                <p>Price: ${topSelling.week.product.price}</p>
-                            </div>
-                        </div>
-                    ) : (
-                        <p>No sales this week</p>
-                    )}
-                </div>
-            </div>
-
             {/* Order Trend Chart */}
             <h2 className="text-lg font-medium text-gray-800 mb-4">Order Distribution</h2>
             <div className="h-64">
@@ -253,7 +125,7 @@ const OrderManage = () => {
             </div>
 
             {/* Order List */}
-            <div className="bg-white p-4 rounded-lg shadow mt-6">
+            <div className="bg-white p-4 rounded-lg shadow">
                 <h2 className="text-lg font-semibold mb-4">Recent Orders</h2>
                 <div className="overflow-x-auto">
                     <table className="min-w-full divide-y divide-gray-200">
@@ -283,7 +155,7 @@ const OrderManage = () => {
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
-                            {currentOrders.map((order) => (
+                            {orders.map((order) => (
                                 <tr key={order.id}>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         #{order.id.slice(-6)}
@@ -294,10 +166,7 @@ const OrderManage = () => {
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         {formatDate(order.date || order.createdAt)}
                                     </td>
-                                    <td
-                                        className="px-6 py-4 whitespace-nowrap text-sm text-blue-500 cursor-pointer hover:underline"
-                                        onClick={() => showOrderItems(order.items)}
-                                    >
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                         {order.items.length} items
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${order.total}</td>
@@ -322,78 +191,7 @@ const OrderManage = () => {
                         </tbody>
                     </table>
                 </div>
-
-                {/* Pagination */}
-                {orders.length > ordersPerPage && (
-                    <div className="flex justify-center mt-6">
-                        <nav className="inline-flex rounded-md shadow">
-                            <button
-                                onClick={() => paginate(currentPage > 1 ? currentPage - 1 : 1)}
-                                disabled={currentPage === 1}
-                                className="px-3 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                Previous
-                            </button>
-                            {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
-                                <button
-                                    key={number}
-                                    onClick={() => paginate(number)}
-                                    className={`px-3 py-1 border-t border-b border-gray-300 bg-white text-sm font-medium ${
-                                        currentPage === number
-                                            ? "bg-indigo-50 text-indigo-600 border-indigo-500"
-                                            : "text-gray-700 hover:bg-gray-50"
-                                    }`}
-                                >
-                                    {number}
-                                </button>
-                            ))}
-                            <button
-                                onClick={() => paginate(currentPage < totalPages ? currentPage + 1 : totalPages)}
-                                disabled={currentPage === totalPages}
-                                className="px-3 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                Next
-                            </button>
-                        </nav>
-                    </div>
-                )}
             </div>
-
-            {/* Order Items Modal */}
-            {selectedOrderItems && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white p-6 rounded-lg max-w-md w-full max-h-[80vh] overflow-y-auto">
-                        <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-lg font-semibold">Order Items</h3>
-                            <button
-                                onClick={() => setSelectedOrderItems(null)}
-                                className="text-gray-500 hover:text-gray-700"
-                            >
-                                ✕
-                            </button>
-                        </div>
-                        <ul className="divide-y divide-gray-200">
-                            {selectedOrderItems.map((item, index) => (
-                                <li key={index} className="py-4">
-                                    <div className="flex items-center">
-                                        <img
-                                            src={item.image}
-                                            alt={item.name}
-                                            className="w-16 h-16 object-cover rounded mr-4"
-                                        />
-                                        <div>
-                                            <p className="font-medium">{item.name}</p>
-                                            <p>Quantity: {item.quantity}</p>
-                                            <p>Price: ${item.price} each</p>
-                                            <p>Total: ${(item.price * item.quantity).toFixed(2)}</p>
-                                        </div>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };
