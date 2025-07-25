@@ -101,7 +101,7 @@
           },
           "paymentMethod": "cod",
           "paymentDetails": {},
-          "status": "cancelled",
+          "status": "delivered",
           "date": "2025-07-23T07:00:29.206Z"
         },
         {
@@ -697,7 +697,7 @@
           },
           "paymentMethod": "cod",
           "paymentDetails": {},
-          "status": "processing",
+          "status": "shipped",
           "date": "2025-07-24T05:17:19.749Z",
           "isBuyNow": true
         },

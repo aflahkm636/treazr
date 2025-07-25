@@ -6,7 +6,6 @@ import StatsCard from "./StatsCard";
 import OrderTrendChart from "./OrderTrendChart";
 import RevenueTrendChart from "./RevenueTrendChart";
 import OrderDistributionChart from "./OrderDistributionChart";
-import Sidebar from "./adminSideBar";
 
 const AdminDashboard = () => {
     const [stats, setStats] = useState({
@@ -65,42 +64,35 @@ const AdminDashboard = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 flex">
-            <Sidebar />
-            
-            {/* Main Content */}
-            <div className="flex-1 xl:ml-64 transition-all duration-300">
-                <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                    {/* Stats Cards */}
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                        <StatsCard title="Total Users" value={stats.users} icon="👥" />
-                        <StatsCard title="Total Products" value={stats.products} icon="🛍️" />
-                        <StatsCard title="Total Orders" value={stats.orders} icon="📦" />
-                        <StatsCard title="Total Revenue" value={`$${stats.revenue}`} icon="💰" />
-                    </div>
+        <div className="p-4 sm:p-6">
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                <StatsCard title="Total Users" value={stats.users} icon="👥" />
+                <StatsCard title="Total Products" value={stats.products} icon="🛍️" />
+                <StatsCard title="Total Orders" value={stats.orders} icon="📦" />
+                <StatsCard title="Total Revenue" value={`$${stats.revenue}`} icon="💰" />
+            </div>
 
-                    {/* Charts */}
-                    <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
-                        <div className="bg-white p-4 rounded-lg shadow">
-                            <h2 className="text-lg font-medium text-gray-800 mb-4">Order Trend</h2>
-                            <div className="h-64">
-                                <OrderTrendChart orders={orders} />
-                            </div>
-                        </div>
-                        <div className="bg-white p-4 rounded-lg shadow">
-                            <h2 className="text-lg font-medium text-gray-800 mb-4">Revenue Trend</h2>
-                            <div className="h-64">
-                                <RevenueTrendChart orders={orders} />
-                            </div>
-                        </div>
-                        <div className="bg-white p-4 rounded-lg shadow lg:col-span-2">
-                            <h2 className="text-lg font-medium text-gray-800 mb-4">Order Distribution</h2>
-                            <div className="h-64">
-                                <OrderDistributionChart orders={orders} />
-                            </div>
-                        </div>
+            {/* Charts */}
+            <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
+                <div className="bg-white p-4 rounded-lg shadow">
+                    <h2 className="text-lg font-medium text-gray-800 mb-4">Order Trend</h2>
+                    <div className="h-64">
+                        <OrderTrendChart orders={orders} />
                     </div>
-                </main>
+                </div>
+                <div className="bg-white p-4 rounded-lg shadow">
+                    <h2 className="text-lg font-medium text-gray-800 mb-4">Revenue Trend</h2>
+                    <div className="h-64">
+                        <RevenueTrendChart orders={orders} />
+                    </div>
+                </div>
+                <div className="bg-white p-4 rounded-lg shadow lg:col-span-2">
+                    <h2 className="text-lg font-medium text-gray-800 mb-4">Order Distribution</h2>
+                    <div className="h-64">
+                        <OrderDistributionChart orders={orders} />
+                    </div>
+                </div>
             </div>
         </div>
     );

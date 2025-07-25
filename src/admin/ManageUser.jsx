@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 import SearchBar from './SearchBar';
 import Loading from '../common/components/Loading';
-import Sidebar from './adminSideBar';
+import { FiEye, FiTrash2, FiUser, FiUserX, FiUserCheck } from 'react-icons/fi';
 
 const ManageUser = () => {
   const [users, setUsers] = useState([]);
@@ -36,12 +36,10 @@ const ManageUser = () => {
   useEffect(() => {
     let results = users;
     
-    // Apply role filter
     if (roleFilter !== 'all') {
       results = results.filter(user => user.role === roleFilter);
     }
     
-    // Apply search filter
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
       results = results.filter(user => 
@@ -79,7 +77,6 @@ const ManageUser = () => {
           isBlock: !currentStatus
         });
 
-        // Update local state
         setUsers(users.map(user => 
           user.id === userId ? { ...user, isBlock: !currentStatus } : user
         ));
@@ -106,10 +103,7 @@ const ManageUser = () => {
 
       if (result.isConfirmed) {
         await axios.delete(`http://localhost:3000/users/${userId}`);
-        
-        // Update local state
         setUsers(users.filter(user => user.id !== userId));
-        
         toast.success('User deleted successfully');
       }
     } catch (error) {
@@ -128,118 +122,116 @@ const ManageUser = () => {
     </div>;
   }
 
-  return (
-  
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">Manage Users</h1>
-      
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
-        <div className="w-full md:w-1/2">
-          <SearchBar 
-            value={searchTerm} 
-            onChange={handleSearch} 
-            placeholder="Search users by name, email or ID..." 
-          />
-        </div>
-        
-        <div className="w-full md:w-1/3">
-          <label htmlFor="role-filter" className="block text-sm font-medium text-gray-700 mb-1">
-            Filter by Role
-          </label>
-          <select
-            id="role-filter"
-            value={roleFilter}
-            onChange={handleRoleFilterChange}
-            className="block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
-          >
-            <option value="all">All Users</option>
-            <option value="admin">Admin</option>
-            <option value="user">Standard Users</option>
-          </select>
-        </div>
-      </div>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                User ID
-              </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Username
-              </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Email
-              </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Role
-              </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Status
-              </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {filteredUsers.length > 0 ? (
-              filteredUsers.map((user) => (
-                <tr key={user.id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {user.id}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {user.name}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {user.email}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                      ${user.role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-green-100 text-green-800'}`}>
-                      {user.role}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    <button
-                      onClick={() => toggleUserStatus(user.id, user.isBlock)}
-                      className={`relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
-                        ${user.isBlock ? 'bg-red-500' : 'bg-green-500'}`}
-                    >
-                      <span
-                        className={`inline-block w-4 h-4 transform transition-transform bg-white rounded-full 
-                          ${user.isBlock ? 'translate-x-6' : 'translate-x-1'}`}
-                      />
-                      <span className="sr-only">{user.isBlock ? 'Blocked' : 'Active'}</span>
-                    </button>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <button
-                      onClick={() => handleViewUser(user.id)}
-                      className="text-blue-600 hover:text-blue-900 mr-3"
-                    >
-                      View
-                    </button>
-                    <button
-                      onClick={() => handleDeleteUser(user.id)}
-                      className="text-red-600 hover:text-red-900"
-                    >
-                      Delete
-                    </button>
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+        {/* ... (keep the header section the same) */}
+
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  User
+                </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Email
+                </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Role
+                </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Status
+                </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {filteredUsers.length > 0 ? (
+                filteredUsers.map((user) => (
+                  <tr key={user.id} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="flex items-center">
+                        <div className="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                          <FiUser className="h-5 w-5 text-blue-600" />
+                        </div>
+                        <div className="ml-4">
+                          <div className="text-sm font-medium text-gray-900">{user.name}</div>
+                          <div className="text-sm text-gray-500">ID: {user.id}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {user.email}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className={`px-2.5 py-0.5 inline-flex text-xs leading-5 font-semibold rounded-full 
+                        ${user.role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-green-100 text-green-800'}`}>
+                        {user.role === 'admin' ? 'Admin' : 'Standard User'}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      {user.role !== 'admin' && (
+                        <button
+                          onClick={() => toggleUserStatus(user.id, user.isBlock)}
+                          className={`px-3 py-1 rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-opacity-50
+                            ${user.isBlock 
+                              ? 'bg-green-100 text-green-800 hover:bg-green-200 focus:ring-green-500' 
+                              : 'bg-red-100 text-red-800 hover:bg-red-200 focus:ring-red-500'
+                            }`}
+                        >
+                          {user.isBlock ? (
+                            <span className="flex items-center">
+                              <FiUserCheck className="mr-1.5" /> Unblock
+                            </span>
+                          ) : (
+                            <span className="flex items-center">
+                              <FiUserX className="mr-1.5" /> Block
+                            </span>
+                          )}
+                        </button>
+                      )}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      {user.role !== 'admin' && (
+                        <div className="flex space-x-2">
+                          <button
+                            onClick={() => handleViewUser(user.id)}
+                            className="text-blue-600 hover:text-blue-900 flex items-center px-2.5 py-1 rounded-md hover:bg-blue-50 transition-colors"
+                            title="View user"
+                          >
+                            <FiEye className="mr-1.5" /> View
+                          </button>
+                          <button
+                            onClick={() => handleDeleteUser(user.id)}
+                            className="text-red-600 hover:text-red-900 flex items-center px-2.5 py-1 rounded-md hover:bg-red-50 transition-colors"
+                            title="Delete user"
+                          >
+                            <FiTrash2 className="mr-1.5" /> Delete
+                          </button>
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5" className="px-6 py-8 text-center">
+                    <div className="text-gray-500">
+                      <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <p className="mt-2 text-sm font-medium">No users found matching your criteria</p>
+                    </div>
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="6" className="px-6 py-4 text-center text-sm text-gray-500">
-                  No users found matching your criteria
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

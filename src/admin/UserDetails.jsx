@@ -4,11 +4,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
+import { FiArrowLeft, FiUser, FiUserX, FiUserCheck, FiTrash2, FiChevronDown, FiChevronUp, FiBox, FiDollarSign, FiCalendar } from 'react-icons/fi';
 
 const UserDetails = () => {
   const { userId } = useParams();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [expandedOrders, setExpandedOrders] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,7 +23,7 @@ const UserDetails = () => {
         console.error('Error fetching user:', error);
         toast.error('Failed to load user details');
         setLoading(false);
-        navigate('/admin/manage-users');
+        navigate('/admin/users');
       }
     };
 
@@ -70,7 +72,7 @@ const UserDetails = () => {
       if (result.isConfirmed) {
         await axios.delete(`http://localhost:3000/users/${userId}`);
         toast.success('User deleted successfully');
-        navigate('/admin/manage-users');
+        navigate('/admin/sers');
       }
     } catch (error) {
       console.error('Error deleting user:', error);
@@ -102,156 +104,222 @@ const UserDetails = () => {
     return stats;
   };
 
+  const toggleOrderExpansion = (orderId) => {
+    setExpandedOrders(prev => ({
+      ...prev,
+      [orderId]: !prev[orderId]
+    }));
+  };
+
   const orderStats = calculateOrderStats();
 
   if (loading) {
-    return <div className="flex justify-center items-center h-64">Loading user details...</div>;
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    );
   }
 
   if (!user) {
-    return <div className="flex justify-center items-center h-64">User not found</div>;
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="text-center">
+          <FiUserX className="mx-auto h-12 w-12 text-gray-400" />
+          <p className="mt-2 text-lg font-medium text-gray-900">User not found</p>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className="container mx-auto px-4 py-8">
       <button 
-        onClick={() => navigate('/admin/manage-users')}
-        className="mb-4 flex items-center text-blue-600 hover:text-blue-800"
+        onClick={() => navigate('/admin/users')}
+        className="mb-6 flex items-center text-blue-600 hover:text-blue-800 transition-colors"
       >
-        <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-        </svg>
-        Back to Users
+        <FiArrowLeft className="mr-2" /> Back to Users
       </button>
 
-      <div className="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
-        <div className="px-4 py-5 sm:px-6 flex justify-between items-center border-b border-gray-200">
-          <div>
-            <h3 className="text-lg leading-6 font-medium text-gray-900">User Information</h3>
-            <p className="mt-1 max-w-2xl text-sm text-gray-500">Personal details and account information</p>
-          </div>
-          <div className="flex space-x-4">
-            <button
-              onClick={toggleUserStatus}
-              className={`relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500
-                ${user.isBlock ? 'bg-red-500' : 'bg-green-500'}`}
-            >
-              <span
-                className={`inline-block w-4 h-4 transform transition-transform bg-white rounded-full 
-                  ${user.isBlock ? 'translate-x-6' : 'translate-x-1'}`}
-              />
-              <span className="sr-only">{user.isBlock ? 'Blocked' : 'Active'}</span>
-            </button>
-            <button
-              onClick={handleDeleteUser}
-              className="px-3 py-1 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm"
-            >
-              Delete User
-            </button>
-          </div>
-        </div>
-        <div className="border-t border-gray-200">
-          <dl>
-            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">Full name</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{user.name}</dd>
+      {/* User Information Card */}
+      <div className="bg-white rounded-xl shadow-md overflow-hidden mb-8 border border-gray-100">
+        <div className="p-6 sm:px-8 sm:py-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-800">{user.name}</h2>
+              <p className="text-gray-600">{user.email}</p>
             </div>
-            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">Email address</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{user.email}</dd>
-            </div>
-            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">User ID</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{user.id}</dd>
-            </div>
-            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">Role</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                  ${user.role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-green-100 text-green-800'}`}>
-                  {user.role}
-                </span>
-              </dd>
-            </div>
-            <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">Account Status</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <div className="mt-4 sm:mt-0 flex space-x-3">
+              <button
+                onClick={toggleUserStatus}
+                className={`px-4 py-2 rounded-lg font-medium flex items-center transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2
+                  ${user.isBlock 
+                    ? 'bg-green-100 text-green-800 hover:bg-green-200 focus:ring-green-500' 
+                    : 'bg-red-100 text-red-800 hover:bg-red-200 focus:ring-red-500'
+                  }`}
+              >
                 {user.isBlock ? (
-                  <span className="text-red-600">Blocked</span>
+                  <>
+                    <FiUserCheck className="mr-2" /> Unblock User
+                  </>
                 ) : (
-                  <span className="text-green-600">Active</span>
+                  <>
+                    <FiUserX className="mr-2" /> Block User
+                  </>
                 )}
-              </dd>
+              </button>
+              <button
+                onClick={handleDeleteUser}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg font-medium flex items-center hover:bg-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+              >
+                <FiTrash2 className="mr-2" /> Delete User
+              </button>
             </div>
-            <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-              <dt className="text-sm font-medium text-gray-500">Registration Date</dt>
-              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                {new Date(user.created_at).toLocaleDateString()}
-              </dd>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <div className="flex items-center">
+                <div className="p-3 rounded-full bg-blue-100 text-blue-600 mr-4">
+                  <FiUser className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Role</p>
+                  <p className={`mt-1 text-sm font-semibold 
+                    ${user.role === 'admin' ? 'text-purple-800' : 'text-green-800'}`}>
+                    {user.role === 'admin' ? 'Administrator' : 'Standard User'}
+                  </p>
+                </div>
+              </div>
             </div>
-          </dl>
+
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <div className="flex items-center">
+                <div className="p-3 rounded-full bg-blue-100 text-blue-600 mr-4">
+                  <FiCalendar className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Joined</p>
+                  <p className="mt-1 text-sm font-semibold text-gray-800">
+                    {new Date(user.created_at).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <div className="flex items-center">
+                <div className="p-3 rounded-full bg-blue-100 text-blue-600 mr-4">
+                  {user.isBlock ? (
+                    <FiUserX className="h-5 w-5" />
+                  ) : (
+                    <FiUserCheck className="h-5 w-5" />
+                  )}
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-gray-500">Status</p>
+                  <p className={`mt-1 text-sm font-semibold ${user.isBlock ? 'text-red-600' : 'text-green-600'}`}>
+                    {user.isBlock ? 'Blocked' : 'Active'}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
+      {/* Order Statistics */}
       {orderStats && (
-        <div className="bg-white shadow overflow-hidden sm:rounded-lg mb-8">
-          <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">Order Statistics</h3>
-          </div>
-          <div className="border-t border-gray-200">
-            <dl className="divide-y divide-gray-200">
-              <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500">Total Orders</dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{orderStats.totalOrders}</dd>
+        <div className="bg-white rounded-xl shadow-md overflow-hidden mb-8 border border-gray-100">
+          <div className="p-6 sm:px-8 sm:py-6">
+            <h3 className="text-xl font-semibold text-gray-800 mb-6">Order Statistics</h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-blue-50 p-5 rounded-lg">
+                <div className="flex items-center">
+                  <div className="p-3 rounded-full bg-blue-100 text-blue-600 mr-4">
+                    <FiBox className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-600">Total Orders</p>
+                    <p className="mt-1 text-2xl font-bold text-gray-800">{orderStats.totalOrders}</p>
+                  </div>
+                </div>
               </div>
-              <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500">Total Amount Spent</dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">${orderStats.totalSpent}</dd>
+
+              <div className="bg-green-50 p-5 rounded-lg">
+                <div className="flex items-center">
+                  <div className="p-3 rounded-full bg-green-100 text-green-600 mr-4">
+                    <FiDollarSign className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-600">Total Spent</p>
+                    <p className="mt-1 text-2xl font-bold text-gray-800">${orderStats.totalSpent}</p>
+                  </div>
+                </div>
               </div>
-              <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                <dt className="text-sm font-medium text-gray-500">Order Status Breakdown</dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <span className="font-medium">Processing:</span> {orderStats.statusCounts.processing}
-                    </div>
-                    <div>
-                      <span className="font-medium">Shipped:</span> {orderStats.statusCounts.shipped}
-                    </div>
-                    <div>
-                      <span className="font-medium">Delivered:</span> {orderStats.statusCounts.delivered}
-                    </div>
-                    <div>
-                      <span className="font-medium">Completed:</span> {orderStats.statusCounts.completed}
-                    </div>
-                    <div>
-                      <span className="font-medium">Cancelled:</span> {orderStats.statusCounts.cancelled}
+
+              <div className="bg-purple-50 p-5 rounded-lg">
+                <div className="flex items-center">
+                  <div className="p-3 rounded-full bg-purple-100 text-purple-600 mr-4">
+                    <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-600">Order Status</p>
+                    <div className="mt-1 flex flex-wrap gap-2">
+                      {Object.entries(orderStats.statusCounts).map(([status, count]) => (
+                        count > 0 && (
+                          <span key={status} className={`px-2 py-1 text-xs font-medium rounded-full
+                            ${
+                              status === 'processing' ? 'bg-yellow-100 text-yellow-800' :
+                              status === 'shipped' ? 'bg-blue-100 text-blue-800' :
+                              status === 'delivered' || status === 'completed' ? 'bg-green-100 text-green-800' :
+                              'bg-red-100 text-red-800'
+                            }`}
+                          >
+                            {count} {status}
+                          </span>
+                        )
+                      ))}
                     </div>
                   </div>
-                </dd>
+                </div>
               </div>
-            </dl>
+            </div>
           </div>
         </div>
       )}
 
-      <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-        <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
-          <h3 className="text-lg leading-6 font-medium text-gray-900">Order History</h3>
-        </div>
-        {user.orders && user.orders.length > 0 ? (
-          <div className="divide-y divide-gray-200">
-            {user.orders.map((order) => (
-              <div key={order.id} className="px-4 py-5 sm:px-6">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h4 className="text-md font-medium text-gray-900">Order #{order.id}</h4>
-                    <p className="text-sm text-gray-500">
-                      Date: {new Date(order.date || order.createdAt).toLocaleString()}
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      Status: 
-                      <span className={`ml-1 px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+      {/* Order History */}
+      <div className="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
+        <div className="p-6 sm:px-8 sm:py-6">
+          <h3 className="text-xl font-semibold text-gray-800 mb-6">Order History</h3>
+          
+          {user.orders && user.orders.length > 0 ? (
+            <div className="space-y-6">
+              {user.orders.slice(0, 3).map((order) => (
+                <div key={order.id} className="border border-gray-200 rounded-lg overflow-hidden">
+                  <div className="p-4 bg-gray-50 flex justify-between items-center">
+                    <div>
+                      <h4 className="font-medium text-gray-900">Order #{order.id}</h4>
+                      <p className="text-sm text-gray-500">
+                        {new Date(order.date || order.createdAt).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
+                      </p>
+                    </div>
+                    <div className="flex items-center">
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium
                         ${
                           order.status === 'processing' ? 'bg-yellow-100 text-yellow-800' :
                           order.status === 'shipped' ? 'bg-blue-100 text-blue-800' :
@@ -261,28 +329,156 @@ const UserDetails = () => {
                       >
                         {order.status}
                       </span>
-                    </p>
-                    <p className="text-sm text-gray-500">Total: ${order.total}</p>
+                      <span className="ml-4 font-medium">${order.total}</span>
+                    </div>
+                  </div>
+                  <div className="p-4">
+                    <h5 className="text-sm font-medium text-gray-700 mb-2">Items ({order.items.length})</h5>
+                    <ul className="space-y-2">
+                      {order.items.slice(0, 3).map((item, index) => (
+                        <li key={index} className="flex justify-between text-sm">
+                          <span className="text-gray-600">
+                            {item.quantity} × {item.name}
+                          </span>
+                          <span className="text-gray-800">${item.price}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    {order.items.length > 3 && (
+                      <button
+                        onClick={() => toggleOrderExpansion(order.id)}
+                        className="mt-2 text-sm text-blue-600 hover:text-blue-800 flex items-center"
+                      >
+                        {expandedOrders[order.id] ? (
+                          <>
+                            <FiChevronUp className="mr-1" /> Show less
+                          </>
+                        ) : (
+                          <>
+                            <FiChevronDown className="mr-1" /> Show {order.items.length - 3} more items
+                          </>
+                        )}
+                      </button>
+                    )}
+                    {expandedOrders[order.id] && order.items.length > 3 && (
+                      <ul className="mt-2 space-y-2">
+                        {order.items.slice(3).map((item, index) => (
+                          <li key={index + 3} className="flex justify-between text-sm">
+                            <span className="text-gray-600">
+                              {item.quantity} × {item.name}
+                            </span>
+                            <span className="text-gray-800">${item.price}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 </div>
-                <div className="mt-4">
-                  <h5 className="text-sm font-medium text-gray-700">Items:</h5>
-                  <ul className="mt-2 space-y-2">
-                    {order.items.map((item, index) => (
-                      <li key={index} className="text-sm text-gray-600">
-                        {item.quantity} x {item.name} (${item.price} each)
-                      </li>
-                    ))}
-                  </ul>
+              ))}
+              
+              {user.orders.length > 3 && (
+                <div className="text-center">
+                  <button
+                    onClick={() => toggleOrderExpansion('all')}
+                    className="text-blue-600 hover:text-blue-800 flex items-center justify-center mx-auto"
+                  >
+                    {expandedOrders['all'] ? (
+                      <>
+                        <FiChevronUp className="mr-1" /> Show fewer orders
+                      </>
+                    ) : (
+                      <>
+                        <FiChevronDown className="mr-1" /> Show all {user.orders.length} orders
+                      </>
+                    )}
+                  </button>
                 </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="px-4 py-5 sm:px-6">
-            <p className="text-sm text-gray-500">No orders found for this user.</p>
-          </div>
-        )}
+              )}
+              
+              {expandedOrders['all'] && user.orders.length > 3 && (
+                <div className="space-y-6">
+                  {user.orders.slice(3).map((order) => (
+                    <div key={order.id} className="border border-gray-200 rounded-lg overflow-hidden">
+                      <div className="p-4 bg-gray-50 flex justify-between items-center">
+                        <div>
+                          <h4 className="font-medium text-gray-900">Order #{order.id}</h4>
+                          <p className="text-sm text-gray-500">
+                            {new Date(order.date || order.createdAt).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })}
+                          </p>
+                        </div>
+                        <div className="flex items-center">
+                          <span className={`px-3 py-1 rounded-full text-xs font-medium
+                            ${
+                              order.status === 'processing' ? 'bg-yellow-100 text-yellow-800' :
+                              order.status === 'shipped' ? 'bg-blue-100 text-blue-800' :
+                              order.status === 'delivered' || order.status === 'completed' ? 'bg-green-100 text-green-800' :
+                              'bg-red-100 text-red-800'
+                            }`}
+                          >
+                            {order.status}
+                          </span>
+                          <span className="ml-4 font-medium">${order.total}</span>
+                        </div>
+                      </div>
+                      <div className="p-4">
+                        <h5 className="text-sm font-medium text-gray-700 mb-2">Items ({order.items.length})</h5>
+                        <ul className="space-y-2">
+                          {order.items.slice(0, 3).map((item, index) => (
+                            <li key={index} className="flex justify-between text-sm">
+                              <span className="text-gray-600">
+                                {item.quantity} × {item.name}
+                              </span>
+                              <span className="text-gray-800">${item.price}</span>
+                            </li>
+                          ))}
+                        </ul>
+                        {order.items.length > 3 && (
+                          <button
+                            onClick={() => toggleOrderExpansion(order.id)}
+                            className="mt-2 text-sm text-blue-600 hover:text-blue-800 flex items-center"
+                          >
+                            {expandedOrders[order.id] ? (
+                              <>
+                                <FiChevronUp className="mr-1" /> Show less
+                              </>
+                            ) : (
+                              <>
+                                <FiChevronDown className="mr-1" /> Show {order.items.length - 3} more items
+                              </>
+                            )}
+                          </button>
+                        )}
+                        {expandedOrders[order.id] && order.items.length > 3 && (
+                          <ul className="mt-2 space-y-2">
+                            {order.items.slice(3).map((item, index) => (
+                              <li key={index + 3} className="flex justify-between text-sm">
+                                <span className="text-gray-600">
+                                  {item.quantity} × {item.name}
+                                </span>
+                                <span className="text-gray-800">${item.price}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="text-center py-8">
+              <FiBox className="mx-auto h-12 w-12 text-gray-400" />
+              <p className="mt-2 text-gray-600">No orders found for this user.</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -1,13 +1,12 @@
 // src/components/Sidebar.jsx
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../common/context/AuthProvider';
 import { FiMenu, FiX, FiHome, FiUsers, FiShoppingBag, FiPackage, FiLogOut } from 'react-icons/fi';
 
-const Sidebar = () => {
+const Sidebar = ({ mobileOpen, setMobileOpen }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const [mobileOpen, setMobileOpen] = useState(false);
 
   const toggleMobileSidebar = () => {
     setMobileOpen(!mobileOpen);
@@ -43,7 +42,7 @@ const Sidebar = () => {
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-full bg-white shadow-lg transition-all duration-300 z-50 w-64
+        className={`fixed top-0 left-0 h-full bg-white shadow-lg transition-all duration-300 z-40 w-64
           ${mobileOpen ? 'translate-x-0' : '-translate-x-full xl:translate-x-0'}`}
       >
         <div className="flex flex-col h-full p-4">
