@@ -65,6 +65,8 @@ const AdminDashboard = () => {
 
     return (
         <div className="p-4 sm:p-6">
+            <h1 className="text-3xl font-bold text-gray-800">Admin DashBoard</h1>
+
             {/* Stats Cards */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 <StatsCard title="Total Users" value={stats.users} icon="👥" />

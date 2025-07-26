@@ -7,6 +7,8 @@ import { FaHome } from "react-icons/fa";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import PaymentMethods from "../../common/components/Payment";
+import Loading from "../../common/components/Loading";
+import { URL } from "../../services/Api";
 
 // Address validation schema
 const addressValidationSchema = Yup.object().shape({
@@ -66,8 +68,8 @@ const Checkout = () => {
         const fetchData = async () => {
             try {
                 const [userResponse, productsResponse] = await Promise.all([
-                    axios.get(`http://localhost:3000/users/${userId}`),
-                    axios.get("http://localhost:3000/products"),
+                    axios.get(`${URL}/users/${userId}`),
+                    axios.get(`${URL}/products`),
                 ]);
                 setUser(userResponse.data);
                 setProducts(productsResponse.data);
@@ -93,17 +95,19 @@ const Checkout = () => {
         if (isBuyNow && buyNowProduct) {
             return buyNowProduct.price * buyNowProduct.quantity;
         }
-        return user?.cart?.reduce((total, item) => {
-            const product = products.find((p) => p.id === item.productId);
-            return total + (product ? product.price * item.quantity : 0);
-        }, 0) || 0;
+        return (
+            user?.cart?.reduce((total, item) => {
+                const product = products.find((p) => p.id === item.productId);
+                return total + (product ? product.price * item.quantity : 0);
+            }, 0) || 0
+        );
     };
 
     const calculateTotal = () => (calculateSubtotal() + shippingFee).toFixed(2);
 
     const saveAddress = async (address) => {
         try {
-            const updatedUser = await axios.patch(`http://localhost:3000/users/${userId}`, {
+            const updatedUser = await axios.patch(`${URL}/users/${userId}`, {
                 shippingAddresses: [...(user.shippingAddresses || []), address],
             });
             setUser(updatedUser.data);
@@ -140,13 +144,15 @@ const Checkout = () => {
 
             let orderItems;
             if (isBuyNow && buyNowProduct) {
-                orderItems = [{
-                    productId: buyNowProduct.productId,
-                    name: buyNowProduct.name,
-                    price: buyNowProduct.price,
-                    quantity: buyNowProduct.quantity,
-                    image: buyNowProduct.image,
-                }];
+                orderItems = [
+                    {
+                        productId: buyNowProduct.productId,
+                        name: buyNowProduct.name,
+                        price: buyNowProduct.price,
+                        quantity: buyNowProduct.quantity,
+                        image: buyNowProduct.image,
+                    },
+                ];
             } else {
                 orderItems = user.cart.map((cartItem) => {
                     const product = products.find((p) => p.id === cartItem.productId);
@@ -176,9 +182,24 @@ const Checkout = () => {
                         : {},
                 status: "processing",
                 date: new Date().toISOString(),
-                isBuyNow: isBuyNow
+                isBuyNow: isBuyNow,
             };
+            for (const item of orderItems) {
+                const product = products.find((p) => p.id === item.productId.toString());
 
+                if (product) {
+                    const updatedStock = product.stock - item.quantity;
+
+                    if (updatedStock < 0) {
+                        Swal.fire("Error", `Not enough stock for ${product.name}`, "error");
+                        return;
+                    }
+
+                    await axios.patch(`${URL}/products/${product.id}`, {
+                        stock: updatedStock,
+                    });
+                }
+            }
             const updateData = {
                 orders: [...(user.orders || []), order],
                 shippingAddresses: [...(user.shippingAddresses || []), shippingAddress].filter(
@@ -190,14 +211,14 @@ const Checkout = () => {
                 updateData.cart = [];
             }
 
-            await axios.patch(`http://localhost:3000/users/${userId}`, updateData);
-            
-            const updatedUser = { 
-                ...user, 
+            await axios.patch(`${URL}/users/${userId}`, updateData);
+
+            const updatedUser = {
+                ...user,
                 orders: [...(user.orders || []), order],
-                ...(!isBuyNow && { cart: [] })
+                ...(!isBuyNow && { cart: [] }),
             };
-            
+
             localStorage.setItem("user", JSON.stringify(updatedUser));
             Swal.fire({
                 title: "Order Placed!",
@@ -212,11 +233,7 @@ const Checkout = () => {
     };
 
     if (loading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="animate-pulse text-2xl text-gray-400">Loading your order...</div>
-            </div>
-        );
+        return <Loading name="checkout" />;
     }
 
     if (!user) {
@@ -353,7 +370,7 @@ const Checkout = () => {
                         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 sticky top-8">
                             <h2 className="text-xl font-serif font-semibold mb-6 text-gray-800">Order Summary</h2>
 
-                            {(isBuyNow && buyNowProduct) ? (
+                            {isBuyNow && buyNowProduct ? (
                                 <>
                                     <div className="divide-y divide-gray-100 max-h-[400px] overflow-y-auto pr-2">
                                         <div className="py-4 flex items-center">

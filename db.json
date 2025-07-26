@@ -153,7 +153,7 @@
           },
           "paymentMethod": "cod",
           "paymentDetails": {},
-          "status": "processing",
+          "status": "delivered",
           "date": "2025-07-23T08:55:40.157Z"
         },
         {
@@ -219,15 +219,7 @@
       "password": "fasil@1234",
       "role": "user",
       "isBlock": false,
-      "cart": [
-        {
-          "productId": "3",
-          "quantity": 1,
-          "price": 13.99,
-          "name": "Mini GT Lamborghini ",
-          "image": "https://i.pinimg.com/1200x/6c/c3/01/6cc3018d17ef456be7da7aa6dcdaf618.jpg"
-        }
-      ],
+      "cart": [],
       "orders": [
         {
           "id": "1753095642632",
@@ -727,6 +719,96 @@
           "status": "processing",
           "date": "2025-07-24T05:18:39.263Z",
           "isBuyNow": false
+        },
+        {
+          "id": "1753520854955",
+          "items": [
+            {
+              "productId": "9",
+              "name": "LEGO Porsche 911 GT3 RS",
+              "price": 29.99,
+              "quantity": 1,
+              "image": "https://i.pinimg.com/736x/1b/c9/bb/1bc9bb6da34f418e28e45bf552d3695b.jpg"
+            }
+          ],
+          "subtotal": 29.99,
+          "shippingFee": 5,
+          "total": "34.99",
+          "shippingAddress": {
+            "street": "kurukkol",
+            "city": "tirur",
+            "state": "kerala",
+            "zip": "676106",
+            "country": "India"
+          },
+          "paymentMethod": "cod",
+          "paymentDetails": {},
+          "status": "processing",
+          "date": "2025-07-26T09:07:34.955Z",
+          "isBuyNow": true
+        },
+        {
+          "id": "1753521265862",
+          "items": [
+            {
+              "productId": "3",
+              "name": "Mini GT Lamborghini ",
+              "price": 13.99,
+              "quantity": 1,
+              "image": "https://i.pinimg.com/1200x/6c/c3/01/6cc3018d17ef456be7da7aa6dcdaf618.jpg"
+            },
+            {
+              "productId": "10",
+              "name": "Mazda RX7 LB Super Silhouette ",
+              "price": 13.49,
+              "quantity": 2,
+              "image": "https://i.pinimg.com/1200x/d0/1a/a2/d01aa27b17be5722f5e919ff456a89cf.jpg"
+            }
+          ],
+          "subtotal": 40.97,
+          "shippingFee": 0,
+          "total": "40.97",
+          "shippingAddress": {
+            "street": "kurukkol",
+            "city": "tirur",
+            "state": "kerala",
+            "zip": "676106",
+            "country": "India"
+          },
+          "paymentMethod": "upi",
+          "paymentDetails": {
+            "provider": "googlepay"
+          },
+          "status": "shipped",
+          "date": "2025-07-26T09:14:25.862Z",
+          "isBuyNow": false
+        },
+        {
+          "id": "1753521305167",
+          "items": [
+            {
+              "productId": "9",
+              "name": "LEGO Porsche 911 GT3 RS",
+              "price": 29.99,
+              "quantity": 1,
+              "image": "https://i.pinimg.com/736x/1b/c9/bb/1bc9bb6da34f418e28e45bf552d3695b.jpg"
+            }
+          ],
+          "subtotal": 29.99,
+          "shippingFee": 5,
+          "total": "34.99",
+          "shippingAddress": {
+            "street": "kurukkol",
+            "city": "tirur",
+            "state": "kerala",
+            "zip": "676106",
+            "country": "India"
+          },
+          "paymentMethod": "cod",
+          "paymentDetails": {},
+          "status": "shipped",
+          "date": "2025-07-26T09:15:05.167Z",
+          "isBuyNow": true
         }
       ],
       "wishlist": [
@@ -838,7 +920,7 @@
       "category": "Diecast Cars",
       "description": "A sleek and detailed 1:64 scale diecast model of the Lamborghini Huracán by Mini GT. A must-have for supercar fans and diecast collectors.",
       "price": 13.99,
-      "stock": 10,
+      "stock": 9,
       "brand": "Mini GT",
       "images": [
         "https://i.pinimg.com/1200x/6c/c3/01/6cc3018d17ef456be7da7aa6dcdaf618.jpg"
@@ -973,7 +1055,7 @@
       "category": "Building Toys",
       "description": "A premium LEGO set of the Porsche 911 GT3 RS. Perfect for car lovers and experienced builders.",
       "price": 29.99,
-      "stock": 6,
+      "stock": 5,
       "brand": "LEGO",
       "images": [
         "https://i.pinimg.com/736x/1b/c9/bb/1bc9bb6da34f418e28e45bf552d3695b.jpg"
@@ -995,7 +1077,7 @@
       "category": "Diecast Cars",
       "description": "A 1:64 scale diecast model of the Mazda RX7 LB Super Silhouette #41 by Mini GT, featuring race livery and detailed craftsmanship.",
       "price": 13.49,
-      "stock": 14,
+      "stock": 12,
       "brand": "Mini GT",
       "images": [
         "https://i.pinimg.com/1200x/d0/1a/a2/d01aa27b17be5722f5e919ff456a89cf.jpg"
@@ -2155,6 +2237,28 @@
       ],
       "rating": 4.7,
       "createdAt": "2025-07-18T09:09:00.000Z"
+    },
+    {
+      "id": "843d",
+      "name": "MINIGT 1:64  911 (992) GT3 RS",
+      "category": "Diecast Cars",
+      "description": "mini gt",
+      "price": 15.99,
+      "stock": 12,
+      "brand": "mini GT",
+      "images": [
+        "https://i.pinimg.com/1200x/0d/46/61/0d46615f14419a3223b56a5d5beb7638.jpg"
+      ],
+      "tags": [
+        "diecast",
+        "Porsche",
+        "911",
+        "GT3 RS",
+        "Weissach",
+        "1:64",
+        "INIGT"
+      ],
+      "createdAt": "2025-07-26T10:28:49.257Z"
     }
   ]
 }
