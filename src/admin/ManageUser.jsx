@@ -125,8 +125,41 @@ const ManageUser = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
-        {/* ... (keep the header section the same) */}
+       <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+        <div className="px-6 py-5 border-b border-gray-100">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+            <h1 className="text-xl font-semibold text-gray-800">User Management</h1>
+            
+            <div className="mt-4 md:mt-0 flex flex-col sm:flex-row gap-3">
+              <div className="w-full sm:w-64">
+                <SearchBar 
+                  value={searchTerm} 
+                  onChange={handleSearch} 
+                  placeholder="Search users..." 
+                />
+              </div>
+              
+              <div className="w-full sm:w-48">
+                <div className="relative">
+                  <select
+                    value={roleFilter}
+                    onChange={handleRoleFilterChange}
+                    className="block w-full pl-3 pr-8 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none bg-white"
+                  >
+                    <option value="all">All Users</option>
+                    <option value="admin">Admins</option>
+                    <option value="user">Standard Users</option>
+                  </select>
+                  <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                    <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
@@ -233,7 +266,7 @@ const ManageUser = () => {
           </table>
         </div>
       </div>
-    </div>
+   </div>
   );
 };
 

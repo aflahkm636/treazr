@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import { URL } from "../../services/Api";
 
 const AuthContext = createContext();
 
@@ -53,7 +54,7 @@ export const AuthProvider = ({ children }) => {
     const login = async (credentials) => {
         try {
             const response = await axios.get(
-                `http://localhost:3000/users?email=${credentials.email}&password=${credentials.password}`
+                `${URL}/users?email=${credentials.email}&password=${credentials.password}`
             );
 
             if (response.data.length === 0) {
@@ -63,18 +64,25 @@ export const AuthProvider = ({ children }) => {
             const user = response.data[0];
             const mockToken = "mock-jwt-token";
 
+            if (user.isBlock === true) {
+                toast.error("Your account has been blocked. Please contact support.");
+                return { success: false, error: "User is blocked" };
+            }
+
             localStorage.setItem("token", mockToken);
             localStorage.setItem("user", JSON.stringify(user));
             setUser(user);
             setIsAuthenticated(true);
             updateCartCount(); // Update cart count on login
+
             if (user.role === "admin") {
                 localStorage.setItem("loginSuccess", `Welcome Admin ${user.name || ""}!`);
-                navigate("admin");
+                navigate("/admin");
             } else {
                 localStorage.setItem("loginSuccess", `Welcome back, ${user.name || "User"}!`);
                 navigate("/");
             }
+
             return { success: true };
         } catch (error) {
             toast.error(error.message || "Login failed");
@@ -84,7 +92,7 @@ export const AuthProvider = ({ children }) => {
 
     const register = async (userData) => {
         try {
-            const emailCheck = await axios.get(`http://localhost:3000/users?email=${userData.email}`);
+            const emailCheck = await axios.get(`${URL}/users?email=${userData.email}`);
 
             if (emailCheck.data.length > 0) {
                 throw new Error("Email already registered");
@@ -100,7 +108,7 @@ export const AuthProvider = ({ children }) => {
                 created_at: new Date().toISOString(),
             };
 
-            const response = await axios.post("http://localhost:3000/users", newUser);
+            const response = await axios.post(`${URL}/users`, newUser);
             return { success: true, data: response.data };
         } catch (error) {
             return { success: false, error: error.message || "Registration failed" };
@@ -119,7 +127,6 @@ export const AuthProvider = ({ children }) => {
             cancelButtonText: "Cancel",
         }).then((result) => {
             if (result.isConfirmed) {
-                // Perform logout actions
                 localStorage.removeItem("token");
                 localStorage.removeItem("user");
                 setUser(null);
@@ -127,16 +134,14 @@ export const AuthProvider = ({ children }) => {
                 setCartCount(0);
 
                 Swal.fire("Logged Out!", "You have been logged out.", "success");
-
                 navigate("/login");
             }
         });
     };
 
-    // Function to update user's cart (and consequently cart count)
     const updateUserCart = async (userId, newCart) => {
         try {
-            const response = await axios.patch(`http://localhost:3000/users/${userId}`, {
+            const response = await axios.patch(`${URL}/users/${userId}`, {
                 cart: newCart,
             });
 

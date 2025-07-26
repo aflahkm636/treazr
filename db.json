@@ -779,7 +779,7 @@
       "email": "rashid@gmail.com",
       "password": "rashid@1234",
       "role": "user",
-      "isBlock": false,
+      "isBlock": true,
       "cart": [],
       "orders": [],
       "wishlist": [],
@@ -811,7 +811,7 @@
     },
     {
       "id": "2",
-      "name": "INIGT 1:64 Weiß 911 (992) GT3 RS",
+      "name": "MINIGT 1:64  911 (992) GT3 RS",
       "category": "Diecast Cars",
       "description": "A premium 1:64 scale diecast model of the Porsche 911 (992) GT3 RS with Weissach Package in white. Detailed and perfect for collectors.",
       "price": 14.99,
