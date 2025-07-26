@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../common/context/AuthProvider";
 import axios from "axios";
 import { FaUser, FaHeart, FaBoxOpen, FaEdit } from "react-icons/fa";
+import { URL } from "../../services/Api";
 
 const Profile = () => {
   const { user, setUser } = useAuth();
@@ -14,7 +15,7 @@ const Profile = () => {
       if (!user?.id) return;
       
       try {
-        const response = await axios.get(`http://localhost:3000/users/${user.id}`);
+        const response = await axios.get(`${URL}/users/${user.id}`);
         setUser(response.data);
         setLoading(false);
       } catch (error) {

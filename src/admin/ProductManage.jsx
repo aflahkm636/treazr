@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import ProductForm from "./ProductForm";
 import { useAuth } from "../common/context/AuthProvider";
 import StatsCard from "./StatsCard";
+import { URL } from "../services/Api";
 
 const ProductManage = () => {
     const { user } = useAuth();
@@ -39,8 +40,8 @@ const ProductManage = () => {
         const fetchData = async () => {
             try {
                 const [productsRes, usersRes] = await Promise.all([
-                    axios.get("http://localhost:3000/products"),
-                    axios.get("http://localhost:3000/users"),
+                    axios.get(`${URL}/products`),
+                    axios.get(`${URL}/users`),
                 ]);
 
                 setProducts(productsRes.data);
@@ -177,7 +178,7 @@ const ProductManage = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    await axios.delete(`http://localhost:3000/products/${productId}`);
+                    await axios.delete(`${URL}/products/${productId}`);
                     
                     // Update local state
                     const updatedProducts = products.filter((p) => p.id !== productId);
@@ -199,7 +200,7 @@ const ProductManage = () => {
         try {
             if (currentProduct) {
                 // Update existing product
-                await axios.patch(`http://localhost:3000/products/${currentProduct.id}`, productData);
+                await axios.patch(`${URL}/products/${currentProduct.id}`, productData);
                 
                 // Update local state
                 const updatedProducts = products.map((p) =>
@@ -212,7 +213,7 @@ const ProductManage = () => {
                 toast.success("Product updated successfully");
             } else {
                 // Add new product
-                const response = await axios.post("http://localhost:3000/products", {
+                const response = await axios.post(`${URL}/products`, {
                     ...productData,
                     createdAt: new Date().toISOString(),
                 });

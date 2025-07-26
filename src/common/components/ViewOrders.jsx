@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthProvider";
 import Swal from "sweetalert2";
+import { URL } from "../../services/Api";
 
 const ViewOrders = () => {
     const { user, isAuthenticated, setUser } = useAuth();
@@ -16,7 +17,7 @@ const ViewOrders = () => {
         const fetchOrders = async () => {
             try {
                 if (isAuthenticated && user) {
-                    const response = await axios.get(`http://localhost:3000/users/${user.id}`);
+                    const response = await axios.get(`${URL}/users/${user.id}`);
                     setOrders(response.data.orders || []);
                 }
             } catch (err) {
@@ -71,7 +72,7 @@ const ViewOrders = () => {
                 const updatedUser = { ...user, orders: updatedOrders };
                 setUser(updatedUser);
 
-                await axios.patch(`http://localhost:3000/users/${user.id}`, {
+                await axios.patch(`${URL}/users/${user.id}`, {
                     orders: updatedOrders,
                 });
 

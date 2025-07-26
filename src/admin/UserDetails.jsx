@@ -16,7 +16,7 @@ const UserDetails = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/users/${userId}`);
+        const response = await axios.get(`${URL}/users/${userId}`);
         setUser(response.data);
         setLoading(false);
       } catch (error) {
@@ -44,7 +44,7 @@ const UserDetails = () => {
 
       if (result.isConfirmed) {
         const updatedUser = { ...user, isBlock: !user.isBlock };
-        await axios.patch(`http://localhost:3000/users/${userId}`, {
+        await axios.patch(`${URL}/users/${userId}`, {
           isBlock: updatedUser.isBlock
         });
 
@@ -70,7 +70,7 @@ const UserDetails = () => {
       });
 
       if (result.isConfirmed) {
-        await axios.delete(`http://localhost:3000/users/${userId}`);
+        await axios.delete(`${URL}/users/${userId}`);
         toast.success('User deleted successfully');
         navigate('/admin/sers');
       }

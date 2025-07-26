@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../../common/context/AuthProvider";
+import { URL } from "../../services/Api";
 
 const OrderStatus = () => {
     const { orderId } = useParams();
@@ -15,7 +16,7 @@ const OrderStatus = () => {
             if (!user?.id) return;
 
             try {
-                const userResponse = await axios.get(`http://localhost:3000/users/${user.id}`);
+                const userResponse = await axios.get(`${URL}/users/${user.id}`);
                 setUser(userResponse.data);
 
                 const foundOrder = userResponse.data.orders.find((o) => o.id === orderId);

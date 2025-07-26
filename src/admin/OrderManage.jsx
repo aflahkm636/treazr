@@ -16,6 +16,7 @@ import {
 } from "react-icons/fi";
 import OrderDistributionChart from "./OrderDistributionChart";
 import StatsCard from "./StatsCard";
+import { URL } from "../services/Api";
 
 const OrderManage = () => {
     const { user } = useAuth();
@@ -37,8 +38,8 @@ const OrderManage = () => {
         const fetchData = async () => {
             try {
                 const [usersRes, productsRes] = await Promise.all([
-                    axios.get("http://localhost:3000/users"),
-                    axios.get("http://localhost:3000/products"),
+                    axios.get(`${URL}/users`),
+                    axios.get(`${URL}/products`),
                 ]);
 
                 const allOrders = usersRes.data.flatMap(
@@ -83,7 +84,7 @@ const OrderManage = () => {
     const updateOrderStatus = async (orderId, newStatus) => {
         try {
             // Find which user this order belongs to
-            const usersRes = await axios.get("http://localhost:3000/users");
+            const usersRes = await axios.get(`${URL}/users`);
             const userWithOrder = usersRes.data.find((user) => user.orders?.some((order) => order.id === orderId));
 
             if (!userWithOrder) {
@@ -96,7 +97,7 @@ const OrderManage = () => {
             );
 
             // Update the user in the database
-            await axios.patch(`http://localhost:3000/users/${userWithOrder.id}`, {
+            await axios.patch(`${URL}/users/${userWithOrder.id}`, {
                 orders: updatedOrders,
             });
 

@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import SearchBar from './SearchBar';
 import Loading from '../common/components/Loading';
 import { FiEye, FiTrash2, FiUser, FiUserX, FiUserCheck } from 'react-icons/fi';
+import { URL } from '../services/Api';
 
 const ManageUser = () => {
   const [users, setUsers] = useState([]);
@@ -19,7 +20,7 @@ const ManageUser = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/users');
+        const response = await axios.get(`${URL}/users`);
         setUsers(response.data);
         setFilteredUsers(response.data);
         setLoading(false);
@@ -73,7 +74,7 @@ const ManageUser = () => {
       });
 
       if (result.isConfirmed) {
-        await axios.patch(`http://localhost:3000/users/${userId}`, {
+        await axios.patch(`${URL}/users/${userId}`, {
           isBlock: !currentStatus
         });
 
@@ -102,7 +103,7 @@ const ManageUser = () => {
       });
 
       if (result.isConfirmed) {
-        await axios.delete(`http://localhost:3000/users/${userId}`);
+        await axios.delete(`${URL}/users/${userId}`);
         setUsers(users.filter(user => user.id !== userId));
         toast.success('User deleted successfully');
       }

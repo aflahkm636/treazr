@@ -1,9 +1,10 @@
 // services/updateUserCart.js
 import axios from "axios";
+import { URL } from "./Api";
 
 export const updateUserCart = async (userId, updatedCart) => {
   try {
-    const response = await axios.patch(`http://localhost:3000/users/${userId}`, {
+    const response = await axios.patch(`${URL}/users/${userId}`, {
       cart: updatedCart,
     });
 

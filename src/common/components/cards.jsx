@@ -5,6 +5,7 @@ import axios from "axios";
 import { CiHeart } from "react-icons/ci";
 import { useAuth } from "../context/AuthProvider";
 import useAddToCart from "./AddToCart";
+import { URL } from "../../services/Api";
 
 const ProductListCard = React.memo(({ product }) => {
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ const ProductListCard = React.memo(({ product }) => {
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isInCart, setIsInCart] = useState(false);
-  const API_URL = "http://localhost:3000/users";
+  const API_URL = `${URL}/users`;
 
   const updateUserData = async (userId, updatedData) => {
     try {

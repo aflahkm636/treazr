@@ -17,7 +17,7 @@ export async function GetAllProducts(start = 0, end = 100) {
 }
 
 export async function GetProductById(id) {
-  const response = await fetch(`http://localhost:3000/products/${id}`);
+  const response = await fetch(`${URL}/products/${id}`);
   if (!response.ok) throw new Error("Product not found");
   return response.json();
 }
