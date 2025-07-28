@@ -1,14 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FiPlus, FiEdit2, FiTrash2, FiSearch, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import ProductForm from "./ProductForm";
 import { useAuth } from "../common/context/AuthProvider";
+import { useTheme } from "../common/context/Darkthemeprovider";
 import StatsCard from "./StatsCard";
 import { URL } from "../services/Api";
 
 const ProductManage = () => {
+    const { darkMode } = useTheme();
     const { user } = useAuth();
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
@@ -62,7 +64,7 @@ const ProductManage = () => {
     // Calculate statistics
     const calculateStats = (products) => {
         const totalProducts = products.length;
-        const totalValue = products.reduce((sum, product) => sum + (product.price * product.stock), 0);
+        const totalValue = products.reduce((sum, product) => sum + product.price * product.stock, 0);
 
         setStats({
             totalProducts,
@@ -77,14 +79,15 @@ const ProductManage = () => {
         oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
 
         // Flatten all items from all orders with their dates
-        const allItems = users.flatMap((user) => 
-            user.orders?.flatMap((order) => {
-                const orderDate = new Date(order.date || order.createdAt);
-                return order.items.map((item) => ({
-                    ...item,
-                    date: orderDate,
-                }));
-            }) || []
+        const allItems = users.flatMap(
+            (user) =>
+                user.orders?.flatMap((order) => {
+                    const orderDate = new Date(order.date || order.createdAt);
+                    return order.items.map((item) => ({
+                        ...item,
+                        date: orderDate,
+                    }));
+                }) || []
         );
 
         // Calculate daily top seller
@@ -136,7 +139,7 @@ const ProductManage = () => {
         const term = e.target.value.toLowerCase();
         setSearchTerm(term);
         setCurrentPage(1); // Reset to first page when searching
-        
+
         if (term === "") {
             setFilteredProducts(products);
         } else {
@@ -179,13 +182,13 @@ const ProductManage = () => {
             if (result.isConfirmed) {
                 try {
                     await axios.delete(`${URL}/products/${productId}`);
-                    
+
                     // Update local state
                     const updatedProducts = products.filter((p) => p.id !== productId);
                     setProducts(updatedProducts);
                     setFilteredProducts(updatedProducts);
                     calculateStats(updatedProducts);
-                    
+
                     Swal.fire("Deleted!", "The product has been deleted.", "success");
                 } catch (error) {
                     console.error("Error deleting product:", error);
@@ -201,12 +204,10 @@ const ProductManage = () => {
             if (currentProduct) {
                 // Update existing product
                 await axios.patch(`${URL}/products/${currentProduct.id}`, productData);
-                
+
                 // Update local state
-                const updatedProducts = products.map((p) =>
-                    p.id === currentProduct.id ? { ...p, ...productData } : p
-                );
-                
+                const updatedProducts = products.map((p) => (p.id === currentProduct.id ? { ...p, ...productData } : p));
+
                 setProducts(updatedProducts);
                 setFilteredProducts(updatedProducts);
                 calculateStats(updatedProducts);
@@ -217,7 +218,7 @@ const ProductManage = () => {
                     ...productData,
                     createdAt: new Date().toISOString(),
                 });
-                
+
                 // Update local state
                 const updatedProducts = [...products, response.data];
                 setProducts(updatedProducts);
@@ -225,7 +226,7 @@ const ProductManage = () => {
                 calculateStats(updatedProducts);
                 toast.success("Product added successfully");
             }
-            
+
             setShowForm(false);
         } catch (error) {
             console.error("Error saving product:", error);
@@ -241,29 +242,33 @@ const ProductManage = () => {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+            <div className={`flex justify-center items-center h-64 ${darkMode ? "bg-gray-900" : "bg-gray-50"}`}>
+                <div className={`animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 ${darkMode ? "border-blue-400" : "border-blue-500"}`}></div>
             </div>
         );
     }
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className={`container mx-auto px-4 py-8 ${darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-50 text-gray-900"}`}>
             {/* Header and Actions */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-                <h1 className="text-3xl font-bold text-gray-800">Product Management</h1>
+                <h1 className={`text-3xl font-bold ${darkMode ? "text-white" : "text-gray-800"}`}>Product Management</h1>
                 <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
                     <div className="w-full sm:w-64">
                         <div className="relative">
                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <FiSearch className="text-gray-400" />
+                                <FiSearch className={darkMode ? "text-gray-400" : "text-gray-400"} />
                             </div>
                             <input
                                 type="text"
                                 value={searchTerm}
                                 onChange={handleSearch}
                                 placeholder="Search products..."
-                                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                                className={`block w-full pl-10 pr-3 py-2 border rounded-md leading-5 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm ${
+                                    darkMode
+                                        ? "bg-gray-700 border-gray-600 text-white focus:border-blue-500"
+                                        : "bg-white border-gray-300 text-gray-900 focus:border-blue-500"
+                                }`}
                             />
                         </div>
                     </div>
@@ -281,27 +286,30 @@ const ProductManage = () => {
                 <StatsCard 
                     title="Total Products" 
                     value={stats.totalProducts} 
-                    icon="📦"
-                    color="bg-blue-50 text-blue-600"
+                    icon="📦" 
+                    darkMode={darkMode}
+                    color={darkMode ? "bg-blue-900 text-blue-200" : "bg-blue-50 text-blue-600"}
                 />
-                <StatsCard 
-                    title="Total Inventory Value" 
-                    value={`$${stats.totalValue}`} 
+                <StatsCard
+                    title="Total Inventory Value"
+                    value={`$${stats.totalValue}`}
                     icon="💰"
-                    color="bg-green-50 text-green-600"
+                    darkMode={darkMode}
+                    color={darkMode ? "bg-green-900 text-green-200" : "bg-green-50 text-green-600"}
                 />
-                <StatsCard 
-                    title="Products Low in Stock (< 5)" 
-                    value={products.filter(p => p.stock < 5).length} 
+                <StatsCard
+                    title="Products Low in Stock (< 5)"
+                    value={products.filter((p) => p.stock < 5).length}
                     icon="⚠️"
-                    color="bg-yellow-50 text-yellow-600"
+                    darkMode={darkMode}
+                    color={darkMode ? "bg-yellow-900 text-yellow-200" : "bg-yellow-50 text-yellow-600"}
                 />
             </div>
 
             {/* Top Selling Products */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    <h2 className="text-lg font-semibold text-gray-800 mb-4"> Top Selling Today</h2>
+                <div className={`p-6 rounded-xl shadow-sm border ${darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-100"}`}>
+                    <h2 className={`text-lg font-semibold mb-4 ${darkMode ? "text-white" : "text-gray-800"}`}>Top Selling Today</h2>
                     {topSelling.day.product ? (
                         <div className="flex items-center">
                             <img
@@ -310,18 +318,18 @@ const ProductManage = () => {
                                 className="w-16 h-16 object-cover rounded-lg mr-4"
                             />
                             <div>
-                                <p className="font-medium text-gray-900">{topSelling.day.product.name}</p>
-                                <p className="text-sm text-gray-500">Sold: {topSelling.day.count} units</p>
-                                <p className="text-sm text-gray-500">Price: ${topSelling.day.product.price}</p>
+                                <p className={`font-medium ${darkMode ? "text-white" : "text-gray-900"}`}>{topSelling.day.product.name}</p>
+                                <p className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}>Sold: {topSelling.day.count} units</p>
+                                <p className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}>Price: ${topSelling.day.product.price}</p>
                             </div>
                         </div>
                     ) : (
-                        <p className="text-gray-500">No sales today</p>
+                        <p className={darkMode ? "text-gray-400" : "text-gray-500"}>No sales today</p>
                     )}
                 </div>
 
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    <h2 className="text-lg font-semibold text-gray-800 mb-4"> Top Selling This Week</h2>
+                <div className={`p-6 rounded-xl shadow-sm border ${darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-100"}`}>
+                    <h2 className={`text-lg font-semibold mb-4 ${darkMode ? "text-white" : "text-gray-800"}`}>Top Selling This Week</h2>
                     {topSelling.week.product ? (
                         <div className="flex items-center">
                             <img
@@ -330,38 +338,54 @@ const ProductManage = () => {
                                 className="w-16 h-16 object-cover rounded-lg mr-4"
                             />
                             <div>
-                                <p className="font-medium text-gray-900">{topSelling.week.product.name}</p>
-                                <p className="text-sm text-gray-500">Sold: {topSelling.week.count} units</p>
-                                <p className="text-sm text-gray-500">Price: ${topSelling.week.product.price}</p>
+                                <p className={`font-medium ${darkMode ? "text-white" : "text-gray-900"}`}>{topSelling.week.product.name}</p>
+                                <p className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}>Sold: {topSelling.week.count} units</p>
+                                <p className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}>Price: ${topSelling.week.product.price}</p>
                             </div>
                         </div>
                     ) : (
-                        <p className="text-gray-500">No sales this week</p>
+                        <p className={darkMode ? "text-gray-400" : "text-gray-500"}>No sales this week</p>
                     )}
                 </div>
             </div>
 
             {/* Products Table */}
-            <div className="bg-white shadow-sm rounded-xl border border-gray-100 overflow-hidden mb-6">
+            <div className={`shadow-sm rounded-xl border overflow-hidden mb-6 ${darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-100"}`}>
                 <div className="overflow-x-auto">
-                    <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
+                    <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead className={darkMode ? "bg-gray-700" : "bg-gray-50"}>
                             <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Added On</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                <th className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${darkMode ? "text-gray-300" : "text-gray-500"}`}>
+                                    ID
+                                </th>
+                                <th className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${darkMode ? "text-gray-300" : "text-gray-500"}`}>
+                                    Product
+                                </th>
+                                <th className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${darkMode ? "text-gray-300" : "text-gray-500"}`}>
+                                    Added On
+                                </th>
+                                <th className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${darkMode ? "text-gray-300" : "text-gray-500"}`}>
+                                    Category
+                                </th>
+                                <th className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${darkMode ? "text-gray-300" : "text-gray-500"}`}>
+                                    Price
+                                </th>
+                                <th className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${darkMode ? "text-gray-300" : "text-gray-500"}`}>
+                                    Stock
+                                </th>
+                                <th className={`px-6 py-3 text-left text-xs font-medium uppercase tracking-wider ${darkMode ? "text-gray-300" : "text-gray-500"}`}>
+                                    Actions
+                                </th>
                             </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
+                        <tbody className={`divide-y ${darkMode ? "divide-gray-700 bg-gray-800" : "divide-gray-200 bg-white"}`}>
                             {currentProducts.length > 0 ? (
                                 currentProducts.map((product) => (
-                                    <tr key={product.id} className="hover:bg-gray-50 transition-colors duration-150">
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#{product.id}</td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    <tr key={product.id} className={darkMode ? "hover:bg-gray-700" : "hover:bg-gray-50"}>
+                                        <td className={`px-6 py-4 whitespace-nowrap text-sm font-medium ${darkMode ? "text-white" : "text-gray-900"}`}>
+                                            #{product.id}
+                                        </td>
+                                        <td className={`px-6 py-4 whitespace-nowrap text-sm font-medium ${darkMode ? "text-white" : "text-gray-900"}`}>
                                             <div className="flex items-center">
                                                 <img
                                                     src={product.images?.[0] || "https://via.placeholder.com/150"}
@@ -371,38 +395,54 @@ const ProductManage = () => {
                                                 <span className="truncate max-w-xs">{product.name}</span>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <td className={`px-6 py-4 whitespace-nowrap text-sm ${darkMode ? "text-gray-300" : "text-gray-500"}`}>
                                             {formatDate(product.createdAt)}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize">
+                                        <td className={`px-6 py-4 whitespace-nowrap text-sm ${darkMode ? "text-gray-300" : "text-gray-500"} capitalize`}>
                                             {product.category}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        <td className={`px-6 py-4 whitespace-nowrap text-sm font-medium ${darkMode ? "text-white" : "text-gray-900"}`}>
                                             ${product.price}
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                                product.stock > 10 
-                                                    ? "bg-green-100 text-green-800" 
-                                                    : product.stock > 5 
-                                                        ? "bg-yellow-100 text-yellow-800" 
-                                                        : "bg-red-100 text-red-800"
-                                            }`}>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm">
+                                            <span
+                                                className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                                    product.stock > 10
+                                                        ? darkMode
+                                                            ? "bg-green-900 text-green-200"
+                                                            : "bg-green-100 text-green-800"
+                                                        : product.stock > 5
+                                                        ? darkMode
+                                                            ? "bg-yellow-900 text-yellow-200"
+                                                            : "bg-yellow-100 text-yellow-800"
+                                                        : darkMode
+                                                            ? "bg-red-900 text-red-200"
+                                                            : "bg-red-100 text-red-800"
+                                                }`}
+                                            >
                                                 {product.stock} in stock
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm">
                                             <div className="flex space-x-2">
                                                 <button
                                                     onClick={() => handleEditProduct(product)}
-                                                    className="text-blue-600 hover:text-blue-900 p-1 rounded-md hover:bg-blue-50 transition-colors duration-150"
+                                                    className={`p-1 rounded-md transition-colors duration-150 ${
+                                                        darkMode
+                                                            ? "text-blue-400 hover:text-blue-300 hover:bg-blue-900"
+                                                            : "text-blue-600 hover:text-blue-900 hover:bg-blue-50"
+                                                    }`}
                                                     title="Edit"
                                                 >
                                                     <FiEdit2 />
                                                 </button>
                                                 <button
                                                     onClick={() => handleDeleteProduct(product.id)}
-                                                    className="text-red-600 hover:text-red-900 p-1 rounded-md hover:bg-red-50 transition-colors duration-150"
+                                                    className={`p-1 rounded-md transition-colors duration-150 ${
+                                                        darkMode
+                                                            ? "text-red-400 hover:text-red-300 hover:bg-red-900"
+                                                            : "text-red-600 hover:text-red-900 hover:bg-red-50"
+                                                    }`}
                                                     title="Delete"
                                                 >
                                                     <FiTrash2 />
@@ -413,7 +453,7 @@ const ProductManage = () => {
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="7" className="px-6 py-4 text-center text-sm text-gray-500">
+                                    <td colSpan="7" className={`px-6 py-4 text-center text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}>
                                         No products found
                                     </td>
                                 </tr>
@@ -421,35 +461,35 @@ const ProductManage = () => {
                         </tbody>
                     </table>
                 </div>
-            </div>
-
-            {/* Pagination */}
-            {filteredProducts.length > productsPerPage && (
-                <div className="flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200 sm:px-6 rounded-b-xl">
-                    <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                        <div>
-                            <p className="text-sm text-gray-700">
-                                Showing <span className="font-medium">{indexOfFirstProduct + 1}</span> to{" "}
-                                <span className="font-medium">
-                                    {Math.min(indexOfLastProduct, filteredProducts.length)}
-                                </span>{" "}
-                                of <span className="font-medium">{filteredProducts.length}</span> products
-                            </p>
+                {/* Pagination */}
+                {filteredProducts.length > productsPerPage && (
+                    <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between px-4 py-3 mt-6 border-t sm:px-6 rounded-b-xl space-y-3 sm:space-y-0 ${
+                        darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-200"
+                    }`}>
+                        {/* Product Range Text */}
+                        <div className={`text-sm text-center sm:text-left ${darkMode ? "text-gray-400" : "text-gray-500"}`}>
+                            Showing <span className={`font-medium ${darkMode ? "text-white" : "text-gray-900"}`}>{indexOfFirstProduct + 1}</span> to{" "}
+                            <span className={`font-medium ${darkMode ? "text-white" : "text-gray-900"}`}>{Math.min(indexOfLastProduct, filteredProducts.length)}</span> of{" "}
+                            <span className={`font-medium ${darkMode ? "text-white" : "text-gray-900"}`}>{filteredProducts.length}</span> products
                         </div>
-                        <div>
-                            <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                                <button
-                                    onClick={() => paginate(Math.max(1, currentPage - 1))}
-                                    disabled={currentPage === 1}
-                                    className={`relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium ${
-                                        currentPage === 1 ? "text-gray-300 cursor-not-allowed" : "text-gray-500 hover:bg-gray-50"
-                                    }`}
-                                >
-                                    <span className="sr-only">Previous</span>
-                                    <FiChevronLeft className="h-5 w-5" aria-hidden="true" />
-                                </button>
-                                
-                                {/* Page numbers */}
+
+                        {/* Pagination Controls */}
+                        <nav className="flex justify-center sm:justify-end space-x-2" aria-label="Pagination">
+                            {/* Previous Button */}
+                            <button
+                                onClick={() => paginate(Math.max(1, currentPage - 1))}
+                                disabled={currentPage === 1}
+                                className={`px-3 py-1 rounded-md border text-sm font-medium flex items-center ${
+                                    darkMode
+                                        ? "border-gray-600 bg-gray-700 text-gray-300 hover:bg-gray-600 disabled:opacity-50"
+                                        : "border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                                }`}
+                            >
+                                <FiChevronLeft className="mr-1" /> Previous
+                            </button>
+
+                            {/* Page Numbers (Only on sm and up) */}
+                            <div className="hidden sm:flex space-x-1">
                                 {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                                     let pageNum;
                                     if (totalPages <= 5) {
@@ -465,39 +505,46 @@ const ProductManage = () => {
                                         <button
                                             key={pageNum}
                                             onClick={() => paginate(pageNum)}
-                                            className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
+                                            className={`px-3 py-1 rounded-md text-sm font-medium ${
                                                 currentPage === pageNum
-                                                    ? "z-10 bg-blue-50 border-blue-500 text-blue-600"
-                                                    : "bg-white border-gray-300 text-gray-500 hover:bg-gray-50"
+                                                    ? darkMode
+                                                        ? "bg-blue-600 text-white"
+                                                        : "bg-blue-600 text-white"
+                                                    : darkMode
+                                                        ? "bg-gray-700 text-gray-300 hover:bg-gray-600 border border-gray-600"
+                                                        : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-300"
                                             }`}
                                         >
                                             {pageNum}
                                         </button>
                                     );
                                 })}
-                                
-                                <button
-                                    onClick={() => paginate(Math.min(totalPages, currentPage + 1))}
-                                    disabled={currentPage === totalPages}
-                                    className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium ${
-                                        currentPage === totalPages ? "text-gray-300 cursor-not-allowed" : "text-gray-500 hover:bg-gray-50"
-                                    }`}
-                                >
-                                    <span className="sr-only">Next</span>
-                                    <FiChevronRight className="h-5 w-5" aria-hidden="true" />
-                                </button>
-                            </nav>
-                        </div>
+                            </div>
+
+                            {/* Next Button */}
+                            <button
+                                onClick={() => paginate(Math.min(totalPages, currentPage + 1))}
+                                disabled={currentPage === totalPages}
+                                className={`px-3 py-1 rounded-md border text-sm font-medium flex items-center ${
+                                    darkMode
+                                        ? "border-gray-600 bg-gray-700 text-gray-300 hover:bg-gray-600 disabled:opacity-50"
+                                        : "border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+                                }`}
+                            >
+                                Next <FiChevronRight className="ml-1" />
+                            </button>
+                        </nav>
                     </div>
-                </div>
-            )}
+                )}
+            </div>
 
             {/* Product Form Modal */}
             {showForm && (
                 <ProductForm 
                     product={currentProduct} 
                     onSubmit={handleSubmit} 
-                    onCancel={() => setShowForm(false)} 
+                    onCancel={() => setShowForm(false)}
+                    darkMode={darkMode}
                 />
             )}
         </div>

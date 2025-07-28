@@ -806,7 +806,7 @@
           },
           "paymentMethod": "cod",
           "paymentDetails": {},
-          "status": "shipped",
+          "status": "processing",
           "date": "2025-07-26T09:15:05.167Z",
           "isBuyNow": true
         }
@@ -1077,7 +1077,7 @@
       "category": "Diecast Cars",
       "description": "A 1:64 scale diecast model of the Mazda RX7 LB Super Silhouette #41 by Mini GT, featuring race livery and detailed craftsmanship.",
       "price": 13.49,
-      "stock": 12,
+      "stock": 11,
       "brand": "Mini GT",
       "images": [
         "https://i.pinimg.com/1200x/d0/1a/a2/d01aa27b17be5722f5e919ff456a89cf.jpg"

@@ -1,23 +1,21 @@
 // App.js
-import React from 'react';
-import RoutesWrapper from './Routeswrapper';
-import { ToastContainer } from 'react-toastify';
+import React from "react";
+import RoutesWrapper from "./Routeswrapper";
+import { ToastContainer } from "react-toastify";
+import { ThemeProvider } from "./common/context/Darkthemeprovider";
 
 function App() {
-  console.log("App render");
+    console.log("App render");
 
-  return (
-   <>
-         
-         <ToastContainer position="top-center" autoClose={3000} />
+    return (
+        <>
+            <ToastContainer position="top-center" autoClose={3000} />
 
-    
-        <RoutesWrapper />
-     
-   </>
-    
-    
-  );
+            <ThemeProvider>
+                <RoutesWrapper />
+            </ThemeProvider>
+        </>
+    );
 }
 
 export default App;
