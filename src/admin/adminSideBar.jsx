@@ -2,7 +2,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../common/context/AuthProvider";
-import { FiMenu, FiX, FiHome, FiUsers, FiShoppingBag, FiPackage, FiLogOut } from "react-icons/fi";
+import { FiMenu, FiX, FiHome, FiUsers, FiShoppingBag, FiPackage, FiLogOut, FiSun, FiMoon } from "react-icons/fi";
 import { useTheme } from "../common/context/Darkthemeprovider";
 
 const Sidebar = ({ mobileOpen, setMobileOpen }) => {
@@ -117,14 +117,24 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
                                     <span className="ml-3">Manage Orders</span>
                                 </button>
                             </li>
-                            {/* <li>
+                            <li>
                                 <button
                                     onClick={toggleTheme}
                                     className="flex items-center p-3 rounded-lg mt-4 hover:bg-indigo-50 dark:hover:bg-gray-700 transition-colors justify-start"
                                 >
-                                    <span className="ml-1">{darkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}</span>
+                                    {darkMode ? (
+                                        <>
+                                            <FiSun className="mr-2" />
+                                            <span>Light Mode</span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <FiMoon className="mr-2" />
+                                            <span>Dark Mode</span>
+                                        </>
+                                    )}
                                 </button>
-                            </li> */}
+                            </li>
                         </ul>
                     </nav>
 

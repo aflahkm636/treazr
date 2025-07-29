@@ -23,8 +23,6 @@ function Landing() {
 
         if (user && user.role == "admin") {
             navigate("admin");
-        } else {
-            navigate("/");
         }
     }, [user, navigate]);
     return (

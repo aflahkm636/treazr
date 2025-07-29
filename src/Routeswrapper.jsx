@@ -7,6 +7,7 @@ import Footer from "./common/layout/Footer";
 import ScrollToTop from "./common/components/ScrollTop";
 import { useAuth } from "./common/context/AuthProvider";
 import { ThemeProvider } from "./common/context/Darkthemeprovider";
+import Loading from "./common/components/Loading";
 
 // Lazy load components that aren't needed immediately
 const Wishlist = lazy(() => import("./pages/Wishlist"));
@@ -78,7 +79,9 @@ const RoutesWrapper = () => {
             
             <main>
                 {/* Suspense boundary for all lazy-loaded components */}
-                <Suspense fallback={<div className="text-center py-10">Loading...</div>}>
+                <Suspense fallback={<div className="text-center py-10">
+                    <Loading/>
+                </div>}>
                     <ScrollToTop />
 
                     <Routes>

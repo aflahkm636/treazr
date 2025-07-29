@@ -38,6 +38,13 @@
           "price": 12.99,
           "name": "Mini GT Liberty Walk RX-7",
           "image": "https://i.pinimg.com/736x/1c/47/33/1c4733a320b6797408c0491aa8b8dabc.jpg"
+        },
+        {
+          "productId": "6",
+          "quantity": 1,
+          "price": 9.49,
+          "name": "Hot Wheels Toyota Supra",
+          "image": "https://i.pinimg.com/736x/96/61/58/966158f41b0bcd06fa427972539fd5d9.jpg"
         }
       ],
       "orders": [
@@ -182,10 +189,61 @@
           "status": "processing",
           "date": "2025-07-24T05:31:01.357Z",
           "isBuyNow": false
+        },
+        {
+          "id": "1753786607514",
+          "items": [
+            {
+              "productId": "1",
+              "name": "Mini GT Liberty Walk RX-7",
+              "price": 12.99,
+              "quantity": 1,
+              "image": "https://i.pinimg.com/736x/1c/47/33/1c4733a320b6797408c0491aa8b8dabc.jpg"
+            },
+            {
+              "productId": "27",
+              "name": "Moon-knight",
+              "price": 15,
+              "quantity": 1,
+              "image": "https://i.pinimg.com/736x/17/f5/56/17f5569c9e00cc32d6e89fd999264606.jpg"
+            },
+            {
+              "productId": "7",
+              "name": "LEGO Dodge SRT",
+              "price": 19.99,
+              "quantity": 1,
+              "image": "https://i.pinimg.com/1200x/d7/54/16/d754163e2991758da3467e934cc55457.jpg"
+            },
+            {
+              "productId": "3",
+              "name": "Mini GT Lamborghini ",
+              "price": 13.99,
+              "quantity": 1,
+              "image": "https://i.pinimg.com/1200x/6c/c3/01/6cc3018d17ef456be7da7aa6dcdaf618.jpg"
+            }
+          ],
+          "subtotal": 61.970000000000006,
+          "shippingFee": 0,
+          "total": "61.97",
+          "shippingAddress": {
+            "street": "kurukkol",
+            "city": "tirur",
+            "state": "kerala",
+            "zip": "676106",
+            "country": "India"
+          },
+          "paymentMethod": "upi",
+          "paymentDetails": {
+            "provider": "googlepay"
+          },
+          "status": "processing",
+          "date": "2025-07-29T10:56:47.514Z",
+          "isBuyNow": false
         }
       ],
       "wishlist": [
-        "1"
+        "1",
+        "2"
       ],
       "created_at": "2025-07-16T12:22:26.207Z",
       "shippingAddresses": [
@@ -218,8 +276,23 @@
       "email": "fasil@gmail.com",
       "password": "fasil@1234",
       "role": "user",
-      "isBlock": false,
-      "cart": [],
+      "isBlock": true,
+      "cart": [
+        {
+          "productId": "3",
+          "quantity": 1,
+          "price": 13.99,
+          "name": "Mini GT Lamborghini ",
+          "image": "https://i.pinimg.com/1200x/6c/c3/01/6cc3018d17ef456be7da7aa6dcdaf618.jpg"
+        },
+        {
+          "productId": "7",
+          "quantity": 1,
+          "price": 19.99,
+          "name": "LEGO Dodge SRT",
+          "image": "https://i.pinimg.com/1200x/d7/54/16/d754163e2991758da3467e934cc55457.jpg"
+        }
+      ],
       "orders": [
         {
           "id": "1753095642632",
@@ -866,6 +939,92 @@
       "orders": [],
       "wishlist": [],
       "created_at": "2025-07-17T10:46:54.187Z"
+    },
+    {
+      "id": "1882",
+      "name": "rinshad",
+      "email": "rinshad@gmail.com",
+      "password": "Rinshad@123",
+      "role": "user",
+      "isBlock": true,
+      "cart": [],
+      "orders": [
+        {
+          "id": "1753772391540",
+          "items": [
+            {
+              "productId": "3",
+              "name": "Mini GT Lamborghini ",
+              "price": 13.99,
+              "quantity": 1,
+              "image": "https://i.pinimg.com/1200x/6c/c3/01/6cc3018d17ef456be7da7aa6dcdaf618.jpg"
+            }
+          ],
+          "subtotal": 13.99,
+          "shippingFee": 5,
+          "total": "18.99",
+          "shippingAddress": {
+            "street": "tirur",
+            "city": "tirur",
+            "state": "kerala",
+            "zip": "676106",
+            "country": "India"
+          },
+          "paymentMethod": "cod",
+          "paymentDetails": {},
+          "status": "shipped",
+          "date": "2025-07-29T06:59:51.540Z",
+          "isBuyNow": true
+        },
+        {
+          "id": "1753772431864",
+          "items": [
+            {
+              "productId": "35",
+              "name": "Thor",
+              "price": 17.5,
+              "quantity": 5,
+              "image": "https://i.pinimg.com/1200x/f9/56/6c/f9566ca45656190fe3bc4b69e4580de4.jpg"
+            },
+            {
+              "productId": "7",
+              "name": "LEGO Dodge SRT",
+              "price": 19.99,
+              "quantity": 1,
+              "image": "https://i.pinimg.com/1200x/d7/54/16/d754163e2991758da3467e934cc55457.jpg"
+            }
+          ],
+          "subtotal": 107.49,
+          "shippingFee": 5,
+          "total": "112.49",
+          "shippingAddress": {
+            "street": "tirur",
+            "city": "tirur",
+            "state": "kerala",
+            "zip": "676106",
+            "country": "India"
+          },
+          "paymentMethod": "cod",
+          "paymentDetails": {},
+          "status": "pending",
+          "date": "2025-07-29T07:00:31.864Z",
+          "isBuyNow": false
+        }
+      ],
+      "wishlist": [
+        "2",
+        "35"
+      ],
+      "created_at": "2025-07-29T06:55:46.849Z",
+      "shippingAddresses": [
+        {
+          "street": "tirur",
+          "city": "tirur",
+          "state": "kerala",
+          "zip": "676106",
+          "country": "India"
+        }
+      ]
     }
   ],
   "products": [
@@ -875,7 +1034,7 @@
       "category": "Diecast Cars",
       "description": "A detailed 1:64 scale diecast model of the Mazda RX-7 with Liberty Walk wide-body kit. Manufactured by Mini GT, perfect for collectors and car enthusiasts.",
       "price": 12.99,
-      "stock": 13,
+      "stock": 12,
       "brand": "Mini GT",
       "images": [
         "https://i.pinimg.com/736x/1c/47/33/1c4733a320b6797408c0491aa8b8dabc.jpg"
@@ -920,7 +1079,7 @@
       "category": "Diecast Cars",
       "description": "A sleek and detailed 1:64 scale diecast model of the Lamborghini Huracán by Mini GT. A must-have for supercar fans and diecast collectors.",
       "price": 13.99,
-      "stock": 9,
+      "stock": 7,
       "brand": "Mini GT",
       "images": [
         "https://i.pinimg.com/1200x/6c/c3/01/6cc3018d17ef456be7da7aa6dcdaf618.jpg"
@@ -1011,7 +1170,7 @@
       "category": "Building Toys",
       "description": "A buildable LEGO set of the powerful Dodge SRT. Great for fans of muscle cars and hands-on creativity.",
       "price": 19.99,
-      "stock": 10,
+      "stock": 8,
       "brand": "LEGO",
       "images": [
         "https://i.pinimg.com/1200x/d7/54/16/d754163e2991758da3467e934cc55457.jpg"
@@ -1435,7 +1594,7 @@
       "category": "action-figure",
       "description": "Highly detailed Moon Knight figure from the Marvel series.",
       "price": 15,
-      "stock": 9,
+      "stock": 8,
       "brand": "Marvel Select",
       "images": [
         "https://i.pinimg.com/736x/17/f5/56/17f5569c9e00cc32d6e89fd999264606.jpg"
@@ -1598,7 +1757,7 @@
       "category": "action-figure",
       "description": "Thor action figure wielding Mjölnir, showcasing Norse armor details and Marvel authenticity.",
       "price": 17.5,
-      "stock": 10,
+      "stock": 5,
       "brand": "Marvel Legends",
       "images": [
         "https://i.pinimg.com/1200x/f9/56/6c/f9566ca45656190fe3bc4b69e4580de4.jpg"
@@ -2259,6 +2418,23 @@
         "INIGT"
       ],
       "createdAt": "2025-07-26T10:28:49.257Z"
+    },
+    {
+      "id": "b0f1",
+      "name": "new car",
+      "category": "Diecast Cars",
+      "description": "fdgdfgdfhth",
+      "price": 12,
+      "stock": 2,
+      "brand": "Mini GT",
+      "images": [
+        "asss"
+      ],
+      "tags": [
+        "assf.asd",
+        "dfg"
+      ],
+      "createdAt": "2025-07-29T07:10:44.371Z"
     }
   ]
 }

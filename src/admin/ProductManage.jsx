@@ -7,7 +7,36 @@ import ProductForm from "./ProductForm";
 import { useAuth } from "../common/context/AuthProvider";
 import { useTheme } from "../common/context/Darkthemeprovider";
 import StatsCard from "./StatsCard";
+import TopSellingProducts from "./TopSellingProducts";
 import { URL } from "../services/Api";
+
+// New SortDropdown component
+const SortDropdown = ({ darkMode, onSortChange }) => {
+  const sortOptions = [
+    { value: "all", label: "All Categories" },
+    { value: "comics", label: "Comics" },
+    { value: "action-figure", label: "action-figure" },
+    { value: "Diecast Cars", label: "Diecast Cars" },
+    { value: "Trading Cards", label: "Trading Cards" },
+  ];
+
+  return (
+    <select
+      onChange={(e) => onSortChange(e.target.value)}
+      className={`block w-full sm:w-64 pl-3 pr-10 py-2 border rounded-md leading-5 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm ${
+        darkMode
+          ? "bg-gray-700 border-gray-600 text-white focus:border-blue-500"
+          : "bg-white border-gray-300 text-gray-900 focus:border-blue-500"
+      }`}
+    >
+      {sortOptions.map((option) => (
+        <option key={option.value} value={option.value}>
+          {option.label}
+        </option>
+      ))}
+    </select>
+  );
+};
 
 const ProductManage = () => {
     const { darkMode } = useTheme();
@@ -21,10 +50,6 @@ const ProductManage = () => {
     const [stats, setStats] = useState({
         totalProducts: 0,
         totalValue: 0,
-    });
-    const [topSelling, setTopSelling] = useState({
-        day: { product: null, count: 0 },
-        week: { product: null, count: 0 },
     });
 
     // Pagination state
@@ -41,15 +66,10 @@ const ProductManage = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [productsRes, usersRes] = await Promise.all([
-                    axios.get(`${URL}/products`),
-                    axios.get(`${URL}/users`),
-                ]);
-
+                const productsRes = await axios.get(`${URL}/products`);
                 setProducts(productsRes.data);
                 setFilteredProducts(productsRes.data);
                 calculateStats(productsRes.data);
-                calculateTopSelling(usersRes.data, productsRes.data);
             } catch (error) {
                 console.error("Error fetching data:", error);
                 toast.error("Failed to load product data");
@@ -72,82 +92,34 @@ const ProductManage = () => {
         });
     };
 
-    // Calculate top selling products
-    const calculateTopSelling = (users, products) => {
-        const today = new Date();
-        const oneWeekAgo = new Date(today);
-        oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-
-        // Flatten all items from all orders with their dates
-        const allItems = users.flatMap(
-            (user) =>
-                user.orders?.flatMap((order) => {
-                    const orderDate = new Date(order.date || order.createdAt);
-                    return order.items.map((item) => ({
-                        ...item,
-                        date: orderDate,
-                    }));
-                }) || []
-        );
-
-        // Calculate daily top seller
-        const todayItems = allItems.filter((item) => item.date.toDateString() === today.toDateString());
-        const todayProductCount = countProducts(todayItems);
-        const todayTop = findTopProduct(todayProductCount, products);
-
-        // Calculate weekly top seller
-        const weekItems = allItems.filter((item) => item.date >= oneWeekAgo);
-        const weekProductCount = countProducts(weekItems);
-        const weekTop = findTopProduct(weekProductCount, products);
-
-        setTopSelling({
-            day: todayTop,
-            week: weekTop,
-        });
-    };
-
-    // Helper to count products
-    const countProducts = (items) => {
-        const countMap = {};
-        items.forEach((item) => {
-            countMap[item.productId] = (countMap[item.productId] || 0) + item.quantity;
-        });
-        return countMap;
-    };
-
-    // Helper to find top product
-    const findTopProduct = (productCount, products) => {
-        let topProductId = null;
-        let topCount = 0;
-
-        Object.entries(productCount).forEach(([productId, count]) => {
-            if (count > topCount) {
-                topProductId = productId;
-                topCount = count;
-            }
-        });
-
-        const product = products.find((p) => p.id === topProductId);
-        return {
-            product,
-            count: topCount,
-        };
-    };
-
     // Handle search
-    const handleSearch = (e) => {
-        const term = e.target.value.toLowerCase();
-        setSearchTerm(term);
-        setCurrentPage(1); // Reset to first page when searching
+   const handleSearch = (e) => {
+    const term = e.target.value.toLowerCase();
+    setSearchTerm(term);
+    setCurrentPage(1); // Reset to first page when searching
 
-        if (term === "") {
+    if (term === "") {
+        setFilteredProducts(products);
+    } else {
+        const filtered = products.filter(
+            (product) =>
+                product.name.toLowerCase().includes(term) ||
+                product.category.toLowerCase().includes(term) ||
+                product.id.toLowerCase().includes(term)
+        );
+        setFilteredProducts(filtered);
+    }
+};
+
+    // Handle sort by category
+    const handleSortByCategory = (category) => {
+        setCurrentPage(1); // Reset to first page when sorting
+        
+        if (category === "all") {
             setFilteredProducts(products);
         } else {
             const filtered = products.filter(
-                (product) =>
-                    product.name.toLowerCase().includes(term) ||
-                    product.category.toLowerCase().includes(term) ||
-                    product.id.toLowerCase().includes(term)
+                (product) => product.category.toLowerCase() === category.toLowerCase()
             );
             setFilteredProducts(filtered);
         }
@@ -307,45 +279,30 @@ const ProductManage = () => {
             </div>
 
             {/* Top Selling Products */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <div className={`p-6 rounded-xl shadow-sm border ${darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-100"}`}>
-                    <h2 className={`text-lg font-semibold mb-4 ${darkMode ? "text-white" : "text-gray-800"}`}>Top Selling Today</h2>
-                    {topSelling.day.product ? (
-                        <div className="flex items-center">
-                            <img
-                                src={topSelling.day.product.images?.[0] || "https://via.placeholder.com/150"}
-                                alt={topSelling.day.product.name}
-                                className="w-16 h-16 object-cover rounded-lg mr-4"
-                            />
-                            <div>
-                                <p className={`font-medium ${darkMode ? "text-white" : "text-gray-900"}`}>{topSelling.day.product.name}</p>
-                                <p className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}>Sold: {topSelling.day.count} units</p>
-                                <p className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}>Price: ${topSelling.day.product.price}</p>
-                            </div>
-                        </div>
-                    ) : (
-                        <p className={darkMode ? "text-gray-400" : "text-gray-500"}>No sales today</p>
-                    )}
-                </div>
+            <TopSellingProducts darkMode={darkMode} />
 
-                <div className={`p-6 rounded-xl shadow-sm border ${darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-100"}`}>
-                    <h2 className={`text-lg font-semibold mb-4 ${darkMode ? "text-white" : "text-gray-800"}`}>Top Selling This Week</h2>
-                    {topSelling.week.product ? (
-                        <div className="flex items-center">
-                            <img
-                                src={topSelling.week.product.images?.[0] || "https://via.placeholder.com/150"}
-                                alt={topSelling.week.product.name}
-                                className="w-16 h-16 object-cover rounded-lg mr-4"
-                            />
-                            <div>
-                                <p className={`font-medium ${darkMode ? "text-white" : "text-gray-900"}`}>{topSelling.week.product.name}</p>
-                                <p className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}>Sold: {topSelling.week.count} units</p>
-                                <p className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-500"}`}>Price: ${topSelling.week.product.price}</p>
-                            </div>
+            {/* Sort and Search Controls */}
+            <div className="flex flex-col sm:flex-row gap-3 mb-6">
+                <div className="w-full sm:w-64">
+                    <SortDropdown darkMode={darkMode} onSortChange={handleSortByCategory} />
+                </div>
+                <div className="w-full sm:w-64">
+                    <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <FiSearch className={darkMode ? "text-gray-400" : "text-gray-400"} />
                         </div>
-                    ) : (
-                        <p className={darkMode ? "text-gray-400" : "text-gray-500"}>No sales this week</p>
-                    )}
+                        <input
+                            type="text"
+                            value={searchTerm}
+                            onChange={handleSearch}
+                            placeholder="Search products..."
+                            className={`block w-full pl-10 pr-3 py-2 border rounded-md leading-5 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm ${
+                                darkMode
+                                    ? "bg-gray-700 border-gray-600 text-white focus:border-blue-500"
+                                    : "bg-white border-gray-300 text-gray-900 focus:border-blue-500"
+                            }`}
+                        />
+                    </div>
                 </div>
             </div>
 

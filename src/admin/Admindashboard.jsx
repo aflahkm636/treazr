@@ -8,6 +8,9 @@ import RevenueTrendChart from "./RevenueTrendChart";
 import OrderDistributionChart from "./OrderDistributionChart";
 import Loading from "../common/components/Loading";
 import { useTheme } from "../common/context/Darkthemeprovider";
+import { FiBox, FiCheckCircle, FiDollarSign, FiShoppingBag, FiTruck, FiUsers } from "react-icons/fi";
+import RecentOrders from "./RecentOrder";
+import TopSellingProducts from "./TopSellingProducts";
 
 const AdminDashboard = () => {
     const { darkMode } = useTheme();
@@ -68,26 +71,51 @@ const AdminDashboard = () => {
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mt-4">
-                <StatsCard title="Total Users" value={stats.users} icon="👥" darkMode={darkMode} />
-                <StatsCard title="Total Products" value={stats.products} icon="🛍️" darkMode={darkMode} />
+                <StatsCard
+                    title="Total Users"
+                    value={stats.users}
+                    icon={<FiUsers className="w-5 h-5" />}
+                    darkMode={darkMode}
+                />
+
+                <StatsCard
+                    title="Total Products"
+                    value={stats.products}
+                    icon={<FiShoppingBag className="w-5 h-5" />}
+                    darkMode={darkMode}
+                />
+
                 <StatsCard
                     title="Total Orders"
                     value={stats.orders}
-                    icon="📦"
+                    icon={<FiBox className="w-5 h-5" />}
                     darkMode={darkMode}
-                    trend="up"
-                    change="12% from last month"
                 />
+
                 <StatsCard
                     title="Total Revenue"
                     value={`$${stats.revenue}`}
-                    icon="💰"
+                    icon={<FiDollarSign className="w-5 h-5" />}
                     darkMode={darkMode}
-                    trend="up"
-                    change="8% from last month"
                 />
-            </div>
 
+                {/* <StatsCard
+                    title="Shipped Orders"
+                    value={stats.shippedOrders}
+                    icon={<FiTruck className="w-5 h-5" />}
+                    darkMode={darkMode}
+                />
+
+                <StatsCard
+                    title="Delivered Orders"
+                    value={stats.deliveredOrders}
+                    icon={<FiCheckCircle className="w-5 h-5" />}
+                    darkMode={darkMode}
+                /> */}
+            </div>
+            <div className="mt-3 ">
+                <TopSellingProducts darkMode={darkMode} />
+            </div>
             {/* Charts */}
             <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
                 <div className={`p-4 rounded-lg shadow ${darkMode ? "bg-gray-800" : "bg-white"}`}>

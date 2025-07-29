@@ -1,90 +1,97 @@
-import { NavLink } from "react-router-dom";
 import { useSearch } from "./Products";
 import { useState } from "react";
-import { Bars3Icon, XMarkIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { useNavigate, useLocation } from "react-router-dom";
+import {
+  FaSearch,
+  FaBars,
+  FaTimes,
+  FaCarSide,
+  FaChessKnight,
+  FaBookOpen,
+  FaThLarge,
+  FaLayerGroup,
+} from "react-icons/fa";
 
 const ProductNavbar = () => {
   const { searchQuery, setSearchQuery } = useSearch();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const navItems = [
-    { path: "/products/all", label: "All" },
-    { path: "/products/diecast-cars", label: "Diecast Cars" },
-    { path: "/products/action-figures", label: "Action Figures" },
-    { path: "/products/comics", label: "Comics" },
-    { path: "/products/TradingCards", label: "Trading Cards" },
+    { path: "/products/all", label: "All", icon: <FaThLarge /> },
+    { path: "/products/diecast-cars", label: "Diecast Cars", icon: <FaCarSide /> },
+    { path: "/products/action-figures", label: "Action Figures", icon: <FaChessKnight /> },
+    { path: "/products/comics", label: "Comics", icon: <FaBookOpen /> },
+    { path: "/products/TradingCards", label: "Trading Cards", icon: <FaLayerGroup /> },
   ];
 
-  return (
-    <nav className="bg-white/95 backdrop-blur-md border-b border-gray-200 w-full py-3 mt-15 z-30">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="flex items-center justify-between h-10">
-          {/* Hamburger Menu Button */}
-          <div className="flex items-center">
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100/50 focus:outline-none transition-all duration-200"
-              aria-label="Toggle menu"
-            >
-              {isMenuOpen ? (
-                <XMarkIcon className="h-5 w-5" />
-              ) : (
-                <Bars3Icon className="h-5 w-5" />
-              )}
-            </button>
-          </div>
+  const handleNavClick = (path) => {
+    navigate(path);
+    setIsMenuOpen(false);
+  };
 
-          {/* Search Bar */}
+  return (
+    <nav className="bg-white/90 backdrop-blur-lg border-b border-gray-100 shadow-md w-full z-30 mt-15">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="flex justify-between items-center py-3">
+          {/* Hamburger */}
+          <button
+            onClick={() => setIsMenuOpen((prev) => !prev)}
+            className="p-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-md transition"
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+          </button>
+
+          {/* Search Input */}
           <div className="flex-1 mx-4 max-w-2xl">
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <MagnifyingGlassIcon className="h-4 w-4 text-gray-500" />
-              </div>
+              <FaSearch className="absolute left-3 top-2.5 text-gray-400" />
               <input
                 type="text"
                 placeholder="Search our collection..."
-                className="block w-full pl-9 pr-3 py-2 text-sm border border-gray-300 rounded-full bg-white shadow-xs focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 placeholder-gray-400"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-10 py-2 text-sm rounded-full border border-gray-300 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-gray-400 placeholder-gray-400"
               />
               {searchQuery && (
                 <button
-                  onClick={() => setSearchQuery('')}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  onClick={() => setSearchQuery("")}
                   aria-label="Clear search"
+                  className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600"
                 >
-                  <XMarkIcon className="h-4 w-4 text-gray-500 hover:text-gray-700" />
+                  <FaTimes size={14} />
                 </button>
               )}
             </div>
           </div>
 
-          {/* Placeholder for icons */}
-          <div className="w-8"></div>
+          {/* Invisible placeholder for spacing */}
+          <div className="w-8" />
         </div>
 
-        {/* Luxury Dropdown Menu */}
+        {/* Dropdown Menu */}
         {isMenuOpen && (
-          <div className="mt-3 pb-2 bg-white rounded-lg shadow-xl border border-gray-300/50 overflow-hidden">
-            <div className="space-y-0.5">
-              {navItems.map(({ path, label }) => (
-                <NavLink
-                  key={path}
-                  to={path}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={({ isActive }) =>
-                    `block px-4 py-2.5 text-sm font-medium transition-all duration-200 ${
+          <div className="mt-2 bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden transition-all duration-300">
+            <div className="divide-y divide-gray-100">
+              {navItems.map(({ path, label, icon }) => {
+                const isActive = location.pathname === path;
+                return (
+                  <div
+                    key={path}
+                    onClick={() => handleNavClick(path)}
+                    className={`flex items-center gap-3 px-4 py-3 text-sm cursor-pointer transition-all ${
                       isActive
-                        ? "bg-gray-100 text-gray-900 border-l-4 border-gray-900 font-medium"
-                        : "text-gray-700 hover:text-gray-900 hover:bg-gray-50/70"
-                    }`
-                  }
-                >
-                  <span className="flex items-center">
-                    <span className="ml-1">{label}</span>
-                  </span>
-                </NavLink>
-              ))}
+                        ? "bg-gray-100 text-gray-900 font-semibold border-l-4 border-indigo-600"
+                        : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                    }`}
+                  >
+                    <span className="text-base text-indigo-500">{icon}</span>
+                    <span>{label}</span>
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}

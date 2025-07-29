@@ -2,10 +2,11 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { CiHeart } from "react-icons/ci";
+import { FiHeart, FiShoppingCart, FiZap } from "react-icons/fi";
 import { useAuth } from "../context/AuthProvider";
 import useAddToCart from "./AddToCart";
 import { URL } from "../../services/Api";
+import { Tooltip } from "@mui/material";
 
 const ProductListCard = React.memo(({ product }) => {
   const navigate = useNavigate();
@@ -27,18 +28,15 @@ const ProductListCard = React.memo(({ product }) => {
     }
   };
 
-  // Check if product is in wishlist and cart
   const checkProductStatus = useCallback(async () => {
     if (!user) return;
     try {
       const { data } = await axios.get(`${API_URL}/${user.id}`);
-      // Check wishlist status
       const inWishlist = data.wishlist?.some((item) => 
         typeof item === 'string' ? item === product.id : item.id === product.id
       );
       setIsInWishlist(!!inWishlist);
       
-      // Check cart status
       const inCart = data.cart?.some((item) => item.productId === product.id);
       setIsInCart(!!inCart);
     } catch (err) {
@@ -62,7 +60,6 @@ const ProductListCard = React.memo(({ product }) => {
 
       setIsLoading(true);
       try {
-        // Optimistically update the UI
         const newWishlistStatus = !isInWishlist;
         setIsInWishlist(newWishlistStatus);
 
@@ -80,14 +77,12 @@ const ProductListCard = React.memo(({ product }) => {
           updatedWishlist = [...(data.wishlist || []), product.id];
         }
 
-        // Update the server and local storage
         const updatedUser = await updateUserData(user.id, { wishlist: updatedWishlist });
         setUser(updatedUser);
         
         toast.success(newWishlistStatus ? "Added to wishlist" : "Removed from wishlist");
       } catch (err) {
         console.error("Error updating wishlist:", err);
-        // Revert the UI if the request fails
         setIsInWishlist((prev) => !prev);
         toast.error("Failed to update wishlist");
       } finally {
@@ -100,119 +95,116 @@ const ProductListCard = React.memo(({ product }) => {
   const { handleAddToCart } = useAddToCart();
 
   const handleBuyNow = useCallback((e) => {
-  e?.stopPropagation();
-  navigate("/buy-now", {
-    state: {
-      product: {
-        productId: product.id,
-        name: product.name,
-        price: product.price,
-        image: product.images?.[0] || "/default-product.jpg",
-        stock: product.stock,
-        brand: product.brand,
-        category: product.category
+    e?.stopPropagation();
+    navigate("/buy-now", {
+      state: {
+        product: {
+          productId: product.id,
+          name: product.name,
+          price: product.price,
+          image: product.images?.[0] || "/default-product.jpg",
+          stock: product.stock,
+          brand: product.brand,
+          category: product.category
+        }
       }
-    }
-  });
-}, [navigate, product]);
+    });
+  }, [navigate, product]);
 
   const handleClick = useCallback(() => {
     navigate(`/productdetails/${product.id}`);
   }, [navigate, product.id]);
 
-  return (
+return (
     <div
       onClick={handleClick}
-      className="h-full flex flex-col justify-between relative border border-gray-200 rounded-lg shadow-sm p-2.5 transition-all duration-300 group bg-white cursor-pointer
-                 hover:shadow-lg hover:border-gray-300 hover:scale-[1.02] transform-gpu"
+      className="h-full flex flex-col relative border border-gray-100 rounded-lg p-2 transition-all duration-200 bg-white cursor-pointer
+                 hover:shadow-md hover:border-gray-200"
+      style={{ minHeight: "280px" }}  
     >
-      {/* Wishlist Button */}
       <button
         onClick={toggleWishlist}
         disabled={isLoading}
-        className={`absolute top-2.5 left-2.5 z-10 p-1.5 rounded-full shadow-md transition-all duration-200 ${
+        className={`absolute top-2 right-2 z-10 p-1.5 rounded-full transition-all ${
           isInWishlist
-            ? "text-red-500 bg-white hover:bg-red-50"
-            : "text-gray-500 bg-white hover:bg-gray-50"
-        } ${isLoading ? "opacity-70" : ""}
-        active:scale-90`}
+            ? "text-red-500 hover:text-red-600"
+            : "text-gray-400 hover:text-gray-600"
+        } ${isLoading ? "opacity-70" : ""}`}
         aria-label={isInWishlist ? "Remove from wishlist" : "Add to wishlist"}
       >
-        <CiHeart className={`text-lg ${isInWishlist ? "fill-current" : ""}`} />
+        <FiHeart className={`text-md ${isInWishlist ? "fill-current" : ""}`} /> 
       </button>
 
-      {/* Product Image */}
-      <div className="relative mb-2" style={{ height: "160px" }}>
+      <div className="relative mb-2 aspect-square w-full" style={{ maxHeight: "140px" }}> 
         <img
           src={product.images?.[0] || "/default-product.jpg"}
           alt={product.name}
           onError={(e) => (e.currentTarget.src = "/default-product.jpg")}
-          className="w-full h-full object-contain rounded transition-transform duration-300 group-hover:scale-105"
-          style={{ objectFit: "contain" }}
+          className="w-full h-full object-contain rounded"
+          loading="lazy"
         />
       </div>
 
-      {/* Product Info */}
-      <div className="flex-grow space-y-1.5">
-        <h3 
-          className="text-sm font-medium text-gray-900 truncate px-0.5 group-hover:text-gray-700"
-          title={product.name}
-        >
-          {product.name}
-        </h3>
-        <p className="text-base font-bold text-gray-900 group-hover:text-gray-800">
+      <div className="flex-grow space-y-0.5 min-h-[50px]">  
+        <Tooltip title={product.name} arrow placement="top">
+          <h3 
+            className="text-sm font-medium text-gray-900 whitespace-nowrap overflow-hidden text-ellipsis"
+          >
+            {product.name}
+          </h3>
+        </Tooltip>
+        <p className="text-base font-semibold text-gray-900">
           ${product.price.toFixed(2)}
         </p>
-        <div className="flex items-center text-xs text-gray-500 space-x-1.5">
-          <span className="text-gray-700 group-hover:text-gray-600">{product.category}</span>
-          <span>•</span>
-          <span className="text-gray-700 group-hover:text-gray-600">{product.brand}</span>
+        <div className="flex items-center text-xs text-gray-500">
+          <span className="capitalize">{product.category}</span>
         </div>
       </div>
 
-      {/* Stock Status */}
-      <span
-        className={`mt-1.5 px-2 py-0.5 text-xs font-medium rounded-full w-fit transition-colors duration-200 ${
-          product.stock > 0 
-            ? "bg-emerald-100 text-emerald-800 hover:bg-emerald-200" 
-            : "bg-rose-100 text-rose-800 hover:bg-rose-200"
-        }`}
-      >
-        {product.stock > 0 ? "In Stock" : "Out of Stock"}
-      </span>
+      <div className="mt-1 mb-2">  
+        <span
+          className={`inline-block px-1.5 py-0.5 text-xs font-medium rounded-full ${
+            product.stock > 0 
+              ? "bg-emerald-50 text-emerald-700" 
+              : "bg-rose-50 text-rose-700"
+          }`}
+        >
+          {product.stock > 0 ? `${product.stock} in stock` : "Out of stock"}
+        </span>
+      </div>
 
-      {/* Action Buttons */}
-      <div className="mt-3 grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-1.5 mt-auto">  
         <button
           onClick={(e) => {
             e.stopPropagation();
             isInCart ? navigate("/cart") : handleAddToCart(product);
           }}
           disabled={product.stock === 0}
-          className={`border text-amber-800 py-1.5 px-2 rounded-lg text-xs font-medium flex items-center justify-center 
-                      transition-all duration-200 active:scale-95
-                      ${product.stock === 0
-                        ? "cursor-not-allowed bg-gray-100 border-gray-300 text-gray-400"
-                        : "border-amber-800 hover:bg-amber-50 hover:border-amber-900 hover:text-amber-900 active:bg-amber-100"
+          className={`flex items-center justify-center gap-1 py-1.5 px-2 rounded-md text-xs font-medium  // Reduced padding and text size
+                      transition-colors duration-150
+                      ${
+                        product.stock === 0
+                          ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                          : "bg-gray-50 text-gray-700 hover:bg-gray-100"
                       }`}
         >
-          {product.stock === 0 ? "Out of Stock" : (isInCart ? "Go to Cart" : "Add to Cart")}
+          <FiShoppingCart className="hidden sm:inline text-xs" />  
+          <span>{isInCart ? "Cart" : "Add"}</span>
         </button>
 
         <button
-          onClick={(e) => {
-            e.stopPropagation();
-            handleBuyNow(e);
-          }}
+          onClick={(e) => handleBuyNow(e)}
           disabled={product.stock === 0}
-          className={`py-1.5 px-2 rounded-lg text-xs font-medium flex items-center justify-center 
-                      transition-all duration-200 active:scale-95
-                      ${product.stock === 0
-                        ? "cursor-not-allowed bg-gray-100 border-gray-300 text-gray-400"
-                        : "border border-gray-800 text-gray-800 hover:bg-gray-50 hover:border-black hover:text-black active:bg-gray-100"
+          className={`flex items-center justify-center gap-1 py-1.5 px-2 rounded-md text-xs font-medium 
+                      transition-colors duration-150
+                      ${
+                        product.stock === 0
+                          ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                          : "bg-gray-900 text-white hover:bg-gray-800"
                       }`}
         >
-          Buy Now
+          <FiZap className="hidden sm:inline text-xs" />
+          <span>Buy</span>
         </button>
       </div>
     </div>
